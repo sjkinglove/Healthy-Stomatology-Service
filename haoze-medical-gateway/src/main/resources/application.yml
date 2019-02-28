@@ -1,0 +1,44 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8101/eureka/
+server:
+  port: 8102
+spring:
+  application:
+    name: service-zuul
+  servlet:
+    multipart:
+      max-file-size: 100Mb
+      max-request-size: 100Mb
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  eureka:
+    enabled: true
+
+zuul:
+  max:
+    host:
+      connections: 500
+  host:
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+  routes:
+    admin:
+      path: /api-admin/**
+      serviceId: api-admin
+    hello:
+      path: /api-hello/**
+      serviceId: api-hello

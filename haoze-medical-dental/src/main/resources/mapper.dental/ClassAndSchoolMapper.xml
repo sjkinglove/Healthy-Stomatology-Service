@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoze.dental.dao.ClassAndSchoolMapper">
+
+
+    <select id="getAllClassAndSchool" resultType="java.util.Map">
+    select class_name className,school_name schoolName,area_name areaName
+    from
+      (select sys_class.class_id,sys_school.school_id,sys_class.area_id,class_name,school_name from sys_class inner join sys_school on sys_class.school_id=sys_school.school_id) t
+      inner join sys_area
+      on sys_area.area_id=t.area_id
+    </select>
+
+    <select id="getNowTime" resultType="java.lang.String" >
+    select date_format(now(),'%Y-%m-%d') from dual
+    </select>
+
+    <resultMap id="ClassMap" type="com.haoze.dental.entity.ClassInfo">
+        <id column="CLASS_ID" jdbcType="VARCHAR" property="class_id"/>
+        <result column="AREA_ID" jdbcType="VARCHAR" property="area_id"/>
+        <result column="SCHOOL_ID" jdbcType="VARCHAR" property="school_id"/>
+        <result column="CLASS_NAME" jdbcType="VARCHAR" property="class_name"/>
+        <result column="CLASS_DUE" jdbcType="VARCHAR" property="class_due"/>
+        <result column="GMT_CREATE" jdbcType="TIMESTAMP" property="gmt_create"/>
+        <result column="GMT_MODIFY" jdbcType="TIMESTAMP" property="gmt_modify"/>
+        <result column="GRADE" jdbcType="VARCHAR" property="grade"/>
+
+        <result column="DICTIONARY_TYPE" jdbcType="VARCHAR" property="dictionaryType"/>
+    </resultMap>
+
+    <select id="getAllClass" resultMap="ClassMap">
+    select * from sys_class
+    </select>
+    <select id="test" resultType="String">
+        select 'aa' from dual
+    </select>
+
+</mapper>

@@ -1,0 +1,162 @@
+package com.haoze.admin.service.impl;
+
+import com.haoze.admin.dto.system.UserDTO;
+import com.haoze.admin.mapper.UserMapper;
+import com.haoze.admin.model.TUser;
+import com.haoze.admin.model.TUserOrganization;
+import com.haoze.admin.model.TUserRole;
+import com.haoze.admin.service.UserService;
+import com.haoze.common.exception.ServiceException;
+import com.haoze.common.service.AbstractService;
+import com.haoze.common.utils.UUIDUtil;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author shenjun
+ * @date 2019/02/27
+ */
+@Service
+@Transactional(rollbackFor = Exception.class)
+public class UserServiceImpl extends AbstractService<TUser> implements UserService {
+    @Resource
+    private UserMapper userMapper;
+    @Resource
+    private PasswordEncoder passwordEncoder;
+
+    public static void main(String[] args) {
+        String s=new UserServiceImpl().passwordEncoder.encode("123123");
+        System.out.print("-----------"+s);
+    }
+
+    /**
+     * 重写save方法，密码加密后再存
+     */
+    @Override
+    public void saveUserAndRoleAndOrganizagion(final UserDTO user) {
+        TUser u = this.findBy("userName", user.getName());
+        if (u != null) {
+            throw new ServiceException("username already existed");
+        } else {
+            TUser tu = new TUser();
+            tu.initAdd();
+            tu.setTuId(user.getId());
+            tu.setLoginName(user.getAccount());
+            tu.setUserName(user.getName());
+            tu.setLockFlag(user.getLockFlag());
+            tu.setUserTypes(user.getUserTypes());
+            tu.setEndDate(user.getEndDate());
+            tu.setOnLine(user.getUserLine());
+            tu.setImage(user.getImage());
+            tu.setUserPwd(this.passwordEncoder.encode("123123"));
+            userMapper.insertSelective(tu);
+
+            //用户角色关系
+            TUserRole tur = new TUserRole();
+            tur.initAdd();
+            tur.setTurId(UUIDUtil.randomString());
+            tur.setTuId(user.getId());
+            tur.setTrId(user.getRoleId());
+            userMapper.insertUserRoleRela(tur);
+            // 用户机构关系
+            TUserOrganization tuo = new TUserOrganization();
+            tuo.initAdd();
+            tuo.setTuoId(UUIDUtil.randomString());
+            tuo.setTuId(user.getId());
+            tuo.setToId(user.getOrganizationId());
+            userMapper.insertUserOrganizationRela(tuo);
+        }
+    }
+
+    /**
+     * 重写update方法
+     */
+    @Override
+    public void updateUserAndRoleAndDept(final UserDTO user) {
+        TUser userEntity = new TUser();
+        userEntity.setTuId(user.getId());
+        userEntity.setLoginName(user.getAccount());
+        userEntity.setUserName(user.getName());
+        userEntity.setLockFlag(user.getLockFlag());
+        userEntity.setUserTypes(user.getUserTypes());
+        userEntity.setEndDate(user.getEndDate());
+        userEntity.setOnLine(user.getUserLine());
+        userEntity.setImage(user.getImage());
+        userMapper.updateByPrimaryKeySelective(userEntity);
+
+        //用户角色关系
+        userMapper.clearUserRoleRela(user.getId());
+        TUserRole tur = new TUserRole();
+        tur.initAdd();
+        tur.setTurId(UUIDUtil.randomString());
+        tur.setTuId(user.getId());
+        tur.setTrId(user.getRoleId());
+        userMapper.insertUserRoleRela(tur);
+
+        // 用户科室关系
+        userMapper.clearUserOrganizationRela(user.getId());
+        TUserOrganization tuo = new TUserOrganization();
+        tuo.initAdd();
+        tuo.setTuoId(UUIDUtil.randomString());
+        tuo.setTuId(user.getId());
+        tuo.setToId(user.getOrganizationId());
+        userMapper.insertUserOrganizationRela(tuo);
+    }
+
+    @Override
+    public List<UserDTO> findAllUserWithRole(String queryString) {
+        List<UserDTO> list = this.userMapper.findAllUserWithRole(queryString);
+        for (UserDTO e : list) {
+            List<String> idsList = new ArrayList<>();
+            idsList.add(e.getOrganizationId());
+            String ids = getParentDepartmentId(idsList);
+            e.setOrganizationIds(ids);
+        }
+        return list;
+    }
+
+    public String getParentDepartmentId(List<String> list) {
+        String id = list.get(0);
+        String pid = userMapper.getParentOrganizationId(id);
+        if (pid == null) {
+            return "";
+        } else if ("0".equals(pid)) { // 已是最上级
+            return String.join(",", list);
+        } else {
+            list.add(0, pid);
+            return getParentDepartmentId(list);
+        }
+    }
+
+    @Override
+    public UserDTO findDetailBy(final String column, final Object param) {
+        final Map<String, Object> map = new HashMap<>(1);
+        map.put(column, param);
+        return this.userMapper.findDetailBy(map);
+    }
+
+    @Override
+    public boolean verifyPassword(final String rawPassword, final String encodedPassword) {
+        return this.passwordEncoder.matches(rawPassword, encodedPassword);
+    }
+
+    @Override
+    public void deleteById(Object id) {
+        //先删除子记录
+        this.userMapper.clearUserRoleRela(String.valueOf(id));
+        this.userMapper.clearUserOrganizationRela(String.valueOf(id));
+        this.userMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public String encodePassword(String password) {
+        return this.passwordEncoder.encode(password);
+    }
+}

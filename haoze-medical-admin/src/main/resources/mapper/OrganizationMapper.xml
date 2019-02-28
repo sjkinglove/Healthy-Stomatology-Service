@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoze.admin.mapper.OrganizationMapper">
+    <update id="updateSortNoForEnlarge" parameterType="java.util.Map">
+        update t_organization set TO_SORT=TO_SORT+1
+        <where>
+            <if test="parentId != null and parentId != ''">and PARENT_TO_ID = #{parentId}</if>
+            <if test="targetSortNo != null and targetSortNo != ''">and TO_SORT &gt;= #{targetSortNo}</if>
+            <if test="currentSortNo != null and currentSortNo != ''">and TO_SORT &lt; #{currentSortNo}</if>
+        </where>
+    </update>
+
+    <update id="updateSortNoForReduce" parameterType="java.util.Map">
+        update t_organization set TO_SORT=TO_SORT-1
+        <where>
+            <if test="parentId != null and parentId != ''">and PARENT_TO_ID = #{parentId}</if>
+            <if test="currentSortNo != null and currentSortNo != ''">and TO_SORT &gt; #{currentSortNo}</if>
+            <if test="targetSortNo != null and targetSortNo != ''">and TO_SORT &lt;= #{targetSortNo}</if>
+        </where>
+    </update>
+
+    <select id="countUserOrganizationByToId" parameterType="String" resultType="int">
+        select count(1) from t_user_organization where to_id = #{toId,jdbcType=VARCHAR}
+    </select>
+    <select id="test" resultType="String">
+        select 'aa' from dual
+    </select>
+</mapper>

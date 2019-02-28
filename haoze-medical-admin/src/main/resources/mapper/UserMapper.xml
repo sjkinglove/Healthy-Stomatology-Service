@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoze.admin.mapper.UserMapper">
+
+    <resultMap id="UserMap" type="com.haoze.admin.model.TUser">
+        <id column="TU_ID" jdbcType="VARCHAR" property="id"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="LOGIN_NAME" jdbcType="VARCHAR" property="account"/>
+        <result column="USER_PWD" jdbcType="VARCHAR" property="password"/>
+        <result column="PERSON_ID" jdbcType="VARCHAR" property="personId"/>
+    </resultMap>
+
+    <resultMap id="UserWithRoleMap" type="com.haoze.admin.dto.system.UserDTO" extends="UserMap">
+        <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <result column="organization_id" jdbcType="VARCHAR" property="organizationId"/>
+    </resultMap>
+
+    <select id="findAllUserWithRole" resultMap="UserWithRoleMap">
+        SELECT
+        u.TU_ID as id,
+        u.LOGIN_NAME as account,
+        u.USER_PWD as password,
+        u.USER_NAME as name,
+        u.LOCK_FLAG as lockFlag,
+        u.USER_TYPES as userTypes,
+        u.END_DATE as endDate,
+        u.ON_LINE as userLine,
+        u.IMAGE as image,
+        r.TR_ID as role_id,
+        r.ROLE_NAME as role_name,
+        ud.TO_ID as organization_id
+        FROM t_user u
+        LEFT JOIN t_user_role ur ON u.TU_ID = ur.TU_ID
+        LEFT JOIN t_role r ON ur.TR_ID = r.TR_ID
+        LEFT JOIN t_user_organization ud ON u.TU_ID = ud.TU_ID
+        <where>
+            <if test="queryString != null and queryString != ''">
+                and (u.user_name like '%'||#{queryString,jdbcType=VARCHAR}||'%' or u.login_name like
+                '%'||#{queryString,jdbcType=VARCHAR}||'%')
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="UserDetailMap" type="com.haoze.admin.dto.system.UserDTO" extends="UserWithRoleMap">
+        <!-- 1角色对应多权限 -->
+        <collection property="permissionCodeList" ofType="String">
+            <result column="permission_code" jdbcType="VARCHAR" property="code"/>
+        </collection>
+    </resultMap>
+
+    <select id="findDetailBy" resultMap="UserDetailMap">
+        SELECT
+        u.*,
+        r.ROLE_CODE as role_code,
+        r.ROLE_NAME as role_name,
+        m.menu_permission as permission_code,
+        ud.TO_ID as organization_id
+        FROM t_user u
+        LEFT JOIN t_user_role ur ON u.user_id = ur.TU_ID
+        LEFT JOIN t_role r ON r.TR_ID = ur.TR_ID
+        LEFT JOIN t_role_menu rm ON r.TR_ID = rm.TR_ID
+        LEFT JOIN t_menu m ON m.TM_ID = rm.menu_id and m.MODEL_TYPE_FLAG='3' and m.DISPLAY_FLAG='0'
+        LEFT JOIN t_user_organization ud ON u.TU_ID = ud.TU_ID
+        <where>
+            <if test="id != null">u.TU_ID = #{id}</if>
+            <if test="account != null">u.LOGIN_NAME = #{account}</if>
+        </where>
+    </select>
+
+    <insert id="insertUserRoleRela" parameterType="com.haoze.admin.model.TUserRole">
+        insert into T_USER_ROLE (TUR_ID, DATA_VERSION, GMT_CREATE, GMT_MODIFY, TR_ID, USER_ROLE_SORT, TU_ID)
+        values (#{turId,jdbcType=VARCHAR}, #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{modifyTime,jdbcType=TIMESTAMP}, #{trId,jdbcType=VARCHAR}, #{userRoleSort,jdbcType=VARCHAR},
+        #{tuId,jdbcType=VARCHAR})
+    </insert>
+    <insert id="clearUserRoleRela" parameterType="String">
+        delete from T_USER_ROLE where TU_ID = #{_id}
+    </insert>
+
+    <insert id="insertUserOrganizationRela" parameterType="com.haoze.admin.model.TUserOrganization">
+        insert into T_USER_ORGANIZATION (TUO_ID, DATA_VERSION, GMT_CREATE, GMT_MODIFY, TU_ID, TO_ID,
+        DEFAULT_FLAG)
+        values (#{tuoId,jdbcType=VARCHAR}, #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{modifyTime,jdbcType=TIMESTAMP}, #{tuId,jdbcType=VARCHAR}, #{toId,jdbcType=VARCHAR},
+        #{defaultFlag,jdbcType=VARCHAR})
+    </insert>
+    <insert id="clearUserOrganizationRela" parameterType="String">
+        delete from T_USER_ORGANIZATION where TU_ID = #{_id}
+    </insert>
+    <select id="getParentOrganizationId" parameterType="String" resultType="String">
+        SELECT PARENT_TO_ID as PARENT_ID FROM T_ORGANIZATION where TO_ID = #{_id}
+    </select>
+</mapper>

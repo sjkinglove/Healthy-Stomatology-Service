@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoze.base.mapper.auth.AuthMapper">
+
+    <select id="countRole" resultType="int">
+        SELECT count(1) from sys_user u
+        left join SYS_USER_GROUP r on u.USER_ID = r.USER_ID
+        where u.LOGIN_NAME=#{account} and r.GROUP_ID in
+        <foreach item="item" index="index" collection="roleList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="countPermission" resultType="int">
+        SELECT count(1) from sys_user u
+        left join SYS_USER_GROUP ur on u.USER_ID = ur.USER_ID
+        left join SYS_GROUP_MENU rm on rm.GROUP_ID = ur.GROUP_ID
+        left join sys_menu m on rm.menu_id = m.menu_id
+        where u.LOGIN_NAME=#{account}
+        and m.MENU_PERMISSION in
+        <foreach item="item" index="index" collection="permissionList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

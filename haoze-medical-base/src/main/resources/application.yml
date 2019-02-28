@@ -1,0 +1,44 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8101/eureka/
+#security:
+#  basic:
+#    enabled: false
+server:
+  port: 8103
+spring:
+  cloud:
+    refresh:
+      refreshable: none
+  application:
+    name: api-base
+  datasource:
+    url: jdbc:mysql://localhost:3306/medical?serverTimezone=GMT%2B8&useSSL=false
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+mybatis:
+  mapper-locations: classpath:dao/*/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    com:
+      haoze:
+        admin: debug
+ribbon:
+  eureka:
+    enabled: true
+# Json web token
+##############################
+# 过期时间24*3600=1天
+jwt:
+  expiration-time: 86400
+  header: Authorization
+  token-prefix: Bearer
+  privateKey: rsa/private-key.pem
+  publicKey: rsa/public-key.pem
+  authorities-key: auth
+
