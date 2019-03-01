@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoze.repository.dao.ElementMapper">
+
+    <resultMap id="UserWithRoleMap" type="com.haoze.dental.model.ElementEntity">
+        <id column="ELEMENT_ID" jdbcType="VARCHAR" property="elementId"/>
+        <result column="DATA_VERSION" jdbcType="VARCHAR" property="dataVersion"/>
+        <result column="GMT_CREATE" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="GMT_MODIFY" jdbcType="TIMESTAMP" property="modifyTime"/>
+        <result column="HOSPITAL_ID" jdbcType="VARCHAR" property="hospitalId"/>
+        <result column="ELEMENT_CODE" jdbcType="VARCHAR" property="elementCode"/>
+        <result column="ELEMENT_IDENTIFICATION" jdbcType="VARCHAR" property="elementIdentification"/>
+        <result column="ELEMENT_NAME" jdbcType="VARCHAR" property="elementName"/>
+        <result column="ELEMENT_REMARK" jdbcType="VARCHAR" property="elementRemark"/>
+        <result column="ELEMENT_DATA_TYPE" jdbcType="VARCHAR" property="elementDataType"/>
+        <result column="ELEMENT_FORMAT" jdbcType="VARCHAR" property="elementFormat"/>
+        <result column="ELEMENT_STANDARD_ID" jdbcType="VARCHAR" property="elementStandardId"/>
+        <result column="ELEMENT_PD_ID" jdbcType="VARCHAR" property="elementPdId"/>
+        <result column="ELEMENT_BD_ID" jdbcType="VARCHAR" property="elementBdId"/>
+        <result column="ELEMENT_FD_ID" jdbcType="VARCHAR" property="elementFdId"/>
+        <result column="ELEMENT_DATA_TYPE_ID" jdbcType="VARCHAR" property="elementDataTypeId"/>
+        <result column="STOP_FLAG" jdbcType="VARCHAR" property="stopFlag"/>
+        <result column="PY_CODE" jdbcType="VARCHAR" property="pyCode"/>
+        <result column="WB_CODE" jdbcType="VARCHAR" property="wbCode"/>
+        <result column="PARENT_ID" jdbcType="VARCHAR" property="parentIds"/>
+        <result column="INPUT_FLAG" jdbcType="VARCHAR" property="inputFlag"/>
+        <result column="MULTIPLE_FLAG" jdbcType="VARCHAR" property="mulitpleFlag"/>
+        <result column="MAX_VALUE" jdbcType="VARCHAR" property="maxValue"/>
+        <result column="MIN_VALUE" jdbcType="VARCHAR" property="minValue"/>
+        <result column="INTERVAL_VALUE" jdbcType="VARCHAR" property="intervalValue"/>
+        <result column="FORMAT_DATA_VALUE" jdbcType="VARCHAR" property="formatDataValue"/>
+        <result column="ELEMENT_TYPE" jdbcType="VARCHAR" property="elementType"/>
+        <result column="DICT_ID" jdbcType="VARCHAR" property="dictId"/>
+    </resultMap>
+
+    <select id="listElement" resultMap="UserWithRoleMap" parameterType="java.lang.String">
+        SELECT
+        u.*
+        FROM SYS_DATA_ELEMENT u
+        <where>
+            <if test="_parameter != null and _parameter != ''">
+                ELEMENT_CODE like concat(concat('%',#{queryString}),'%')
+                or ELEMENT_NAME like concat(concat('%',#{queryString}),'%')
+                or PY_CODE like concat(concat('%',#{queryString}),'%')
+                or WB_CODE like concat(concat('%',#{queryString}),'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="listOptions" resultMap="UserWithRoleMap">
+        SELECT
+        u.*
+        FROM SYS_DATA_ELEMENT u
+        where stop_flag = '0'
+    </select>
+
+    <insert id="saveRange" parameterType="com.haoze.dental.model.ElementEntity">
+        insert into SYS_DATA_ELEMENT
+        (ELEMENT_ID,DATA_VERSION,GMT_CREATE,GMT_MODIFY,
+        HOSPITAL_ID,ELEMENT_CODE,
+        ELEMENT_IDENTIFICATION,ELEMENT_NAME,ELEMENT_REMARK,
+        ELEMENT_DATA_TYPE,ELEMENT_FORMAT,ELEMENT_STANDARD_ID,
+        ELEMENT_PD_ID,ELEMENT_BD_ID,ELEMENT_FD_ID,
+        ELEMENT_DATA_TYPE_ID,STOP_FLAG,PY_CODE,
+        WB_CODE,INPUT_FLAG,MULTIPLE_FLAG,
+        MAX_VALUE,MIN_VALUE,INTERVAL_VALUE,
+        FORMAT_DATA_VALUE,ELEMENT_TYPE,DICT_ID
+        )
+        values
+        (
+        #{elementId,jdbcType=VARCHAR},#{dataVersion},#{createTime},#{modifyTime},
+        #{hospitalId},#{elementCode,jdbcType=VARCHAR},
+        #{elementIdentification,jdbcType=VARCHAR},#{elementName,jdbcType=VARCHAR},#{elementRemark,jdbcType=VARCHAR},
+        #{elementDataType,jdbcType=VARCHAR},#{elementFormat,jdbcType=VARCHAR},#{elementStandardId,jdbcType=VARCHAR},
+        #{elementPdId,jdbcType=VARCHAR},#{elementBdId,jdbcType=VARCHAR},#{elementFdId,jdbcType=VARCHAR},
+        #{elementDataTypeId,jdbcType=VARCHAR},#{stopFlag,jdbcType=VARCHAR},#{pyCode,jdbcType=VARCHAR},
+        #{wbCode,jdbcType=VARCHAR},#{inputFlag,jdbcType=VARCHAR},#{mulitpleFlag,jdbcType=VARCHAR},
+        #{maxValue,jdbcType=VARCHAR},#{minValue,jdbcType=VARCHAR},#{intervalValue,jdbcType=VARCHAR},
+        #{formatDataValue,jdbcType=VARCHAR},#{elementType,jdbcType=VARCHAR},#{dictId,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="updateRange" parameterType="com.haoze.dental.model.ElementEntity">
+      update SYS_DATA_ELEMENT
+        set
+        GMT_MODIFY = #{modifyTime},
+        ELEMENT_IDENTIFICATION = #{elementIdentification,jdbcType=VARCHAR},
+        ELEMENT_NAME = #{elementName,jdbcType=VARCHAR},
+        ELEMENT_REMARK = #{elementRemark,jdbcType=VARCHAR},
+        ELEMENT_DATA_TYPE = #{elementDataType,jdbcType=VARCHAR},
+        ELEMENT_FORMAT = #{elementFormat,jdbcType=VARCHAR},
+        ELEMENT_STANDARD_ID = #{elementStandardId,jdbcType=VARCHAR},
+        ELEMENT_PD_ID = #{elementPdId,jdbcType=VARCHAR},
+        ELEMENT_BD_ID = #{elementBdId,jdbcType=VARCHAR},
+        ELEMENT_FD_ID = #{elementFdId,jdbcType=VARCHAR},
+        ELEMENT_DATA_TYPE_ID = #{elementDataTypeId,jdbcType=VARCHAR},
+        STOP_FLAG = #{stopFlag,jdbcType=VARCHAR},
+        PY_CODE = #{pyCode,jdbcType=VARCHAR},
+        WB_CODE = #{wbCode,jdbcType=VARCHAR},
+        INPUT_FLAG = #{inputFlag,jdbcType=VARCHAR},
+        MULTIPLE_FLAG = #{mulitpleFlag,jdbcType=VARCHAR},
+        MAX_VALUE = #{maxValue,jdbcType=VARCHAR},
+        MIN_VALUE = #{minValue,jdbcType=VARCHAR},
+        INTERVAL_VALUE = #{intervalValue,jdbcType=VARCHAR},
+        FORMAT_DATA_VALUE = #{formatDataValue,jdbcType=VARCHAR},
+        ELEMENT_TYPE = #{elementType,jdbcType=VARCHAR},
+        DICT_ID = #{dictId,jdbcType=VARCHAR}
+        where ELEMENT_ID = #{elementId,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deleteRange" parameterType="java.lang.String">
+        delete SYS_DATA_ELEMENT
+        where ELEMENT_ID = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="stopRange" parameterType="java.lang.String">
+        update SYS_DATA_ELEMENT
+        set STOP_FLAG = '1'
+        where ELEMENT_ID = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="startRange" parameterType="java.lang.String">
+        update SYS_DATA_ELEMENT
+        set STOP_FLAG = '0'
+        where ELEMENT_ID = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="getParentId" resultMap="UserWithRoleMap" parameterType="java.lang.String">
+        select PARENT_ID from SYS_DATA_ELEMENT_DICTIONARY
+        where ELEMENT_ID = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getCount" resultType="int" parameterType="java.lang.String">
+        select count(*) from SYS_DATA_ELEMENT_DICTIONARY
+        where ELEMENT_ID = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getList" resultMap="UserWithRoleMap" parameterType="java.lang.String">
+        select ELEMENT_NAME from SYS_DATA_ELEMENT
+        where ELEMENT_ID = #{id,jdbcType=VARCHAR}
+    </select>
+</mapper>
