@@ -17,7 +17,7 @@ public interface OrganizationMapper extends MyMapper<TOrganization> {
 
     void updateSortNoForReduce(Map<String, Object> map);
 
-    int countUserOrganizationByToId(@Param("deptId") String deptId);
+    int countUserOrganizationByToId(@Param("toId") String toId);
 
     String test();
 }
