@@ -10,8 +10,8 @@
 //import com.haoze.common.utils.UUIDUtil;
 //import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 //import org.junit.Test;
-//import tk.mybatis.mapper.entity.Condition;
-//import tk.mybatis.mapper.entity.Example;
+//import tk.mybatis.mapper.model.Condition;
+//import tk.mybatis.mapper.model.Example;
 //import tk.mybatis.mapper.util.StringUtil;
 //
 //import javax.annotation.Resource;

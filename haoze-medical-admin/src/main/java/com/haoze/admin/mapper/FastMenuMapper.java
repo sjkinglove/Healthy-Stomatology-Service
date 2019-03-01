@@ -2,6 +2,7 @@ package com.haoze.admin.mapper;
 
 import com.haoze.admin.model.FastMenuEntity;
 import com.haoze.common.mapper.MyMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface FastMenuMapper extends MyMapper<FastMenuEntity> {
     void insertFastMenu(FastMenuEntity fastMenu);
 
     /**
-     * 启用快捷通道
+     * 快捷通道启用状态变更
      * */
-    void clearFastMenu(FastMenuEntity fastMenu);
+    void updateStopFlagById(@Param("id") String id, @Param("stopFlag") String stopFlag);
 }

@@ -11,8 +11,8 @@
 //import org.junit.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
-//import tk.mybatis.mapper.entity.Condition;
-//import tk.mybatis.mapper.entity.Example;
+//import tk.mybatis.mapper.model.Condition;
+//import tk.mybatis.mapper.model.Example;
 //
 //import java.util.List;
 //

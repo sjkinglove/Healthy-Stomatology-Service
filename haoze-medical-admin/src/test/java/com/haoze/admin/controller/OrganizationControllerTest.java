@@ -4,8 +4,8 @@
 //import com.haoze.admin.model.system.DepartmentEntity;
 //import com.haoze.admin.service.system.DepartmentService;
 //import org.junit.Test;
-//import tk.mybatis.mapper.entity.Condition;
-//import tk.mybatis.mapper.entity.Example;
+//import tk.mybatis.mapper.model.Condition;
+//import tk.mybatis.mapper.model.Example;
 //
 //import javax.annotation.Resource;
 //import java.util.List;
@@ -26,25 +26,25 @@
 //    @Test
 //    public void add() {
 //        for (int i = 7; i < 10; i++) {
-//            DepartmentEntity entity = new DepartmentEntity();
-//            entity.setCode("cs" + (4 + i));
-//            entity.setName("测试" + (3 + i));
-//            entity.setStopFlag("0");
-//            entity.setParentId("002b37eecb5f482da4da53498de71a31");
+//            DepartmentEntity model = new DepartmentEntity();
+//            model.setCode("cs" + (4 + i));
+//            model.setName("测试" + (3 + i));
+//            model.setStopFlag("0");
+//            model.setParentId("002b37eecb5f482da4da53498de71a31");
 //
-//            departmentService.save(entity);
+//            departmentService.save(model);
 //        }
 //    }
 //
 //    @Test
 //    public void edit() {
-//        DepartmentEntity entity = new DepartmentEntity();
-//        entity.setId("f472a15810234390b4452c3bd9e1ffee");
-//        entity.setName("科室21");
-//        entity.setDeptSort("5");
-//        entity.setParentId("0");
-//        entity.initUpdate();
-//        departmentService.update(entity);
+//        DepartmentEntity model = new DepartmentEntity();
+//        model.setId("f472a15810234390b4452c3bd9e1ffee");
+//        model.setName("科室21");
+//        model.setDeptSort("5");
+//        model.setParentId("0");
+//        model.initUpdate();
+//        departmentService.update(model);
 //    }
 //
 //    @Test

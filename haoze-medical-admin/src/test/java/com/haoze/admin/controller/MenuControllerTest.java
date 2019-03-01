@@ -9,8 +9,8 @@
 //import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 //import org.junit.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
-//import tk.mybatis.mapper.entity.Condition;
-//import tk.mybatis.mapper.entity.Example;
+//import tk.mybatis.mapper.model.Condition;
+//import tk.mybatis.mapper.model.Example;
 //
 //import java.util.ArrayList;
 //import java.util.List;
@@ -54,56 +54,56 @@
 //
 //    @Test
 //    public void add() {
-//        MenuEntity entity = new MenuEntity();
-//        entity.setId(UUIDUtil.randomString());
-//        entity.setName("fcx测试菜单");
-//        entity.setCode("fcxcscd");
-//        entity.setType("2");
-//        entity.setSort("1");
-//        entity.setDisplayFlag("0");
-//        entity.setMenuLevel("2");
-//        entity.setUrl("/user");
-//        entity.setParentId("7b5844df314844b284b0dd42e3e4423d");
+//        MenuEntity model = new MenuEntity();
+//        model.setId(UUIDUtil.randomString());
+//        model.setName("fcx测试菜单");
+//        model.setCode("fcxcscd");
+//        model.setType("2");
+//        model.setSort("1");
+//        model.setDisplayFlag("0");
+//        model.setMenuLevel("2");
+//        model.setUrl("/user");
+//        model.setParentId("7b5844df314844b284b0dd42e3e4423d");
 //
-//        entity.initAdd();
-//        if (entity.getParentId() == null) {
-//            entity.setParentId("0");
+//        model.initAdd();
+//        if (model.getParentId() == null) {
+//            model.setParentId("0");
 //        }
 //        //查询该父节点下的排序
 //        Condition condition = new Condition(MenuEntity.class);
 //        condition.setOrderByClause("MENU_SORT desc");
 //        Example.Criteria criteria = condition.createCriteria();
-//        criteria.andEqualTo("parentId", entity.getParentId());
+//        criteria.andEqualTo("parentId", model.getParentId());
 //        List<MenuEntity> sortList = menuService.findByCondition(condition);
 //        int count = 1;
 //        if (sortList.size() > 0) {
 //            count = Integer.parseInt(sortList.get(0).getSort()) + 1;
 //        }
-//        entity.setSort(String.valueOf(count));
+//        model.setSort(String.valueOf(count));
 //        try {
-//            entity.setPyCode(ChineseCharactersCode.getPinyinCode(entity.getName()));
-//            entity.setWbCode(ChineseCharactersCode.getWBCode(entity.getName()));
+//            model.setPyCode(ChineseCharactersCode.getPinyinCode(model.getName()));
+//            model.setWbCode(ChineseCharactersCode.getWBCode(model.getName()));
 //        } catch (BadHanyuPinyinOutputFormatCombination e) {
 //            e.printStackTrace();
 //        }
-//        menuService.save(entity);
+//        menuService.save(model);
 //    }
 //
 //    @Test
 //    public void edit() {
-//        MenuEntity entity = new MenuEntity();
-//        entity.setId("d46c840b6c2c4affae53c18a6356f0e1");
-//        entity.setName("用户管理");
-//        entity.setParentId("7b5844df314844b284b0dd42e3e4423d");
-//        entity.setSort("5");
-//        entity.initUpdate();
+//        MenuEntity model = new MenuEntity();
+//        model.setId("d46c840b6c2c4affae53c18a6356f0e1");
+//        model.setName("用户管理");
+//        model.setParentId("7b5844df314844b284b0dd42e3e4423d");
+//        model.setSort("5");
+//        model.initUpdate();
 //        try {
-//            entity.setPyCode(ChineseCharactersCode.getPinyinCode(entity.getName()));
-//            entity.setWbCode(ChineseCharactersCode.getWBCode(entity.getName()));
+//            model.setPyCode(ChineseCharactersCode.getPinyinCode(model.getName()));
+//            model.setWbCode(ChineseCharactersCode.getWBCode(model.getName()));
 //        } catch (BadHanyuPinyinOutputFormatCombination e) {
 //            e.printStackTrace();
 //        }
-//        menuService.update(entity);
+//        menuService.update(model);
 //    }
 //
 //    @Test
