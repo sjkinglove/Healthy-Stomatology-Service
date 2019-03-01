@@ -45,9 +45,9 @@ public class OrganizationServiceImpl extends AbstractService<TOrganization> impl
         //查询该父节点下的排序
         int count = 1;
         Condition condition = new Condition(TOrganization.class);
-        condition.setOrderByClause("DEPT_SORT desc");
+        condition.setOrderByClause("TO_SORT desc");
         Example.Criteria criteria = condition.createCriteria();
-        criteria.andEqualTo("parentId", entity.getParentToId());
+        criteria.andEqualTo("toId", entity.getParentToId());
         List<TOrganization> sortList = organizationMapper.selectByCondition(condition);
         if(sortList.size() > 0){
             count = Integer.parseInt(sortList.get(0).getToSort());
@@ -118,11 +118,11 @@ public class OrganizationServiceImpl extends AbstractService<TOrganization> impl
         //删除用户组织关联数据
         Condition relaCondition = new Condition(TUserOrganization.class);
         Example.Criteria relaCriteria = relaCondition.createCriteria();
-        relaCriteria.andEqualTo("organizationMapperId", id);
+        relaCriteria.andEqualTo("toId", id);
         userOrganizationMapper.deleteByCondition(relaCondition);
         Condition condition = new Condition(TOrganization.class);
         Example.Criteria criteria = condition.createCriteria();
-        criteria.andEqualTo("parentId", id);
+        criteria.andEqualTo("parentToId", id);
         //删除子记录
         organizationMapper.deleteByCondition(condition);
         organizationMapper.deleteByPrimaryKey(id);
