@@ -51,7 +51,15 @@
 
     <select id="findDetailBy" resultMap="UserDetailMap">
         SELECT
-        u.*,
+        u.TU_ID as id,
+        u.LOGIN_NAME as account,
+        u.USER_PWD as password,
+        u.USER_NAME as name,
+        u.LOCK_FLAG as lockFlag,
+        u.USER_TYPES as userTypes,
+        u.END_DATE as endDate,
+        u.ON_LINE as userLine,
+        u.IMAGE as image,
         r.ROLE_CODE as role_code,
         r.ROLE_NAME as role_name,
         m.menu_permission as permission_code,
