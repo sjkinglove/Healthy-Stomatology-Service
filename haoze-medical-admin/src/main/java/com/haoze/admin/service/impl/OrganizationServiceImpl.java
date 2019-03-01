@@ -93,9 +93,9 @@ public class OrganizationServiceImpl extends AbstractService<TOrganization> impl
         }
         //查询该父节点下的排序
         Condition condition = new Condition(TOrganization.class);
-        condition.setOrderByClause("DEPT_SORT desc");
+        condition.setOrderByClause("TO_SORT desc");
         Example.Criteria criteria = condition.createCriteria();
-        criteria.andEqualTo("parentId", entity.getParentToId());
+        criteria.andEqualTo("toId", entity.getParentToId());
         List<TOrganization> sortList = organizationMapper.selectByCondition(condition);
         int count = 1;
         if(sortList.size() > 0){
