@@ -19,7 +19,7 @@
     </resultMap>
 
     <resultMap id="PrimaryValueMap" type="com.haoze.dental.dto.ElementValueDTO" extends="PrimaryMap">
-        <collection property="valueList" ofType="com.haoze.repository.model.PrimaryValueEntity">
+        <collection property="valueList" ofType="com.haoze.dental.model.PrimaryValueEntity">
             <result column="DATAVALUE_ID" jdbcType="VARCHAR" property="datavalueId" />
             <result column="DATAVERSION_ID" jdbcType="VARCHAR" property="dataversionId" />
             <result column="SERIAL_NUMBER" jdbcType="VARCHAR" property="serialNumber" />

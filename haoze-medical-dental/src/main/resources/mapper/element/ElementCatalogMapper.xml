@@ -51,7 +51,7 @@
         )
     </insert>
 
-    <update id="updateRange" parameterType="com.haoze.repository.dental.ElementCatalogEntity">
+    <update id="updateRange" parameterType="com.haoze.dental.model.ElementCatalogEntity">
       update SYS_DATA_ELEMENT_DICTIONARY
         set
         GMT_MODIFY = #{gmtModify},
