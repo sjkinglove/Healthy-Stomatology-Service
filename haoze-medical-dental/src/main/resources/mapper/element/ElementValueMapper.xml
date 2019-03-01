@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.haoze.repository.dao.ElementValueMapper">
+<mapper namespace="com.haoze.dental.dao.ElementValueMapper">
 
     <resultMap id="PrimaryMap" type="com.haoze.dental.model.ElementValueEntity">
         <id column="PRIMARYDATA_ID" jdbcType="VARCHAR" property="primaryDataId"/>
