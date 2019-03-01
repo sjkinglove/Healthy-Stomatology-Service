@@ -3,7 +3,7 @@
 <mapper namespace="com.haoze.admin.mapper.RoleMapper">
 
     <update id="updateStopFlagById" parameterType="String">
-        update t_role set STOP_FLAG = #{stopFlag,jdbcType=VARCHAR} where TR_ID = #{id,jdbcType=VARCHAR}
+        update t_role  set STOP_FLAG = #{stopFlag,jdbcType=VARCHAR} where TR_ID = #{id,jdbcType=VARCHAR}
     </update>
 
     <select id="countRoleMenuByRoleId" parameterType="String" resultType="int">
