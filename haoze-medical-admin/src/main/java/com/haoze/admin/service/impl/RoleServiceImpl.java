@@ -2,8 +2,8 @@ package com.haoze.admin.service.impl;
 
 import com.haoze.admin.mapper.RoleMapper;
 import com.haoze.admin.mapper.RoleMenuMapper;
-import com.haoze.admin.model.TRole;
-import com.haoze.admin.model.TRoleMenu;
+import com.haoze.admin.model.RoleEntity;
+import com.haoze.admin.model.RoleMenuEntity;
 import com.haoze.admin.service.RoleService;
 import com.haoze.common.service.AbstractService;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class RoleServiceImpl extends AbstractService<TRole> implements RoleService {
+public class RoleServiceImpl extends AbstractService<RoleEntity> implements RoleService {
 
     @Resource
     private RoleMapper roleMapper;
@@ -42,7 +42,7 @@ public class RoleServiceImpl extends AbstractService<TRole> implements RoleServi
                 newId += "'" + idsArr[i] + "',";
             }
             //删除子记录
-            Condition condition = new Condition(TRoleMenu.class);
+            Condition condition = new Condition(RoleMenuEntity.class);
             Example.Criteria criteria = condition.createCriteria();
             criteria.andEqualTo("trId", idsArr[i]);
             roleMenuRelaMapper.deleteByCondition(condition);

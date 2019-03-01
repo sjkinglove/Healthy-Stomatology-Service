@@ -2,7 +2,7 @@ package com.haoze.admin.service.impl;
 
 import com.haoze.admin.dto.system.UserDTO;
 import com.haoze.admin.mapper.UserRoleMapper;
-import com.haoze.admin.model.TUserRole;
+import com.haoze.admin.model.UserRoleEntity;
 import com.haoze.admin.service.UserRoleService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +24,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     public void updateUserRole(final UserDTO user) {
 
         userRoleMapper.deleteByUserId(user.getTuId());
-        final TUserRole e = new TUserRole();
+        final UserRoleEntity e = new UserRoleEntity();
         e.setTurId(user.getTuId());
         e.setTrId(user.getRoleId());
         userRoleMapper.insert(e);

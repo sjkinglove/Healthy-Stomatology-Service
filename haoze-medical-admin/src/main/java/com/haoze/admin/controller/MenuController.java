@@ -1,6 +1,6 @@
 package com.haoze.admin.controller;
 
-import com.haoze.admin.model.TMenu;
+import com.haoze.admin.model.MenuEntity;
 import com.haoze.admin.service.MenuService;
 import com.haoze.common.response.Result;
 import com.haoze.common.response.ResultGenerator;
@@ -39,10 +39,10 @@ public class MenuController {
     @ApiOperation(value = "角色列表显示", notes = "")
     @GetMapping
     public Result list() {
-        Condition condition = new Condition(TMenu.class);
+        Condition condition = new Condition(MenuEntity.class);
         Example.Criteria criteria = condition.createCriteria();
         condition.setOrderByClause("MENU_SORT");
-        final List<TMenu> list = menuService.findByCondition(condition);
+        final List<MenuEntity> list = menuService.findByCondition(condition);
         return ResultGenerator.genOkResult(list);
     }
 
@@ -71,7 +71,7 @@ public class MenuController {
     public Result naviList() {
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         String account = request.getHeader("zuul_account");
-        final List<TMenu> list = menuService.selectMenuByUserRole(account);
+        final List<MenuEntity> list = menuService.selectMenuByUserRole(account);
         return ResultGenerator.genOkResult(list);
     }
 
@@ -84,7 +84,7 @@ public class MenuController {
      */
     @ApiOperation(value = "添加", notes = "")
     @PostMapping
-    public Result add(@RequestBody @Valid final TMenu entity,
+    public Result add(@RequestBody @Valid final MenuEntity entity,
                       final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             final String msg = bindingResult.getFieldError().getDefaultMessage();
@@ -97,11 +97,11 @@ public class MenuController {
                 entity.setParentMenuId("0");
             }
             //查询该父节点下的排序
-            Condition condition = new Condition(TMenu.class);
+            Condition condition = new Condition(MenuEntity.class);
             condition.setOrderByClause("MENU_SORT desc");
             Example.Criteria criteria = condition.createCriteria();
             criteria.andEqualTo("tmId", entity.getParentMenuId());
-            List<TMenu> sortList = menuService.findByCondition(condition);
+            List<MenuEntity> sortList = menuService.findByCondition(condition);
             int count = 1;
             if (sortList.size() > 0) {
                 count = Integer.parseInt(sortList.get(0).getMenuSort()) + 1;
@@ -143,7 +143,7 @@ public class MenuController {
      */
     @ApiOperation(value = "修改", notes = "")
     @PutMapping
-    public Result edit(@RequestBody @Valid final TMenu entity,
+    public Result edit(@RequestBody @Valid final MenuEntity entity,
                        final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             final String msg = bindingResult.getFieldError().getDefaultMessage();
@@ -175,19 +175,19 @@ public class MenuController {
 
     @ApiOperation(value = "路径存在验证", notes = "")
     @PostMapping("hasUrl")
-    public Result getInfoByUrl(@RequestBody final TMenu entity) {
+    public Result getInfoByUrl(@RequestBody final MenuEntity entity) {
         String url = entity.getMenuUrl();
         String id = entity.getTmId();
         if ("".equals(url)) {
             return ResultGenerator.genOkResult();
         }
-        Condition condition = new Condition(TMenu.class);
+        Condition condition = new Condition(MenuEntity.class);
         Example.Criteria criteria = condition.createCriteria();
         criteria.andEqualTo("menuUrl", url);
         if (!"".equals(id)) {
             criteria.andNotEqualTo("tmId", id);
         }
-        final List<TMenu> list = menuService.findByCondition(condition);
+        final List<MenuEntity> list = menuService.findByCondition(condition);
         if (list.size() == 0) {
             return ResultGenerator.genOkResult();
         } else {
@@ -197,20 +197,20 @@ public class MenuController {
 
     @ApiOperation(value = "权限存在验证", notes = "")
     @PostMapping("hasPermission")
-    public Result getInfoByPermission(@RequestBody final TMenu entity) {
+    public Result getInfoByPermission(@RequestBody final MenuEntity entity) {
         //获取菜单权限
         String permission = entity.getMenuPermission();
         String id = entity.getTmId();
         if ("".equals(permission)) {
             return ResultGenerator.genOkResult();
         }
-        Condition condition = new Condition(TMenu.class);
+        Condition condition = new Condition(MenuEntity.class);
         Example.Criteria criteria = condition.createCriteria();
         criteria.andEqualTo("menuPermission", permission);
         if (!"".equals(id)) {
             criteria.andNotEqualTo("tmId", id);
         }
-        final List<TMenu> list = menuService.findByCondition(condition);
+        final List<MenuEntity> list = menuService.findByCondition(condition);
         if (list.size() == 0) {
             return ResultGenerator.genOkResult();
         } else {

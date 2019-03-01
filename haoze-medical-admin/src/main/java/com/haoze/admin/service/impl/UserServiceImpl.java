@@ -2,9 +2,9 @@ package com.haoze.admin.service.impl;
 
 import com.haoze.admin.dto.system.UserDTO;
 import com.haoze.admin.mapper.UserMapper;
-import com.haoze.admin.model.TUser;
-import com.haoze.admin.model.TUserOrganization;
-import com.haoze.admin.model.TUserRole;
+import com.haoze.admin.model.UserEntity;
+import com.haoze.admin.model.UserOrganizationEntity;
+import com.haoze.admin.model.UserRoleEntity;
 import com.haoze.admin.service.UserService;
 import com.haoze.common.exception.ServiceException;
 import com.haoze.common.service.AbstractService;
@@ -25,7 +25,7 @@ import java.util.Map;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class UserServiceImpl extends AbstractService<TUser> implements UserService {
+public class UserServiceImpl extends AbstractService<UserEntity> implements UserService {
     @Resource
     private UserMapper userMapper;
     @Resource
@@ -41,11 +41,11 @@ public class UserServiceImpl extends AbstractService<TUser> implements UserServi
      */
     @Override
     public void saveUserAndRoleAndOrganizagion(final UserDTO user) {
-        TUser u = this.findBy("userName", user.getName());
+        UserEntity u = this.findBy("userName", user.getName());
         if (u != null) {
             throw new ServiceException("username already existed");
         } else {
-            TUser tu = new TUser();
+            UserEntity tu = new UserEntity();
             tu.initAdd();
             tu.setTuId(user.getTuId());
             tu.setLoginName(user.getLoginName());
@@ -59,14 +59,14 @@ public class UserServiceImpl extends AbstractService<TUser> implements UserServi
             userMapper.insertSelective(tu);
 
             //用户角色关系
-            TUserRole tur = new TUserRole();
+            UserRoleEntity tur = new UserRoleEntity();
             tur.initAdd();
             tur.setTurId(UUIDUtil.randomString());
             tur.setTuId(user.getTuId());
             tur.setTrId(user.getRoleId());
             userMapper.insertUserRoleRela(tur);
             // 用户机构关系
-            TUserOrganization tuo = new TUserOrganization();
+            UserOrganizationEntity tuo = new UserOrganizationEntity();
             tuo.initAdd();
             tuo.setTuoId(UUIDUtil.randomString());
             tuo.setTuId(user.getTuId());
@@ -80,7 +80,7 @@ public class UserServiceImpl extends AbstractService<TUser> implements UserServi
      */
     @Override
     public void updateUserAndRoleAndDept(final UserDTO user) {
-        TUser userEntity = new TUser();
+        UserEntity userEntity = new UserEntity();
         userEntity.setTuId(user.getTuId());
         userEntity.setLoginName(user.getLoginName());
         userEntity.setUserName(user.getName());
@@ -93,7 +93,7 @@ public class UserServiceImpl extends AbstractService<TUser> implements UserServi
 
         //用户角色关系
         userMapper.clearUserRoleRela(user.getTuId());
-        TUserRole tur = new TUserRole();
+        UserRoleEntity tur = new UserRoleEntity();
         tur.initAdd();
         tur.setTurId(UUIDUtil.randomString());
         tur.setTuId(user.getTuId());
@@ -102,7 +102,7 @@ public class UserServiceImpl extends AbstractService<TUser> implements UserServi
 
         // 用户科室关系
         userMapper.clearUserOrganizationRela(user.getTuId());
-        TUserOrganization tuo = new TUserOrganization();
+        UserOrganizationEntity tuo = new UserOrganizationEntity();
         tuo.initAdd();
         tuo.setTuoId(UUIDUtil.randomString());
         tuo.setTuId(user.getTuId());

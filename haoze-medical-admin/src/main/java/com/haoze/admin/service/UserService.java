@@ -1,7 +1,7 @@
 package com.haoze.admin.service;
 
 import com.haoze.admin.dto.system.UserDTO;
-import com.haoze.admin.model.TUser;
+import com.haoze.admin.model.UserEntity;
 import com.haoze.common.service.Service;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
  * @author shenjun
  * @date 2019/02/27
  */
-public interface UserService extends Service<TUser> {
+public interface UserService extends Service<UserEntity> {
     /**
      * 获取所有用户以及对应角色
      *

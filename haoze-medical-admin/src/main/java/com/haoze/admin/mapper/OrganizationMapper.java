@@ -1,7 +1,7 @@
 package com.haoze.admin.mapper;
 
 
-import com.haoze.admin.model.TOrganization;
+import com.haoze.admin.model.OrganizationEntity;
 import com.haoze.common.mapper.MyMapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,7 +11,7 @@ import java.util.Map;
  * @author shenjun
  * @date 2019/02/27
  */
-public interface OrganizationMapper extends MyMapper<TOrganization> {
+public interface OrganizationMapper extends MyMapper<OrganizationEntity> {
 
     void updateSortNoForEnlarge(Map<String, Object> map);
 

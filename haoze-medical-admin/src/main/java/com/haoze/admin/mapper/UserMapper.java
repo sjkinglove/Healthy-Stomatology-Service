@@ -1,9 +1,9 @@
 package com.haoze.admin.mapper;
 
 import com.haoze.admin.dto.system.UserDTO;
-import com.haoze.admin.model.TUser;
-import com.haoze.admin.model.TUserOrganization;
-import com.haoze.admin.model.TUserRole;
+import com.haoze.admin.model.UserEntity;
+import com.haoze.admin.model.UserOrganizationEntity;
+import com.haoze.admin.model.UserRoleEntity;
 import com.haoze.common.mapper.MyMapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,7 +13,7 @@ import java.util.Map;
  * @author shenjun
  * @date 2019/02/27
  */
-public interface UserMapper extends MyMapper<TUser> {
+public interface UserMapper extends MyMapper<UserEntity> {
     /**
      * 获取所有用户以及对应角色
      *
@@ -34,14 +34,14 @@ public interface UserMapper extends MyMapper<TUser> {
      *
      * @param entity
      */
-    void insertUserRoleRela(TUserRole entity);
+    void insertUserRoleRela(UserRoleEntity entity);
 
     /**
      * 保存角色用户关系
      *
      * @param entity
      */
-    void insertUserOrganizationRela(TUserOrganization entity);
+    void insertUserOrganizationRela(UserOrganizationEntity entity);
 
     /**
      * 保存角色用户关系

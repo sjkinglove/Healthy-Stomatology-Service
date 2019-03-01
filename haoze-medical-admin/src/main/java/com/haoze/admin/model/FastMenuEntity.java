@@ -11,7 +11,7 @@ import javax.persistence.Table;
  * @date 2019/2/27
  */
 @Table(name = "T_FAST_MENU")
-public class TFastMenu extends BaseEntity {
+public class FastMenuEntity extends BaseEntity {
   @Id
   @Column(name = "TFM_ID")
   private String tfmId;//快速通道ID

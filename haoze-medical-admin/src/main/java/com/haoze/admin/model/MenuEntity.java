@@ -10,7 +10,7 @@ import javax.persistence.Table;
  * @date 2019-2-27
  * */
 @Table(name = "T_MENU")
-public class TMenu extends BaseEntity {
+public class MenuEntity extends BaseEntity {
 
   @Id
   @Column(name = "TM_ID")

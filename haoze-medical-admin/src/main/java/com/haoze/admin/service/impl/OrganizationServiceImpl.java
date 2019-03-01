@@ -2,8 +2,8 @@ package com.haoze.admin.service.impl;
 
 import com.haoze.admin.mapper.OrganizationMapper;
 import com.haoze.admin.mapper.UserOrganizationMapper;
-import com.haoze.admin.model.TOrganization;
-import com.haoze.admin.model.TUserOrganization;
+import com.haoze.admin.model.OrganizationEntity;
+import com.haoze.admin.model.UserOrganizationEntity;
 import com.haoze.admin.service.OrganizationService;
 import com.haoze.common.service.AbstractService;
 import com.haoze.common.utils.ChineseCharactersCode;
@@ -27,14 +27,14 @@ import java.util.Map;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class OrganizationServiceImpl extends AbstractService<TOrganization> implements OrganizationService {
+public class OrganizationServiceImpl extends AbstractService<OrganizationEntity> implements OrganizationService {
     @Resource
     private OrganizationMapper organizationMapper;
     @Resource
     private UserOrganizationMapper userOrganizationMapper;
 
     @Override
-    public void update(TOrganization entity) {
+    public void update(OrganizationEntity entity) {
         int targetSort = 1;
         if (StringUtils.isNotBlank(entity.getToSort())) {
             targetSort = Integer.parseInt(entity.getToSort());
@@ -44,17 +44,17 @@ public class OrganizationServiceImpl extends AbstractService<TOrganization> impl
 
         //查询该父节点下的排序
         int count = 1;
-        Condition condition = new Condition(TOrganization.class);
+        Condition condition = new Condition(OrganizationEntity.class);
         condition.setOrderByClause("TO_SORT desc");
         Example.Criteria criteria = condition.createCriteria();
         criteria.andEqualTo("toId", entity.getParentToId());
-        List<TOrganization> sortList = organizationMapper.selectByCondition(condition);
+        List<OrganizationEntity> sortList = organizationMapper.selectByCondition(condition);
         if(sortList.size() > 0){
             count = Integer.parseInt(sortList.get(0).getToSort());
         }
 
         // 查询原节点排序号
-        TOrganization oldSort = organizationMapper.selectByPrimaryKey(entity.getToId());
+        OrganizationEntity oldSort = organizationMapper.selectByPrimaryKey(entity.getToId());
         int currentSortNo = Integer.parseInt(oldSort.getToSort());
 
         if (targetSort < 1) {
@@ -85,18 +85,18 @@ public class OrganizationServiceImpl extends AbstractService<TOrganization> impl
     }
 
     @Override
-    public void save(TOrganization entity) {
+    public void save(OrganizationEntity entity) {
         entity.setToId(UUIDUtil.randomString());
         entity.initAdd();
         if(entity.getParentToId() == null){
             entity.setParentToId("0");
         }
         //查询该父节点下的排序
-        Condition condition = new Condition(TOrganization.class);
+        Condition condition = new Condition(OrganizationEntity.class);
         condition.setOrderByClause("TO_SORT desc");
         Example.Criteria criteria = condition.createCriteria();
         criteria.andEqualTo("toId", entity.getParentToId());
-        List<TOrganization> sortList = organizationMapper.selectByCondition(condition);
+        List<OrganizationEntity> sortList = organizationMapper.selectByCondition(condition);
         int count = 1;
         if(sortList.size() > 0){
             count = Integer.parseInt(sortList.get(0).getToSort()) + 1;
@@ -116,11 +116,11 @@ public class OrganizationServiceImpl extends AbstractService<TOrganization> impl
     @Override
     public void deleteById(Object id) {
         //删除用户组织关联数据
-        Condition relaCondition = new Condition(TUserOrganization.class);
+        Condition relaCondition = new Condition(UserOrganizationEntity.class);
         Example.Criteria relaCriteria = relaCondition.createCriteria();
         relaCriteria.andEqualTo("toId", id);
         userOrganizationMapper.deleteByCondition(relaCondition);
-        Condition condition = new Condition(TOrganization.class);
+        Condition condition = new Condition(OrganizationEntity.class);
         Example.Criteria criteria = condition.createCriteria();
         criteria.andEqualTo("parentToId", id);
         //删除子记录

@@ -12,7 +12,7 @@ import javax.persistence.Table;
  * @date 2019/2/27
  */
 @Table(name = "T_USER_ROLE")
-public class TUserRole extends BaseEntity {
+public class UserRoleEntity extends BaseEntity {
 
   @Id
   @Column(name = "TUR_ID")

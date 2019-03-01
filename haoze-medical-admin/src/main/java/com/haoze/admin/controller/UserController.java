@@ -3,7 +3,7 @@ package com.haoze.admin.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.haoze.admin.dto.system.UserDTO;
-import com.haoze.admin.model.TUser;
+import com.haoze.admin.model.UserEntity;
 import com.haoze.admin.service.UserService;
 import com.haoze.admin.service.feign.JwtService;
 import com.haoze.common.annotation.HasEmrPermission;
@@ -14,7 +14,6 @@ import com.haoze.common.utils.UUIDUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +59,7 @@ public class UserController {
             return ResultGenerator.genFailedResult(msg);
         } else {
             user.setTuId(UUIDUtil.randomString());
-            TUser userEntity = new TUser();
+            UserEntity userEntity = new UserEntity();
             userEntity.setLoginName(user.getLoginName());
             userEntity.setTuId(user.getTuId());
             this.userService.saveUserAndRoleAndOrganizagion(user);
@@ -78,10 +77,10 @@ public class UserController {
 
     @ApiOperation(value = "验证密码", notes = "")
     @PostMapping("/password")
-    public Result validatePassword(@RequestBody final TUser user) {
+    public Result validatePassword(@RequestBody final UserEntity user) {
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         String account = request.getHeader("zuul_account");
-        final TUser oldUser = this.userService.findBy("loginName", account);
+        final UserEntity oldUser = this.userService.findBy("loginName", account);
         final boolean isValidate = this.userService.verifyPassword(user.getLoginName(), oldUser.getUserPwd());
         return ResultGenerator.genOkResult(isValidate);
     }
@@ -94,10 +93,10 @@ public class UserController {
      */
     @ApiOperation(value = "重置密码", notes = "")
     @PostMapping("/resetPassword")
-    public Result resetPassword(@RequestBody final TUser user) {
+    public Result resetPassword(@RequestBody final UserEntity user) {
         user.initUpdate();
         user.setUserPwd(this.userService.encodePassword(user.getUserPwd()));
-        Condition condition = new Condition(TUser.class);
+        Condition condition = new Condition(UserEntity.class);
         Example.Criteria criteria = condition.createCriteria();
 
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
@@ -120,14 +119,14 @@ public class UserController {
     @ApiOperation(value = "根据ID进行账户验证", notes = "")
     @GetMapping("/{id}")
     public Result detail(@PathVariable final String id) {
-        final TUser user = this.userService.findById(id);
+        final UserEntity user = this.userService.findById(id);
         return ResultGenerator.genOkResult(user);
     }
 
     @ApiOperation(value = "根据账户获取用户信息", notes = "")
     @GetMapping("/info/{account}")
-    public TUser info(@PathVariable String account) {
-        TUser userDB = userService.findBy("loginName", account);
+    public UserEntity info(@PathVariable String account) {
+        UserEntity userDB = userService.findBy("loginName", account);
         return userDB;
     }
 
@@ -149,7 +148,7 @@ public class UserController {
      */
     @ApiOperation(value = "用户登录", notes = "")
     @PostMapping("/login")
-    public Result login(@RequestBody final TUser user) {
+    public Result login(@RequestBody final UserEntity user) {
         if (user.getLoginName() == null) {
             return ResultGenerator.genFailedResult("账号不能为空");
         }
@@ -157,7 +156,7 @@ public class UserController {
             return ResultGenerator.genFailedResult("密码不能为空");
         }
         // 用户名登录
-        TUser dbUser = null;
+        UserEntity dbUser = null;
         if (user.getLoginName() != null) {
             dbUser = this.userService.findBy("loginName", user.getLoginName());
             if (dbUser == null) {
@@ -180,7 +179,7 @@ public class UserController {
     /**
      * 获得 token
      */
-    private Result getToken(final TUser user) {
+    private Result getToken(final UserEntity user) {
         final String username = user.getLoginName();
         final String id = user.getTuId();
         final String token = jwtService.getToken(username, id, "1");
@@ -189,19 +188,19 @@ public class UserController {
 
     @ApiOperation(value = "账户验证", notes = "")
     @PostMapping("hasAccount")
-    public Result getInfoByAccount(@RequestBody final TUser entity) {
+    public Result getInfoByAccount(@RequestBody final UserEntity entity) {
         String account = entity.getLoginName();
         String id = entity.getTuId();
         if ("".equals(account)) {
             return ResultGenerator.genOkResult();
         }
-        Condition condition = new Condition(TUser.class);
+        Condition condition = new Condition(UserEntity.class);
         Example.Criteria criteria = condition.createCriteria();
         criteria.andEqualTo("loginName", account);
         if (!"".equals(id)) {
             criteria.andNotEqualTo("tuId", id);
         }
-        final List<TUser> list = userService.findByCondition(condition);
+        final List<UserEntity> list = userService.findByCondition(condition);
         if (list.size() == 0) {
             return ResultGenerator.genOkResult();
         } else {

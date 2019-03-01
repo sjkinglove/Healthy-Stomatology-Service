@@ -1,13 +1,13 @@
 package com.haoze.admin.service;
 
-import com.haoze.admin.model.TRole;
+import com.haoze.admin.model.RoleEntity;
 import com.haoze.common.service.Service;
 
 /**
  * @author shenjun
  * @date 2019/02/27
  */
-public interface RoleService extends Service<TRole> {
+public interface RoleService extends Service<RoleEntity> {
     /**
      * 根据角色ID停用该角色
      *

@@ -15,7 +15,7 @@
         delete from t_role_menu where TR_ID = #{_id}
     </delete>
 
-    <insert id="insertRoleMenuRela" parameterType="com.haoze.admin.model.TRoleMenu">
+    <insert id="insertRoleMenuRela" parameterType="com.haoze.admin.model.RoleMenuEntity">
         insert into t_role_menu (TRM_ID, DATA_VERSION, GMT_CREATE, GMT_MODIFY, TR_ID, TM_ID)
         values (#{trmId,jdbcType=VARCHAR}, #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
         #{modifyTime,jdbcType=TIMESTAMP},#{trId,jdbcType=VARCHAR}, #{tmId,jdbcType=VARCHAR})
@@ -39,7 +39,7 @@
         </where>
     </update>
 
-    <select id="selectMenuByUserRole" parameterType="String" resultType="com.haoze.admin.model.TMenu">
+    <select id="selectMenuByUserRole" parameterType="String" resultType="com.haoze.admin.model.MenuEntity">
         select m.TM_ID "tmId", m.GMT_CREATE "createTime", m.GMT_MODIFY "modifyTime", m.MENU_CODE "menuCode", m.MENU_NAME
         "menuName",
         m.PARENT_MENU_ID "parentMenuId", m.MENU_SORT "menuSort", m.PY_CODE "pyCode", m.WB_CODE "wbCode", m.MENU_URL "menuUrl",

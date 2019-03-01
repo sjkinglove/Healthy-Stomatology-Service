@@ -4,7 +4,7 @@
 //import com.github.pagehelper.PageInfo;
 //import com.haoze.admin.CloudAdminApplicationTest;
 //import com.haoze.admin.dto.system.UserDTO;
-//import com.haoze.admin.model.TUser;
+//import com.haoze.admin.model.UserEntity;
 //import com.haoze.admin.service.UserService;
 //import com.haoze.admin.service.feign.JwtService;
 //import com.haoze.common.utils.UUIDUtil;
@@ -28,10 +28,10 @@
 //
 //    @Test
 //    public void testLogin() {
-//        TUser user = new TUser();
+//        UserEntity user = new UserEntity();
 //        user.setLoginName("admin");
 //        user.setUserPwd("123456");
-//        TUser u = userService.findBy("account", user.getLoginName());
+//        UserEntity u = userService.findBy("account", user.getLoginName());
 //        boolean login = userService.verifyPassword(user.getUserPwd(), u.getUserPwd());
 //        System.out.println(login);
 //    }
@@ -57,7 +57,7 @@
 //
 //    @Test
 //    public void validatePassword() {
-//        final TUser oldUser = this.userService.findById("1");
+//        final UserEntity oldUser = this.userService.findById("1");
 //        final boolean isValidate = this.userService.verifyPassword("admin123", oldUser.getUserPwd());
 //        System.out.println(isValidate);
 //    }
@@ -73,13 +73,13 @@
 //
 //    @Test
 //    public void detail() {
-//        final TUser user = this.userService.findById("1");
+//        final UserEntity user = this.userService.findById("1");
 //        System.out.println(user.getLoginName() + ", " + user.getUserName());
 //    }
 //
 //    @Test
 //    public void info() {
-//        TUser userDB = userService.findBy("account", "admin");
+//        UserEntity userDB = userService.findBy("account", "admin");
 //        System.out.println(userDB.getUserName());
 //    }
 //
@@ -105,13 +105,13 @@
 //        Example.Criteria criteria = condition.createCriteria();
 //        criteria.andEqualTo("account", account);
 //        criteria.andNotEqualTo("id", id);
-//        final List<TUser> list = userService.findByCondition(condition);
+//        final List<UserEntity> list = userService.findByCondition(condition);
 //        System.out.println(list.size());
 //    }
 //
 //    @Test
 //    public void resetPassword() {
-//        final TUser oldUser = this.userService.findById("86b5efd0ae9c45109cc9ea5d82f024f1");
+//        final UserEntity oldUser = this.userService.findById("86b5efd0ae9c45109cc9ea5d82f024f1");
 //        UserDTO resetUser = new UserDTO();
 //        resetUser.initUpdate();
 //        resetUser.setPassword(this.userService.encodePassword("222222"));

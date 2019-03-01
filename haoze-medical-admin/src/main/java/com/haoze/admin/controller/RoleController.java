@@ -3,7 +3,7 @@ package com.haoze.admin.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.haoze.admin.dto.system.RoleMenuDTO;
-import com.haoze.admin.model.TRole;
+import com.haoze.admin.model.RoleEntity;
 import com.haoze.admin.service.MenuService;
 import com.haoze.admin.service.RoleService;
 import com.haoze.common.response.Result;
@@ -38,7 +38,7 @@ public class RoleController {
     @ApiOperation(value = "增加角色", notes = "")
     @PostMapping
     public Result add(@RequestBody final RoleMenuDTO roleMenu) {
-        TRole role = new TRole();
+        RoleEntity role = new RoleEntity();
         role.setRoleCode("ROLE" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + (int)((Math.random()*9+1)*100000));
         role.setRoleName(roleMenu.getName());
         role.setWbCode(roleMenu.getWbCode());
@@ -79,7 +79,7 @@ public class RoleController {
 
     @ApiOperation(value = "更新角色", notes = "")
     @PutMapping
-    public Result update(@RequestBody final TRole role) {
+    public Result update(@RequestBody final RoleEntity role) {
         role.initUpdate();
         try {
             String code = ChineseCharactersCode.getPinyinCode(role.getRoleName());
@@ -99,33 +99,33 @@ public class RoleController {
                        @RequestParam(defaultValue = "0") final Integer size,
                        @RequestParam(defaultValue = "") final String queryString) {
         PageHelper.startPage(page, size);
-        Condition condition = new Condition(TRole.class);
+        Condition condition = new Condition(RoleEntity.class);
         Example.Criteria criteria = condition.createCriteria();
         if (StringUtil.isNotEmpty(queryString)) {
             criteria.andLike("roleName", "%" + queryString + "%")
                     .orLike("roleCode", "%" + queryString + "%")
                     .orEqualTo("stopFlag", queryString);
         }
-        final List<TRole> list = this.roleService.findByCondition(condition);
-        final PageInfo<TRole> pageInfo = new PageInfo<>(list);
+        final List<RoleEntity> list = this.roleService.findByCondition(condition);
+        final PageInfo<RoleEntity> pageInfo = new PageInfo<>(list);
         return ResultGenerator.genOkResult(pageInfo);
     }
 
     @ApiOperation(value = "角色名重复验证录入", notes = "")
     @PostMapping("hasName")
-    public Result getInfoByName(@RequestBody final TRole entity) {
+    public Result getInfoByName(@RequestBody final RoleEntity entity) {
         String name = entity.getRoleName();
         String id = entity.getTrId();
         if ("".equals(name)) {
             return ResultGenerator.genOkResult();
         }
-        Condition condition = new Condition(TRole.class);
+        Condition condition = new Condition(RoleEntity.class);
         Example.Criteria criteria = condition.createCriteria();
         criteria.andEqualTo("roleName", name);
         if (!"".equals(id)) {
             criteria.andNotEqualTo("trId", id);
         }
-        final List<TRole> list = roleService.findByCondition(condition);
+        final List<RoleEntity> list = roleService.findByCondition(condition);
         if (list.size() == 0) {
             return ResultGenerator.genOkResult();
         } else {
@@ -135,19 +135,19 @@ public class RoleController {
 
     @ApiOperation(value = "角色编码重复验证录入", notes = "")
     @PostMapping("hasCode")
-    public Result getInfoByCode(@RequestBody final TRole entity) {
+    public Result getInfoByCode(@RequestBody final RoleEntity entity) {
         String code = entity.getRoleCode();
         String id = entity.getTrId();
         if ("".equals(code)) {
             return ResultGenerator.genOkResult();
         }
-        Condition condition = new Condition(TRole.class);
+        Condition condition = new Condition(RoleEntity.class);
         Example.Criteria criteria = condition.createCriteria();
         criteria.andEqualTo("roleCode", code);
         if (!"".equals(id)) {
             criteria.andNotEqualTo("trId", id);
         }
-        final List<TRole> list = roleService.findByCondition(condition);
+        final List<RoleEntity> list = roleService.findByCondition(condition);
         if (list.size() == 0) {
             return ResultGenerator.genOkResult();
         } else {

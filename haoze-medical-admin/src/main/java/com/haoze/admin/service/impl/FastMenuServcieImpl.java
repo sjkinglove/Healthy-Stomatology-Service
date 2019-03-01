@@ -1,9 +1,7 @@
 package com.haoze.admin.service.impl;
 
 import com.haoze.admin.mapper.FastMenuMapper;
-import com.haoze.admin.mapper.MenuMapper;
-import com.haoze.admin.model.TFastMenu;
-import com.haoze.admin.model.TMenu;
+import com.haoze.admin.model.FastMenuEntity;
 import com.haoze.admin.service.FastMenuServcie;
 import com.haoze.common.service.AbstractService;
 import org.springframework.stereotype.Service;
@@ -19,13 +17,13 @@ import javax.annotation.Resource;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class FastMenuServcieImpl extends AbstractService<TFastMenu> implements FastMenuServcie {
+public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> implements FastMenuServcie {
     @Resource
     private FastMenuMapper fastMenuMapper;
 
     @Override
     public void deleteById(Object id) {
-        Condition condition = new Condition(TFastMenu.class);
+        Condition condition = new Condition(FastMenuEntity.class);
         Example.Criteria criteria = condition.createCriteria();
         criteria.andEqualTo("parentId", id);
         fastMenuMapper.deleteByCondition(condition);

@@ -1,11 +1,10 @@
 package com.haoze.admin.controller;
 
-import com.haoze.admin.model.TOrganization;
+import com.haoze.admin.model.OrganizationEntity;
 import com.haoze.admin.service.OrganizationService;
 import com.haoze.common.response.Result;
 import com.haoze.common.response.ResultGenerator;
 import com.haoze.common.utils.ChineseCharactersCode;
-import com.haoze.common.utils.UUIDUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
@@ -34,15 +33,15 @@ public class OrganizationController {
     @ApiOperation(value = "机构列表", notes = "")
     @GetMapping
     public Result list() {
-        Condition condition = new Condition(TOrganization.class);
+        Condition condition = new Condition(OrganizationEntity.class);
         Example.Criteria criteria = condition.createCriteria();
-        final List<TOrganization> list = organizationService.findByCondition(condition);
+        final List<OrganizationEntity> list = organizationService.findByCondition(condition);
         return ResultGenerator.genOkResult(list);
     }
 
     @ApiOperation(value = "组织机构新增", notes = "")
     @PostMapping
-    public Result add(@RequestBody @Valid final TOrganization entity,
+    public Result add(@RequestBody @Valid final OrganizationEntity entity,
                       final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             final String msg = bindingResult.getFieldError().getDefaultMessage();
@@ -60,7 +59,7 @@ public class OrganizationController {
 
     @ApiOperation(value = "编辑机构", notes = "")
     @PutMapping
-    public Result edit(@RequestBody @Valid final TOrganization entity,
+    public Result edit(@RequestBody @Valid final OrganizationEntity entity,
                        final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             final String msg = bindingResult.getFieldError().getDefaultMessage();
@@ -92,19 +91,19 @@ public class OrganizationController {
 
     @ApiOperation(value = "机构名存在验证", notes = "")
     @PostMapping("hasName")
-    public Result getInfoByName(@RequestBody final TOrganization entity) {
+    public Result getInfoByName(@RequestBody final OrganizationEntity entity) {
         String name = entity.getOrganizationName();
         String id = entity.getToId();
         if ("".equals(name)) {
             return ResultGenerator.genOkResult();
         }
-        Condition condition = new Condition(TOrganization.class);
+        Condition condition = new Condition(OrganizationEntity.class);
         Example.Criteria criteria = condition.createCriteria();
         criteria.andEqualTo("organizationName", name);
         if (!"".equals(id)) {
             criteria.andNotEqualTo("toId", id);
         }
-        final List<TOrganization> list = organizationService.findByCondition(condition);
+        final List<OrganizationEntity> list = organizationService.findByCondition(condition);
         if (list.size() == 0) {
             return ResultGenerator.genOkResult();
         } else {

@@ -1,23 +1,23 @@
 package com.haoze.admin.mapper;
 
-import com.haoze.admin.model.TFastMenu;
+import com.haoze.admin.model.FastMenuEntity;
 import com.haoze.common.mapper.MyMapper;
 
 import java.util.List;
 
-public interface FastMenuMapper extends MyMapper<TFastMenu> {
+public interface FastMenuMapper extends MyMapper<FastMenuEntity> {
     /**
      * 根据用户ID查询所有快捷通道
      * */
-    List<TFastMenu> listByUserId(String userId);
+    List<FastMenuEntity> listByUserId(String userId);
 
     /**
      * 新增快捷通道
      * */
-    void insertFastMenu(TFastMenu fastMenu);
+    void insertFastMenu(FastMenuEntity fastMenu);
 
     /**
      * 启用快捷通道
      * */
-    void clearFastMenu(TFastMenu fastMenu);
+    void clearFastMenu(FastMenuEntity fastMenu);
 }

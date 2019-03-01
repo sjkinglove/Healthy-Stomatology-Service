@@ -16,7 +16,7 @@ import java.util.Date;
  * @date 2019/2/27
  */
 @Table(name = "T_USER")
-public class TUser extends BaseEntity {
+public class UserEntity extends BaseEntity {
 
   @Id
   @Column(name = "TU_ID")

@@ -1,9 +1,9 @@
 package com.haoze.admin.service.impl;
 
 import com.haoze.admin.mapper.MenuMapper;
-import com.haoze.admin.model.TMenu;
+import com.haoze.admin.model.MenuEntity;
 
-import com.haoze.admin.model.TRoleMenu;
+import com.haoze.admin.model.RoleMenuEntity;
 import com.haoze.admin.service.MenuService;
 import com.haoze.common.service.AbstractService;
 import com.haoze.common.utils.ChineseCharactersCode;
@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class MenuServiceImpl extends AbstractService<TMenu> implements MenuService {
+public class MenuServiceImpl extends AbstractService<MenuEntity> implements MenuService {
     @Resource
     private MenuMapper menuMapper;
 
@@ -39,7 +39,7 @@ public class MenuServiceImpl extends AbstractService<TMenu> implements MenuServi
         if (menuIds!=null&&!"".equals(menuIds)) {
             String[] menuIdArr = menuIds.split(",");
             for (String id : menuIdArr) {
-                TRoleMenu entity = new TRoleMenu();
+                RoleMenuEntity entity = new RoleMenuEntity();
                 entity.initAdd();
                 entity.setTrmId(UUIDUtil.randomString());
                 entity.setTrId(roleId);
@@ -50,20 +50,20 @@ public class MenuServiceImpl extends AbstractService<TMenu> implements MenuServi
     }
 
     @Override
-    public void update(TMenu entity) {
+    public void update(MenuEntity entity) {
         int targetSort = new Integer(entity.getMenuSort());
         //查询该父节点下的排序
         int count = 1;
-        Condition condition = new Condition(TMenu.class);
+        Condition condition = new Condition(MenuEntity.class);
         condition.setOrderByClause("MENU_SORT desc");
         Example.Criteria criteria = condition.createCriteria();
         criteria.andEqualTo("parentMenuId", entity.getParentMenuId());
-        List<TMenu> sortList = menuMapper.selectByCondition(condition);
+        List<MenuEntity> sortList = menuMapper.selectByCondition(condition);
         if (sortList.size() > 0) {
             count = Integer.parseInt(sortList.get(0).getMenuSort());
         }
         // 查询原节点排序号
-        TMenu oldSort = menuMapper.selectByPrimaryKey(entity.getTmId());
+        MenuEntity oldSort = menuMapper.selectByPrimaryKey(entity.getTmId());
         int currentSortNo = Integer.parseInt(oldSort.getMenuSort());
 
         if (targetSort < 1) {
@@ -94,13 +94,13 @@ public class MenuServiceImpl extends AbstractService<TMenu> implements MenuServi
     }
 
     @Override
-    public List<TMenu> selectMenuByUserRole(String account) {
+    public List<MenuEntity> selectMenuByUserRole(String account) {
         return menuMapper.selectMenuByUserRole(account);
     }
 
     @Override
     public void deleteById(Object id) {
-        Condition condition = new Condition(TMenu.class);
+        Condition condition = new Condition(MenuEntity.class);
         Example.Criteria criteria = condition.createCriteria();
         criteria.andEqualTo("parentMenuId", id);
         menuMapper.deleteByCondition(condition);
