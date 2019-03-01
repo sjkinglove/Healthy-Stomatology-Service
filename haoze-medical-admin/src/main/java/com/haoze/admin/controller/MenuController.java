@@ -100,7 +100,7 @@ public class MenuController {
             Condition condition = new Condition(MenuEntity.class);
             condition.setOrderByClause("MENU_SORT desc");
             Example.Criteria criteria = condition.createCriteria();
-            criteria.andEqualTo("tmId", entity.getParentMenuId());
+            criteria.andEqualTo("parentMenuId", entity.getParentMenuId());
             List<MenuEntity> sortList = menuService.findByCondition(condition);
             int count = 1;
             if (sortList.size() > 0) {
