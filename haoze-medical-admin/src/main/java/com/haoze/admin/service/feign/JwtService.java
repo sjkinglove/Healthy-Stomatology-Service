@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(name = "api-base")
 public interface JwtService {
     @RequestMapping(value = "/jwt/getToken", method = RequestMethod.GET)
-    String getToken(@RequestParam("account") String account, @RequestParam("id") String id, @RequestParam("auth") String auth);
+    String getToken(@RequestParam("loginName") String account, @RequestParam("tuId") String id, @RequestParam("auth") String auth);
 
 }
