@@ -59,10 +59,10 @@ public class UserController {
             final String msg = bindingResult.getFieldError().getDefaultMessage();
             return ResultGenerator.genFailedResult(msg);
         } else {
-            user.setId(UUIDUtil.randomString());
+            user.setTuId(UUIDUtil.randomString());
             TUser userEntity = new TUser();
-            userEntity.setLoginName(user.getAccount());
-            userEntity.setTuId(user.getId());
+            userEntity.setLoginName(user.getLoginName());
+            userEntity.setTuId(user.getTuId());
             this.userService.saveUserAndRoleAndOrganizagion(user);
             return this.getToken(userEntity);
         }
@@ -103,7 +103,7 @@ public class UserController {
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         String account = request.getHeader("zuul_account");
 
-        criteria.andEqualTo("account", account);
+        criteria.andEqualTo("loginName", account);
         this.userService.updateByCondition(user, condition);
         return ResultGenerator.genOkResult();
     }
@@ -114,12 +114,12 @@ public class UserController {
         this.userService.updateUserAndRoleAndDept(user);
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         String account = request.getHeader("zuul_account");
-        return this.getToken(this.userService.findBy("loginName", user.getAccount()));
+        return this.getToken(this.userService.findBy("loginName", user.getLoginName()));
     }
 
     @ApiOperation(value = "根据ID进行账户验证", notes = "")
     @GetMapping("/{id}")
-    public Result detail(@PathVariable final Long id) {
+    public Result detail(@PathVariable final String id) {
         final TUser user = this.userService.findById(id);
         return ResultGenerator.genOkResult(user);
     }

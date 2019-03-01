@@ -45,7 +45,12 @@ public class RoleController {
         role.setPyCode(roleMenu.getPyCode());
         role.setRoleLevel(roleMenu.getGroupLevel());
         role.setTrId(UUIDUtil.randomString());
-        role.setStopFlag(roleMenu.getStopFlag());
+        if(roleMenu.getStopFlag()!=null&&!"".equals(roleMenu.getStopFlag())){
+            role.setStopFlag(roleMenu.getStopFlag());
+        }else{
+            role.setStopFlag("0");
+        }
+
         role.initAdd();
         try {
             String code = ChineseCharactersCode.getPinyinCode(role.getRoleName());
