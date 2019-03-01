@@ -95,7 +95,7 @@ public class OrganizationServiceImpl extends AbstractService<OrganizationEntity>
         Condition condition = new Condition(OrganizationEntity.class);
         condition.setOrderByClause("TO_SORT desc");
         Example.Criteria criteria = condition.createCriteria();
-        criteria.andEqualTo("toId", entity.getParentToId());
+        criteria.andEqualTo("parentToId", entity.getParentToId());
         List<OrganizationEntity> sortList = organizationMapper.selectByCondition(condition);
         int count = 1;
         if(sortList.size() > 0){
