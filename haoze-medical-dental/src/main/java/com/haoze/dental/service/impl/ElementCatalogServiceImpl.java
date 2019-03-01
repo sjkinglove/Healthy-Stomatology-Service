@@ -4,9 +4,10 @@ import com.haoze.common.response.Result;
 import com.haoze.common.response.ResultGenerator;
 import com.haoze.common.service.AbstractService;
 import com.haoze.common.utils.UUIDUtil;
-import com.haoze.repository.dao.ElementCatalogMapper;
-import com.haoze.repository.model.ElementCatalogEntity;
-import com.haoze.repository.service.ElementCatalogService;
+import com.haoze.dental.dao.ElementCatalogMapper;
+import com.haoze.dental.model.ElementCatalogEntity;
+import com.haoze.dental.service.ElementCatalogService;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

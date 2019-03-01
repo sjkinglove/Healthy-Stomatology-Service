@@ -1,9 +1,9 @@
 package com.haoze.dental.service.impl;
 
 import com.haoze.common.service.AbstractService;
-import com.haoze.repository.dao.ElementDataValueMapper;
-import com.haoze.repository.model.PrimaryValueEntity;
-import com.haoze.repository.service.ElementDataValueService;
+import com.haoze.dental.dao.ElementDataValueMapper;
+import com.haoze.dental.model.PrimaryValueEntity;
+import com.haoze.dental.service.ElementDataValueService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
