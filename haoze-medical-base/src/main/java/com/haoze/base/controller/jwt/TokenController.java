@@ -27,8 +27,8 @@ public class TokenController {
     }
 
     @GetMapping("/getToken")
-    public String getToken(@RequestParam("account") String account, @RequestParam("id") String id, @RequestParam("auth") String auth) {
-        System.out.println("获取token啊啊啊啊啊啊啊啊啊啊啊啊");
+    public String getToken(@RequestParam("loginName") String account, @RequestParam("tuId") String id, @RequestParam("auth") String auth) {
+        System.out.println("获取token");
         return jwtUtil.sign(account, id, auth);// jwtUtil中存入的userName其实是账号
     }
 }
