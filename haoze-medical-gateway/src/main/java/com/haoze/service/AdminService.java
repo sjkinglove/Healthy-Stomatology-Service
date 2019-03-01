@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "api-admin")
 public interface AdminService {
 
-    @GetMapping("/system/user/info/{account}")
-    TUser getInfo(@PathVariable("account") String account);
+    @GetMapping("/system/user/info/{loginName}")
+    TUser getInfo(@PathVariable("loginName") String account);
 }
