@@ -11,10 +11,10 @@ public interface RoleService extends Service<TRole> {
     /**
      * 根据角色ID停用该角色
      *
-     * @param trId 角色ID
+     * @param id 角色ID
      * @param stopFlag 停用标识
      */
-    void updateStopFlagById(String trId, String stopFlag);
+    void updateStopFlagById(String id, String stopFlag);
     /**
      * 根据角色ID统计角色对应菜单数
      *
