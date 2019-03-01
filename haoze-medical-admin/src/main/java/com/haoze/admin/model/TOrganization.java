@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class TOrganization extends BaseEntity {
 
   @Id
-  @Column(name = "TR_ID")
+  @Column(name = "TO_ID")
   private String toId;//机构ID
 
   @Column(name = "ORGANIZATION_CODE")
