@@ -36,7 +36,7 @@ public class MenuServiceImpl extends AbstractService<TMenu> implements MenuServi
     @Override
     public void saveRoleMenuRela(String roleId, String menuIds) {
         menuMapper.clearRoleMenuRela(roleId);
-        if (!"".equals(menuIds)) {
+        if (menuIds!=null&&!"".equals(menuIds)) {
             String[] menuIdArr = menuIds.split(",");
             for (String id : menuIdArr) {
                 TRoleMenu entity = new TRoleMenu();
