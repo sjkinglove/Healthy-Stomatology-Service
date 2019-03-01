@@ -100,9 +100,9 @@ public class OrganizationController {
         }
         Condition condition = new Condition(TOrganization.class);
         Example.Criteria criteria = condition.createCriteria();
-        criteria.andEqualTo("name", name);
+        criteria.andEqualTo("organizationName", name);
         if (!"".equals(id)) {
-            criteria.andNotEqualTo("id", id);
+            criteria.andNotEqualTo("toId", id);
         }
         final List<TOrganization> list = organizationService.findByCondition(condition);
         if (list.size() == 0) {
