@@ -52,7 +52,7 @@
         ORDER BY MENU_SORT
     </select>
 
-    <select id="countMenuRoleByMenuId" parameterType="int" resultType="String">
-        select count(1) from t_role_menu where TM_ID #{menuId,jdbcType=VARCHAR}
+    <select id="countMenuRoleByMenuId" parameterType="String" resultType="int">
+        select count(1) from t_role_menu where TM_ID=#{menuId,jdbcType=VARCHAR}
     </select>
 </mapper>
