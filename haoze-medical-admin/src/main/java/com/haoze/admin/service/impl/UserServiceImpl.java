@@ -91,23 +91,26 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
         userEntity.setImage(user.getImage());
         userMapper.updateByPrimaryKeySelective(userEntity);
 
-        //用户角色关系
-        userMapper.clearUserRoleRela(user.getTuId());
-        UserRoleEntity tur = new UserRoleEntity();
-        tur.initAdd();
-        tur.setTurId(UUIDUtil.randomString());
-        tur.setTuId(user.getTuId());
-        tur.setTrId(user.getRoleId());
-        userMapper.insertUserRoleRela(tur);
-
-        // 用户科室关系
-        userMapper.clearUserOrganizationRela(user.getTuId());
-        UserOrganizationEntity tuo = new UserOrganizationEntity();
-        tuo.initAdd();
-        tuo.setTuoId(UUIDUtil.randomString());
-        tuo.setTuId(user.getTuId());
-        tuo.setToId(user.getOrganizationId());
-        userMapper.insertUserOrganizationRela(tuo);
+        if(user.getRoleId()!=null){
+            //用户角色关系
+            userMapper.clearUserRoleRela(user.getTuId());
+            UserRoleEntity tur = new UserRoleEntity();
+            tur.initAdd();
+            tur.setTurId(UUIDUtil.randomString());
+            tur.setTuId(user.getTuId());
+            tur.setTrId(user.getRoleId());
+            userMapper.insertUserRoleRela(tur);
+        }
+        if(user.getOrganizationId()!=null){
+            // 用户科室关系
+            userMapper.clearUserOrganizationRela(user.getTuId());
+            UserOrganizationEntity tuo = new UserOrganizationEntity();
+            tuo.initAdd();
+            tuo.setTuoId(UUIDUtil.randomString());
+            tuo.setTuId(user.getTuId());
+            tuo.setToId(user.getOrganizationId());
+            userMapper.insertUserOrganizationRela(tuo);
+        }
     }
 
     @Override
