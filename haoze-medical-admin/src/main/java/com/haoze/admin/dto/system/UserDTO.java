@@ -5,11 +5,11 @@ import java.util.List;
 
 public class UserDTO {
 
-    private String id;
+    private String tuId;
 
     private String name;// 用户姓名
 
-    private String account;// 系统用户登录名
+    private String loginName;// 系统用户登录名
 
     private String password;// 用户密码
 
@@ -46,13 +46,6 @@ public class UserDTO {
     // 用户的角色对应的权限code
     private List<String> permissionCodeList;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -62,13 +55,6 @@ public class UserDTO {
         this.name = name;
     }
 
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
-    }
 
     public String getPassword() {
         return password;
@@ -200,5 +186,21 @@ public class UserDTO {
 
     public void setOrganizationIds(String organizationIds) {
         this.organizationIds = organizationIds;
+    }
+
+    public String getTuId() {
+        return tuId;
+    }
+
+    public void setTuId(String tuId) {
+        this.tuId = tuId;
+    }
+
+    public String getLoginName() {
+        return loginName;
+    }
+
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
     }
 }
