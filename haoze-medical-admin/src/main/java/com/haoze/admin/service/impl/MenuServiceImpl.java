@@ -57,7 +57,7 @@ public class MenuServiceImpl extends AbstractService<TMenu> implements MenuServi
         Condition condition = new Condition(TMenu.class);
         condition.setOrderByClause("MENU_SORT desc");
         Example.Criteria criteria = condition.createCriteria();
-        criteria.andEqualTo("parentId", entity.getParentMenuId());
+        criteria.andEqualTo("parentMenuId", entity.getParentMenuId());
         List<TMenu> sortList = menuMapper.selectByCondition(condition);
         if (sortList.size() > 0) {
             count = Integer.parseInt(sortList.get(0).getMenuSort());
@@ -102,7 +102,7 @@ public class MenuServiceImpl extends AbstractService<TMenu> implements MenuServi
     public void deleteById(Object id) {
         Condition condition = new Condition(TMenu.class);
         Example.Criteria criteria = condition.createCriteria();
-        criteria.andEqualTo("parentId", id);
+        criteria.andEqualTo("parentMenuId", id);
         menuMapper.deleteByCondition(condition);
         menuMapper.deleteByPrimaryKey(id);
     }
