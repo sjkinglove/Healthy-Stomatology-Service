@@ -47,8 +47,8 @@ public class UserServiceImpl extends AbstractService<TUser> implements UserServi
         } else {
             TUser tu = new TUser();
             tu.initAdd();
-            tu.setTuId(user.getId());
-            tu.setLoginName(user.getAccount());
+            tu.setTuId(user.getTuId());
+            tu.setLoginName(user.getLoginName());
             tu.setUserName(user.getName());
             tu.setLockFlag(user.getLockFlag());
             tu.setUserTypes(user.getUserTypes());
@@ -62,14 +62,14 @@ public class UserServiceImpl extends AbstractService<TUser> implements UserServi
             TUserRole tur = new TUserRole();
             tur.initAdd();
             tur.setTurId(UUIDUtil.randomString());
-            tur.setTuId(user.getId());
+            tur.setTuId(user.getTuId());
             tur.setTrId(user.getRoleId());
             userMapper.insertUserRoleRela(tur);
             // 用户机构关系
             TUserOrganization tuo = new TUserOrganization();
             tuo.initAdd();
             tuo.setTuoId(UUIDUtil.randomString());
-            tuo.setTuId(user.getId());
+            tuo.setTuId(user.getTuId());
             tuo.setToId(user.getOrganizationId());
             userMapper.insertUserOrganizationRela(tuo);
         }
@@ -81,8 +81,8 @@ public class UserServiceImpl extends AbstractService<TUser> implements UserServi
     @Override
     public void updateUserAndRoleAndDept(final UserDTO user) {
         TUser userEntity = new TUser();
-        userEntity.setTuId(user.getId());
-        userEntity.setLoginName(user.getAccount());
+        userEntity.setTuId(user.getTuId());
+        userEntity.setLoginName(user.getLoginName());
         userEntity.setUserName(user.getName());
         userEntity.setLockFlag(user.getLockFlag());
         userEntity.setUserTypes(user.getUserTypes());
@@ -92,20 +92,20 @@ public class UserServiceImpl extends AbstractService<TUser> implements UserServi
         userMapper.updateByPrimaryKeySelective(userEntity);
 
         //用户角色关系
-        userMapper.clearUserRoleRela(user.getId());
+        userMapper.clearUserRoleRela(user.getTuId());
         TUserRole tur = new TUserRole();
         tur.initAdd();
         tur.setTurId(UUIDUtil.randomString());
-        tur.setTuId(user.getId());
+        tur.setTuId(user.getTuId());
         tur.setTrId(user.getRoleId());
         userMapper.insertUserRoleRela(tur);
 
         // 用户科室关系
-        userMapper.clearUserOrganizationRela(user.getId());
+        userMapper.clearUserOrganizationRela(user.getTuId());
         TUserOrganization tuo = new TUserOrganization();
         tuo.initAdd();
         tuo.setTuoId(UUIDUtil.randomString());
-        tuo.setTuId(user.getId());
+        tuo.setTuId(user.getTuId());
         tuo.setToId(user.getOrganizationId());
         userMapper.insertUserOrganizationRela(tuo);
     }

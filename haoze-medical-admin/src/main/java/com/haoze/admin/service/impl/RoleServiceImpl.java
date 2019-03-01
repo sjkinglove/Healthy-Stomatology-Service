@@ -44,7 +44,7 @@ public class RoleServiceImpl extends AbstractService<TRole> implements RoleServi
             //删除子记录
             Condition condition = new Condition(TRoleMenu.class);
             Example.Criteria criteria = condition.createCriteria();
-            criteria.andEqualTo("roleId", idsArr[i]);
+            criteria.andEqualTo("trId", idsArr[i]);
             roleMenuRelaMapper.deleteByCondition(condition);
         }
         //删除主记录

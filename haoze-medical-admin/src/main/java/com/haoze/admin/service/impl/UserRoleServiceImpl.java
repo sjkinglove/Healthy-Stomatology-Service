@@ -23,9 +23,9 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public void updateUserRole(final UserDTO user) {
 
-        userRoleMapper.deleteByUserId(user.getId());
+        userRoleMapper.deleteByUserId(user.getTuId());
         final TUserRole e = new TUserRole();
-        e.setTurId(user.getId());
+        e.setTurId(user.getTuId());
         e.setTrId(user.getRoleId());
         userRoleMapper.insert(e);
     }
