@@ -19,6 +19,8 @@ import tk.mybatis.mapper.entity.Example;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -98,7 +100,7 @@ public class MenuController {
             Condition condition = new Condition(TMenu.class);
             condition.setOrderByClause("MENU_SORT desc");
             Example.Criteria criteria = condition.createCriteria();
-            criteria.andEqualTo("parentMenuId", entity.getParentMenuId());
+            criteria.andEqualTo("tmId", entity.getParentMenuId());
             List<TMenu> sortList = menuService.findByCondition(condition);
             int count = 1;
             if (sortList.size() > 0) {
@@ -111,6 +113,7 @@ public class MenuController {
             } catch (BadHanyuPinyinOutputFormatCombination e) {
                 e.printStackTrace();
             }
+            entity.setMenuCode("MENU" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + (int)((Math.random()*9+1)*100000));
             menuService.save(entity);
             return ResultGenerator.genOkResult("保存成功！");
         }
