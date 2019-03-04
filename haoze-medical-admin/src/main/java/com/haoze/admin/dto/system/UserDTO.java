@@ -48,6 +48,8 @@ public class UserDTO {
     // 用户的角色对应的权限code
     private List<String> permissionCodeList;
 
+    private String workNo;
+
 
     public String getName() {
         return name;
@@ -212,5 +214,13 @@ public class UserDTO {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getWorkNo() {
+        return workNo;
+    }
+
+    public void setWorkNo(String workNo) {
+        this.workNo = workNo;
     }
 }

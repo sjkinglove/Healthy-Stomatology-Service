@@ -52,7 +52,10 @@ public class UserEntity extends BaseEntity {
   private String onLine;//在线标识
 
   @Column(name = "IMAGE")
-  private String image;/// 图像文件标识
+  private String image;// 图像文件标识
+
+  @Column(name = "WORK_NO")
+  private String workNo;//工号
 
 
   public String getTuId() {
@@ -141,5 +144,13 @@ public class UserEntity extends BaseEntity {
 
   public void setPhone(String phone) {
     this.phone = phone;
+  }
+
+  public String getWorkNo() {
+    return workNo;
+  }
+
+  public void setWorkNo(String workNo) {
+    this.workNo = workNo;
   }
 }
