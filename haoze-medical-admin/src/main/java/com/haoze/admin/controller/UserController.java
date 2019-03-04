@@ -208,4 +208,21 @@ public class UserController {
             return ResultGenerator.genFailedResult("账号已存在");
         }
     }
+
+        @ApiOperation(value = "账户验证并返回信息", notes = "")
+        @GetMapping("/hasAccount/{account}")
+        public Result getInfoByAccountCase(@PathVariable final String account) {
+            if ("".equals(account)) {
+                return ResultGenerator.genOkResult();
+            }
+            Condition condition = new Condition(UserEntity.class);
+            Example.Criteria criteria = condition.createCriteria();
+            criteria.andEqualTo("loginName", account);
+            final List<UserEntity> list = userService.findByCondition(condition);
+            if (list.size() == 0) {
+                return ResultGenerator.genOkResult();
+            } else {
+                return ResultGenerator.genOkResult(list);
+            }
+    }
 }
