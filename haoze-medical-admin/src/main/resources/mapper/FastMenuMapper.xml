@@ -22,19 +22,6 @@
         update t_fast_menu set FAST_MENU_SORT=FAST_MENU_SORT-1 where FAST_MENU_SORT &gt;= #{fastMenuSort}
     </update>
 
-    <select id="selectMenuByUserRole" parameterType="String" resultType="com.haoze.admin.model.MenuEntity">
-        select m.TM_ID "tmId", m.GMT_CREATE "createTime", m.GMT_MODIFY "modifyTime", m.MENU_CODE "menuCode", m.MENU_NAME
-        "menuName",
-        m.PARENT_MENU_ID "parentMenuId", m.MENU_SORT "menuSort", m.PY_CODE "pyCode", m.WB_CODE "wbCode", m.MENU_URL "menuUrl",
-        m.MODEL_TYPE_FLAG "modelTypeFlag", m.MENU_PERMISSION "menuPermission" from t_user u
-        left join t_user_role ug on ug.tu_id = u.tu_id
-        left join t_role_menu gm on gm.tr_id = ug.tr_id
-        left join t_menu m on m.tm_id = gm.tm_id
-        where u.LOGIN_NAME = #{account,jdbcType=VARCHAR}
-        and DISPLAY_FLAG = 0 and MODEL_TYPE_FLAG in ('1','2')
-        ORDER BY MENU_SORT
-    </select>
-
     <select id="countMenuRoleByMenuId" parameterType="String" resultType="int">
         select count(1) from t_role_menu where TM_ID=#{menuId,jdbcType=VARCHAR}
     </select>
@@ -52,7 +39,7 @@
         tm.MENU_URL menuUrl
         from t_fast_menu tfm
         inner join t_menu tm on tfm.TM_ID = tm.TM_ID
-        where tfm.TU_ID = #{id}
+        where tfm.TU_ID = #{id} and tfm.OPEN_STATE = 1
         order by tfm.FAST_MENU_SORT asc,tfm.CLICK_NUM desc
     </select>
 </mapper>
