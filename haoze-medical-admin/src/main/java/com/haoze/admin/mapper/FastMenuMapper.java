@@ -1,5 +1,6 @@
 package com.haoze.admin.mapper;
 
+import com.haoze.admin.dto.system.FastMenuDTO;
 import com.haoze.admin.model.FastMenuEntity;
 import com.haoze.common.mapper.MyMapper;
 import org.apache.ibatis.annotations.Param;
@@ -18,6 +19,12 @@ public interface FastMenuMapper extends MyMapper<FastMenuEntity> {
     void insertFastMenu(FastMenuEntity fastMenu);
 
     /**
+     * 更新快捷通道
+     * */
+    void updateFastMenu(FastMenuEntity fastMenu);
+
+
+    /**
      * 快捷通道启用状态变更
      * */
     void updateStopFlagById(@Param("id") String id, @Param("stopFlag") String stopFlag);
@@ -25,4 +32,6 @@ public interface FastMenuMapper extends MyMapper<FastMenuEntity> {
     void updateSortNoForEnlarge(String sort);
 
     void updateSortNoForReduce(String sort);
+
+    List<FastMenuDTO> list(String id);
 }

@@ -2,24 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.haoze.admin.mapper.FastMenuMapper">
 
-    <select id="listByUserId" parameterType="String" resultType="String">
-        select m.tm_id from t_menu m
-        left join t_role_menu rm on m.TM_ID = rm.tm_id
-        where rm.TR_ID = #{_id}
-        and m.TM_ID not in (select m.PARENT_MENU_ID from t_menu m
-        left join t_role_menu rm on m.TM_ID = rm.TM_ID
-        where rm.TR_ID = #{_id})
-    </select>
-
-    <delete id="clearFastMenu" parameterType="String">
-        delete from t_fast_menu where TFM_ID = #{id}
-    </delete>
 
     <insert id="insertFastMenu" parameterType="com.haoze.admin.model.FastMenuEntity">
         insert into t_fast_menu (TFM_ID, DATA_VERSION, GMT_CREATE, GMT_MODIFY, TU_ID, TM_ID,FAST_MENU_NAME,FAST_MENU_SORT)
         values (#{tfmId,jdbcType=VARCHAR}, #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
         #{modifyTime,jdbcType=TIMESTAMP},#{tuId,jdbcType=VARCHAR}, #{tmId,jdbcType=VARCHAR}, #{fastMenuName,jdbcType=VARCHAR}, #{fastMenuSort,jdbcType=VARCHAR})
     </insert>
+
+    <update id="updateFastMenu" parameterType="com.haoze.admin.model.FastMenuEntity">
+        update t_fast_menu set GMT_MODIFY=#{modifyTime},FAST_MENU_SORT=#{fastMenuSort},FAST_MENU_NAME=#{fastMenuName},TM_ID=#{tmId}
+        where TFM_ID = #{tfmId}
+    </update>
 
     <update id="updateSortNoForEnlarge" parameterType="String">
         update t_fast_menu set FAST_MENU_SORT=FAST_MENU_SORT+1 where FAST_MENU_SORT &gt;= #{fastMenuSort}
@@ -44,5 +37,22 @@
 
     <select id="countMenuRoleByMenuId" parameterType="String" resultType="int">
         select count(1) from t_role_menu where TM_ID=#{menuId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="list" parameterType="String" resultType="com.haoze.admin.dto.system.FastMenuDTO">
+        select
+        tfm.FAST_MENU_NAME fastMenuName,
+        tfm.TFM_ID tfmId,
+        tfm.CLICK_NUM clickNum,
+        tfm.FAST_MENU_SORT fastMenuSort,
+        tfm.REMARK remark,
+        tfm.GMT_CREATE createTime,
+        tfm.GMT_MODIFY modifyTime,
+        tfm.DATA_VERSION dataVersion,
+        tm.MENU_URL menuUrl
+        from t_fast_menu tfm
+        inner join t_menu tm on tfm.TM_ID = tm.TM_ID
+        where tfm.TU_ID = #{id}
+        order by tfm.FAST_MENU_SORT asc,tfm.CLICK_NUM desc
     </select>
 </mapper>

@@ -4,6 +4,7 @@ import com.haoze.common.model.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * 快速通道实体
@@ -33,6 +34,9 @@ public class FastMenuEntity extends BaseEntity {
 
   @Column(name = "FAST_MENU_SORT")
   private String fastMenuSort;//快速菜单排序
+
+  @Column(name = "REMARK")
+  private String remark;//快速菜单排序
 
   public String getTfmId() {
     return tfmId;
@@ -96,6 +100,16 @@ public class FastMenuEntity extends BaseEntity {
     this.fastMenuSort = fastMenuSort;
   }
 
+  public void initUpdate(){
+    this.setModifyTime(new Date());
+  }
 
 
+  public String getRemark() {
+    return remark;
+  }
+
+  public void setRemark(String remark) {
+    this.remark = remark;
+  }
 }
