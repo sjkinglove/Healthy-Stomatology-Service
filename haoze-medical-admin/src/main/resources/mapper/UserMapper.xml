@@ -11,6 +11,15 @@
     </resultMap>
 
     <resultMap id="UserWithRoleMap" type="com.haoze.admin.dto.system.UserDTO" extends="UserMap">
+        <result column="tuId" jdbcType="VARCHAR" property="tuId"/>
+        <result column="loginName" jdbcType="VARCHAR" property="loginName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="lockFlag" jdbcType="VARCHAR" property="lockFlag"/>
+        <result column="userTypes" jdbcType="VARCHAR" property="userTypes"/>
+        <result column="endDate" jdbcType="VARCHAR" property="endDate"/>
+        <result column="userLine" jdbcType="VARCHAR" property="userLine"/>
+        <result column="image" jdbcType="VARCHAR" property="image"/>
         <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
         <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
         <result column="organization_id" jdbcType="VARCHAR" property="organizationId"/>
@@ -18,8 +27,8 @@
 
     <select id="findAllUserWithRole" resultMap="UserWithRoleMap">
         SELECT
-        u.TU_ID as id,
-        u.LOGIN_NAME as account,
+        u.TU_ID as tuId,
+        u.LOGIN_NAME as loginName,
         u.USER_PWD as password,
         u.USER_NAME as name,
         u.LOCK_FLAG as lockFlag,
@@ -51,8 +60,8 @@
 
     <select id="findDetailBy" resultMap="UserDetailMap">
         SELECT
-        u.TU_ID as id,
-        u.LOGIN_NAME as account,
+        u.TU_ID as tuId,
+        u.LOGIN_NAME as loginName,
         u.USER_PWD as password,
         u.USER_NAME as name,
         u.LOCK_FLAG as lockFlag,
