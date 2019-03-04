@@ -57,7 +57,7 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
             tu.setImage(user.getImage());
             tu.setUserPwd(this.passwordEncoder.encode("123123"));
             userMapper.insertSelective(tu);
-            if(user.getRoleId()!=null){
+            if(user.getRoleId()!=null&&!"".equals(user.getRoleId())){
                 //用户角色关系
                 UserRoleEntity tur = new UserRoleEntity();
                 tur.initAdd();
@@ -67,7 +67,7 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
                 userMapper.insertUserRoleRela(tur);
             }
 
-            if(user.getOrganizationId()!=null){
+            if(user.getOrganizationId()!=null&&!"".equals(user.getOrganizationId())){
                 // 用户机构关系
                 UserOrganizationEntity tuo = new UserOrganizationEntity();
                 tuo.initAdd();
@@ -92,7 +92,7 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
             u.setPhone(user.getPhone());
             u.setUserPwd(user.getPassword());
             userMapper.updateByPrimaryKey(u);
-            if(user.getRoleId()!=null){
+            if(user.getRoleId()!=null&&!"".equals(user.getRoleId())){
                 //用户角色关系
                 UserRoleEntity tur = new UserRoleEntity();
                 tur.initAdd();
@@ -102,7 +102,7 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
                 userMapper.insertUserRoleRela(tur);
             }
 
-            if(user.getOrganizationId()!=null){
+            if(user.getOrganizationId()!=null&&!"".equals(user.getOrganizationId())){
                 // 用户机构关系
                 UserOrganizationEntity tuo = new UserOrganizationEntity();
                 tuo.initAdd();
