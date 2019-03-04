@@ -39,16 +39,23 @@ public class RoleController {
     @PostMapping
     public Result add(@RequestBody final RoleMenuDTO roleMenu) {
         RoleEntity role = new RoleEntity();
+
         role.setRoleCode("ROLE" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + (int)((Math.random()*9+1)*100000));
+
         role.setRoleName(roleMenu.getName());
-        role.setWbCode(roleMenu.getWbCode());
-        role.setPyCode(roleMenu.getPyCode());
-        role.setRoleLevel(roleMenu.getGroupLevel());
+
+        role.setRoleLevel(roleMenu.getRoleLevel());
+
         role.setTrId(UUIDUtil.randomString());
+
         if(roleMenu.getStopFlag()!=null&&!"".equals(roleMenu.getStopFlag())){
+
             role.setStopFlag(roleMenu.getStopFlag());
+
         }else{
+
             role.setStopFlag("0");
+
         }
 
         role.initAdd();
