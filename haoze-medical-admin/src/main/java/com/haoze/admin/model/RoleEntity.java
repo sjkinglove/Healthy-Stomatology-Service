@@ -36,6 +36,9 @@ public class RoleEntity extends BaseEntity {
   @Column(name = "ROLE_LEVEL")
   private String roleLevel;//角色等级
 
+  @Column(name = "REMARK")
+  private String remark;//角色等级
+
 
   public String getTrId() {
     return trId;
@@ -96,5 +99,13 @@ public class RoleEntity extends BaseEntity {
 
   public void setRoleLevel(String roleLevel) {
     this.roleLevel = roleLevel;
+  }
+
+  public String getRemark() {
+    return remark;
+  }
+
+  public void setRemark(String remark) {
+    this.remark = remark;
   }
 }
