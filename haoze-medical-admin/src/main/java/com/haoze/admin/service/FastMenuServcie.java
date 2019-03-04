@@ -20,4 +20,7 @@ public interface FastMenuServcie extends Service<FastMenuEntity> {
     List<FastMenuEntity> listByQuery(FastMenuDTO entity);
 
     List<FastMenuDTO> list (String id);
+
+    void updateStopFlagById(String id, String openState);
+
 }

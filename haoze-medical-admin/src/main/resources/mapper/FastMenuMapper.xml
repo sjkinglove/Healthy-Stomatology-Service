@@ -39,7 +39,11 @@
         tm.MENU_URL menuUrl
         from t_fast_menu tfm
         inner join t_menu tm on tfm.TM_ID = tm.TM_ID
-        where tfm.TU_ID = #{id} and tfm.OPEN_STATE = 1
+        where tfm.TU_ID = #{id} and tfm.OPEN_STATE = 0
         order by tfm.FAST_MENU_SORT asc,tfm.CLICK_NUM desc
     </select>
+
+    <update id="updateStopFlagById" parameterType="String">
+        update t_fast_menu  set OPEN_STATE = #{openState,jdbcType=VARCHAR} where TFM_ID = #{id,jdbcType=VARCHAR}
+    </update>
 </mapper>

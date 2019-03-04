@@ -1,5 +1,6 @@
 package com.haoze.admin.controller;
 
+import com.haoze.admin.core.Status;
 import com.haoze.admin.dto.system.FastMenuDTO;
 import com.haoze.admin.model.FastMenuEntity;
 import com.haoze.admin.service.FastMenuServcie;
@@ -15,6 +16,10 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * @author shenjun
+ * @date 2019/3/4
+ */
 @RestController
 @RequestMapping("/system/fastmenu")
 @Validated
@@ -164,17 +169,25 @@ public class FastMenuController {
         }
     }
 
-//    /**
-//     * 修改启用状态
-//     *
-//     * @param id
-//     * @return
-//     */
-//    @ApiOperation(value = "修改启用状态", notes = "")
-//    @PutMapping
-//    public Result updateStopFlagById(@PathVariable final String id) {
-//        return null;
-//    }
+    /**
+     * 修改启用状态
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "停用", notes = "")
+    @PostMapping("/stopFastMenu")
+    public Result stopRole(@RequestBody String id) {
+        fastMenuServcie.updateStopFlagById(id, Status.CLOSE_FLAG.getValue());
+        return ResultGenerator.genOkResult("已停用");
+    }
+
+    @ApiOperation(value = "启用", notes = "")
+    @PostMapping("/startFastMenu")
+    public Result startRole(@RequestBody String id) {
+        fastMenuServcie.updateStopFlagById(id, Status.OPEN_FLAG.getValue());
+        return ResultGenerator.genOkResult("已启用");
+    }
 
     /**
      * 删除

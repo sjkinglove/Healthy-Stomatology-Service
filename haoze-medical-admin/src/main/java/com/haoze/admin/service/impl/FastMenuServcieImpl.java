@@ -25,25 +25,22 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
     @Resource
     private FastMenuMapper fastMenuMapper;
 
+    /**
+     * 根据IDs批量删除快速通道
+     * */
     @Override
     public void deleteByIds(String ids) {
 
         if (ids!=null&&!"".equals(ids)) {
-
             if(ids.contains("\'")||ids.contains("\"")){
-
                 fastMenuMapper.deleteByIds(ids);
-
             }else{
-
                 String[] idArry = ids.split(",");
 
                 StringBuffer sb = new StringBuffer();
 
                 for(String fastMenuId:idArry){
-
                    sb.append("\'").append(fastMenuId).append("\'").append(",");
-
                 }
                 //移除末尾逗号
                 sb.deleteCharAt(sb.length() - 1);
@@ -54,21 +51,27 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
 
     }
 
+    /**
+     * 根据userID获取快速通道
+     * */
     @Override
     public List<FastMenuEntity> listByUserId(String id) {
 
         Condition condition = new Condition(FastMenuEntity.class);
-
+        //按序号升序排列
         condition.setOrderByClause("FAST_MENU_SORT ASC");
 
         Example.Criteria criteria = condition.createCriteria();
-
+        //根据用户ID查询
         criteria.andEqualTo("tuId", id);
 
         final List<FastMenuEntity> list = fastMenuMapper.selectByCondition(condition);
         return list;
     }
 
+    /**
+     * 多条件查询快速通道
+     * */
     @Override
     public List<FastMenuEntity> listByQuery(FastMenuDTO entity) {
 
@@ -91,6 +94,9 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
         return list;
     }
 
+    /**
+     * 首页快速通道列表
+     * */
     @Override
     public List<FastMenuDTO> list(String id) {
 
@@ -100,27 +106,32 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
     }
 
     @Override
+    public void updateStopFlagById(String id, String stopFlag) {
+        fastMenuMapper.updateStopFlagById(id, stopFlag);
+    }
+
+    /**
+     * 保存
+     * */
+    @Override
     public void saveFastMenu(FastMenuEntity entity) {
-
-        fastMenuMapper.updateSortNoForEnlarge(entity.getFastMenuSort());//更新其他快速通道序号
-
-        entity.setClickNum(Integer.valueOf(Status.INIT_CLICK_NUM.getValue()));//点击次数初始设置为0
+        //更新其他快速通道序号
+        fastMenuMapper.updateSortNoForEnlarge(entity.getFastMenuSort());
+        //点击次数初始设置为0
+        entity.setClickNum(Integer.valueOf(Status.INIT_CLICK_NUM.getValue()));
 
         fastMenuMapper.insertFastMenu(entity);
     }
-
+    /**
+     * 更新
+     * */
     @Override
     public void updateFastMenu(FastMenuEntity entity) {
-
-        fastMenuMapper.updateSortNoForEnlarge(entity.getFastMenuSort());//更新其他快速通道序号
+        //更新其他快速通道序号
+        fastMenuMapper.updateSortNoForEnlarge(entity.getFastMenuSort());
 
         fastMenuMapper.updateFastMenu(entity);
     }
 
-    public void deleteById(String ids){
-
-        fastMenuMapper.deleteByIds(ids);
-
-    }
 
 }
