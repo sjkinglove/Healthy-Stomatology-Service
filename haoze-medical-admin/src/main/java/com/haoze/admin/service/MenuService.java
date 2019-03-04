@@ -14,4 +14,5 @@ public interface MenuService extends Service<MenuEntity> {
     List<MenuEntity> selectMenuByUserRole(String account);
 
     int countMenuRoleByMenuId(String menuId);
+
 }
