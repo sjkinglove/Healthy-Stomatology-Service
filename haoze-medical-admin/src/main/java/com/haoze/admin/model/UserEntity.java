@@ -36,6 +36,9 @@ public class UserEntity extends BaseEntity {
   @NotEmpty(message = "用户名不能为空")
   private String userName;//用户姓名
 
+  @Column(name = "PHONE")
+  private String phone;//电话
+
   @Column(name = "LOCK_FLAG")
   private String lockFlag;//锁定标识
 
@@ -132,4 +135,11 @@ public class UserEntity extends BaseEntity {
     this.image = image;
   }
 
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
 }
