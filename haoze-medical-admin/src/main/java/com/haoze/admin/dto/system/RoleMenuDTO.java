@@ -15,7 +15,7 @@ public class RoleMenuDTO {
 
     private String wbCode;// 五笔码
 
-    private String groupLevel; // 角色等级
+    private String roleLevel; // 角色等级
 
     private String menuIds;
 
@@ -67,19 +67,19 @@ public class RoleMenuDTO {
         this.wbCode = wbCode;
     }
 
-    public String getGroupLevel() {
-        return groupLevel;
-    }
-
-    public void setGroupLevel(String groupLevel) {
-        this.groupLevel = groupLevel;
-    }
-
     public String getMenuIds() {
         return menuIds;
     }
 
     public void setMenuIds(String menuIds) {
         this.menuIds = menuIds;
+    }
+
+    public String getRoleLevel() {
+        return roleLevel;
+    }
+
+    public void setRoleLevel(String roleLevel) {
+        this.roleLevel = roleLevel;
     }
 }
