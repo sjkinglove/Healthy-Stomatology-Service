@@ -49,13 +49,9 @@ public class RoleController {
         role.setTrId(UUIDUtil.randomString());
 
         if(roleMenu.getStopFlag()!=null&&!"".equals(roleMenu.getStopFlag())){
-
             role.setStopFlag(roleMenu.getStopFlag());
-
         }else{
-
             role.setStopFlag("0");
-
         }
 
         role.initAdd();
