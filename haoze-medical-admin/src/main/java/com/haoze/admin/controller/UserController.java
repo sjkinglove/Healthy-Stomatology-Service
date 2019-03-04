@@ -110,10 +110,10 @@ public class UserController {
     @ApiOperation(value = "更新用户信息", notes = "")
     @PutMapping
     public Result update(@RequestBody final UserDTO user) {
+
         this.userService.updateUserAndRoleAndDept(user);
-        HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-        String account = request.getHeader("zuul_account");
-        return this.getToken(this.userService.findBy("loginName", user.getLoginName()));
+
+        return this.getToken(this.userService.findBy("tuId", user.getTuId()));
     }
 
     @ApiOperation(value = "根据ID进行账户验证", notes = "")
