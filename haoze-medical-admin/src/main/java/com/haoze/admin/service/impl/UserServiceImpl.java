@@ -87,6 +87,11 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
     public void saveUserAndRoleAndOrganizagionCase(final UserDTO user) {
         UserEntity u = this.findBy("userName", user.getName());
         if (u != null) {
+            u.initUpdate();
+            u.setLockFlag(user.getLockFlag());
+            u.setPhone(user.getPhone());
+            u.setUserPwd(user.getPassword());
+            userMapper.updateByPrimaryKey(u);
             if(user.getRoleId()!=null){
                 //用户角色关系
                 UserRoleEntity tur = new UserRoleEntity();
@@ -109,7 +114,7 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
         } else {
             UserEntity tu = new UserEntity();
             tu.initAdd();
-            tu.setTuId(user.getTuId());
+            tu.setTuId(UUIDUtil.randomString());
             tu.setLoginName(user.getLoginName());
             tu.setUserName(user.getName());
             tu.setLockFlag(user.getLockFlag());
