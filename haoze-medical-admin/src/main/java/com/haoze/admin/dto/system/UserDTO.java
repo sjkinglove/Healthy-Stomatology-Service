@@ -27,6 +27,8 @@ public class UserDTO {
 
     private String dataVersion;//数据版本
 
+    private String phone;
+
     private Date createTime;
 
     private Date modifyTime;
@@ -202,5 +204,13 @@ public class UserDTO {
 
     public void setLoginName(String loginName) {
         this.loginName = loginName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
