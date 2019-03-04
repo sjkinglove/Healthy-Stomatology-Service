@@ -26,13 +26,13 @@ public class FastMenuDTO {
 
     private String dataVersion;//数据版本
 
-    private Date createTime;
+    private Date createTime;//创建时间
 
-    private Date modifyTime;
+    private Date modifyTime;//修改时间
 
-    private String remark;
+    private String remark;//备注
 
-    private String menuUrl;
+    private String menuUrl;//菜单地址
 
     public String getTfmId() {
         return tfmId;
