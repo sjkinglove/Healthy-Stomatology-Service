@@ -34,6 +34,8 @@ public class OrganizationDTO {
 
     private String phone;
 
+    private String userName;
+
 
     public String getToId() {
         return toId;
@@ -171,5 +173,13 @@ public class OrganizationDTO {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }
