@@ -130,6 +130,7 @@ public class UserController {
         return userDB;
     }
 
+    @ApiOperation(value = "查询所有", notes = "")
     @GetMapping
     public Result list(@RequestParam(defaultValue = "0") final Integer page,
                        @RequestParam(defaultValue = "0") final Integer size,
