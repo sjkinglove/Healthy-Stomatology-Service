@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoze.admin.mapper.FastMenuMapper">
+
+    <select id="listByUserId" parameterType="String" resultType="String">
+        select m.tm_id from t_menu m
+        left join t_role_menu rm on m.TM_ID = rm.tm_id
+        where rm.TR_ID = #{_id}
+        and m.TM_ID not in (select m.PARENT_MENU_ID from t_menu m
+        left join t_role_menu rm on m.TM_ID = rm.TM_ID
+        where rm.TR_ID = #{_id})
+    </select>
+
+    <delete id="clearFastMenu" parameterType="String">
+        delete from t_fast_menu where TFM_ID = #{id}
+    </delete>
+
+    <insert id="insertFastMenu" parameterType="com.haoze.admin.model.FastMenuEntity">
+        insert into t_fast_menu (TFM_ID, DATA_VERSION, GMT_CREATE, GMT_MODIFY, TU_ID, TM_ID,FAST_MENU_NAME,FAST_MENU_SORT)
+        values (#{tfmId,jdbcType=VARCHAR}, #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{modifyTime,jdbcType=TIMESTAMP},#{tuId,jdbcType=VARCHAR}, #{tmId,jdbcType=VARCHAR}, #{fastMenuName,jdbcType=VARCHAR}, #{fastMenuSort,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateSortNoForEnlarge" parameterType="String">
+        update t_fast_menu set FAST_MENU_SORT=FAST_MENU_SORT+1 where FAST_MENU_SORT &gt;= #{fastMenuSort}
+    </update>
+
+    <update id="updateSortNoForReduce" parameterType="java.util.Map">
+        update t_fast_menu set FAST_MENU_SORT=FAST_MENU_SORT-1 where FAST_MENU_SORT &gt;= #{fastMenuSort}
+    </update>
+
+    <select id="selectMenuByUserRole" parameterType="String" resultType="com.haoze.admin.model.MenuEntity">
+        select m.TM_ID "tmId", m.GMT_CREATE "createTime", m.GMT_MODIFY "modifyTime", m.MENU_CODE "menuCode", m.MENU_NAME
+        "menuName",
+        m.PARENT_MENU_ID "parentMenuId", m.MENU_SORT "menuSort", m.PY_CODE "pyCode", m.WB_CODE "wbCode", m.MENU_URL "menuUrl",
+        m.MODEL_TYPE_FLAG "modelTypeFlag", m.MENU_PERMISSION "menuPermission" from t_user u
+        left join t_user_role ug on ug.tu_id = u.tu_id
+        left join t_role_menu gm on gm.tr_id = ug.tr_id
+        left join t_menu m on m.tm_id = gm.tm_id
+        where u.LOGIN_NAME = #{account,jdbcType=VARCHAR}
+        and DISPLAY_FLAG = 0 and MODEL_TYPE_FLAG in ('1','2')
+        ORDER BY MENU_SORT
+    </select>
+
+    <select id="countMenuRoleByMenuId" parameterType="String" resultType="int">
+        select count(1) from t_role_menu where TM_ID=#{menuId,jdbcType=VARCHAR}
+    </select>
+</mapper>

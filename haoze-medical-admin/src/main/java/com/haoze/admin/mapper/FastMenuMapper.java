@@ -21,4 +21,8 @@ public interface FastMenuMapper extends MyMapper<FastMenuEntity> {
      * 快捷通道启用状态变更
      * */
     void updateStopFlagById(@Param("id") String id, @Param("stopFlag") String stopFlag);
+
+    void updateSortNoForEnlarge(String sort);
+
+    void updateSortNoForReduce(String sort);
 }
