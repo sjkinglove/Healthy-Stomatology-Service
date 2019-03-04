@@ -80,8 +80,11 @@ public class UserController {
     public Result validatePassword(@RequestBody final UserEntity user) {
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         String account = request.getHeader("zuul_account");
-        final UserEntity oldUser = this.userService.findBy("loginName", account);
-        final boolean isValidate = this.userService.verifyPassword(user.getLoginName(), oldUser.getUserPwd());
+        final UserEntity oldUser = this.userService.findBy("tuId", user.getTuId());
+        if(oldUser==null){
+            return ResultGenerator.genFailedResult("查无此账户");
+        }
+        final boolean isValidate = this.userService.verifyPassword(user.getUserPwd(), oldUser.getUserPwd());
         return ResultGenerator.genOkResult(isValidate);
     }
 
