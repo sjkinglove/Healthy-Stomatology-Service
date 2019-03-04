@@ -81,6 +81,68 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
     }
 
     /**
+     * 重写save方法，密码加密后再存
+     */
+    @Override
+    public void saveUserAndRoleAndOrganizagionCase(final UserDTO user) {
+        UserEntity u = this.findBy("userName", user.getName());
+        if (u != null) {
+            if(user.getRoleId()!=null){
+                //用户角色关系
+                UserRoleEntity tur = new UserRoleEntity();
+                tur.initAdd();
+                tur.setTurId(UUIDUtil.randomString());
+                tur.setTuId(user.getTuId());
+                tur.setTrId(user.getRoleId());
+                userMapper.insertUserRoleRela(tur);
+            }
+
+            if(user.getOrganizationId()!=null){
+                // 用户机构关系
+                UserOrganizationEntity tuo = new UserOrganizationEntity();
+                tuo.initAdd();
+                tuo.setTuoId(UUIDUtil.randomString());
+                tuo.setTuId(user.getTuId());
+                tuo.setToId(user.getOrganizationId());
+                userMapper.insertUserOrganizationRela(tuo);
+            }
+        } else {
+            UserEntity tu = new UserEntity();
+            tu.initAdd();
+            tu.setTuId(user.getTuId());
+            tu.setLoginName(user.getLoginName());
+            tu.setUserName(user.getName());
+            tu.setLockFlag(user.getLockFlag());
+            tu.setUserTypes(user.getUserTypes());
+            tu.setEndDate(user.getEndDate());
+            tu.setOnLine(user.getUserLine());
+            tu.setImage(user.getImage());
+            tu.setUserPwd(user.getPassword());
+            userMapper.insertSelective(tu);
+            if(user.getRoleId()!=null){
+                //用户角色关系
+                UserRoleEntity tur = new UserRoleEntity();
+                tur.initAdd();
+                tur.setTurId(UUIDUtil.randomString());
+                tur.setTuId(user.getTuId());
+                tur.setTrId(user.getRoleId());
+                userMapper.insertUserRoleRela(tur);
+            }
+
+            if(user.getOrganizationId()!=null){
+                // 用户机构关系
+                UserOrganizationEntity tuo = new UserOrganizationEntity();
+                tuo.initAdd();
+                tuo.setTuoId(UUIDUtil.randomString());
+                tuo.setTuId(user.getTuId());
+                tuo.setToId(user.getOrganizationId());
+                userMapper.insertUserOrganizationRela(tuo);
+            }
+
+        }
+    }
+
+    /**
      * 重写update方法
      */
     @Override

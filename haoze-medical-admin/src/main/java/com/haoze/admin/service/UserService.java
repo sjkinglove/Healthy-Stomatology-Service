@@ -42,11 +42,18 @@ public interface UserService extends Service<UserEntity> {
     String encodePassword(String password);
 
     /**
-     * 按条件查询用户信息
+     * 保存用户信息关联角色和机构
      *
      * @param user 列名
      */
     void saveUserAndRoleAndOrganizagion(UserDTO user);
+
+    /**
+     * 保存用户信息关联角色和机构
+     *
+     * @param user 列名
+     */
+    void saveUserAndRoleAndOrganizagionCase(UserDTO user);
 
     /**
      * 按条件查询用户信息
@@ -54,4 +61,6 @@ public interface UserService extends Service<UserEntity> {
      * @param user 列名
      */
     void updateUserAndRoleAndDept(UserDTO user);
+
+
 }
