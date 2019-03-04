@@ -18,7 +18,7 @@ spring:
   application:
     name: api-dental
   datasource:
-    url: jdbc:mysql://localhost:3306/medical?serverTimezone=GMT%2B8&useSSL=false
+    url: jdbc:mysql://172.30.2.92:3306/medical?serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
