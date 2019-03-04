@@ -2,7 +2,7 @@ package com.haoze.admin.core;
 
 public enum Status {
     SCUUESS("1", "成功"), FAILED("2", "失败"),
-    INIT_CLICK_NUM("0","归零");
+    INIT_CLICK_NUM("0","归零"),DEFAULT_PASSWORD("123123","默认密码");
 
     private String value;
     private String desc;

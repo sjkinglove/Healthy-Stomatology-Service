@@ -1,7 +1,12 @@
 package com.haoze.admin.controller;
 
+import com.haoze.admin.core.Status;
+import com.haoze.admin.dto.system.OrganizationDTO;
+import com.haoze.admin.dto.system.UserDTO;
 import com.haoze.admin.model.OrganizationEntity;
+import com.haoze.admin.model.UserEntity;
 import com.haoze.admin.service.OrganizationService;
+import com.haoze.admin.service.UserService;
 import com.haoze.common.response.Result;
 import com.haoze.common.response.ResultGenerator;
 import com.haoze.common.utils.ChineseCharactersCode;
@@ -30,6 +35,10 @@ public class OrganizationController {
     @Resource
     private OrganizationService organizationService;
 
+    @Resource
+    private UserService userService;
+
+
     @ApiOperation(value = "机构列表", notes = "")
     @GetMapping
     public Result list() {
@@ -41,13 +50,28 @@ public class OrganizationController {
 
     @ApiOperation(value = "组织机构新增", notes = "")
     @PostMapping
-    public Result add(@RequestBody @Valid final OrganizationEntity entity,
+    public Result add(@RequestBody @Valid final OrganizationDTO entity,
                       final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             final String msg = bindingResult.getFieldError().getDefaultMessage();
             return ResultGenerator.genFailedResult(msg);
         } else {
-            organizationService.save(entity);
+            OrganizationEntity organizationEntity =new OrganizationEntity();
+            organizationEntity.setOrganizationName(entity.getOrganizationName());
+            organizationEntity.setOrganizationAddress(entity.getOrganizationAddress());
+            organizationEntity.setOrganizationClass(entity.getOrganizationClass());
+            organizationEntity.setOrganizationClassId(entity.getOrganizationClassId());
+            organizationEntity.setParentToId(entity.getParentToId());
+
+            organizationService.save(organizationEntity);
+
+            UserDTO userDTO = new UserDTO();
+            userDTO.setLoginName(entity.getLoginName());//用户名
+            userDTO.setPhone(entity.getPhone());//电话
+            userDTO.setPassword(Status.DEFAULT_PASSWORD.getValue());//默认密码
+            userService.saveUserAndRoleAndOrganizagionCase(userDTO);
+
+
             return ResultGenerator.genOkResult("保存成功！");
         }
     }
