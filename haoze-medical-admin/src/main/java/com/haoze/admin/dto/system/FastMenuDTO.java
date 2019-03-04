@@ -1,5 +1,7 @@
 package com.haoze.admin.dto.system;
 
+import java.util.Date;
+
 /**
  * 快速通道实体
  * @author shenjun
@@ -21,6 +23,16 @@ public class FastMenuDTO {
     private double clickNum;//点击次数
 
     private String fastMenuSort;//快速菜单排序
+
+    private String dataVersion;//数据版本
+
+    private Date createTime;
+
+    private Date modifyTime;
+
+    private String remark;
+
+    private String menuUrl;
 
     public String getTfmId() {
         return tfmId;
@@ -84,6 +96,53 @@ public class FastMenuDTO {
         this.fastMenuSort = fastMenuSort;
     }
 
+    public String getDataVersion() {
+        return dataVersion;
+    }
 
+    public void setDataVersion(String dataVersion) {
+        this.dataVersion = dataVersion;
+    }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
+    public void initUpdate(){
+        this.setModifyTime(new Date());
+    }
+
+    public void initAdd() {
+        this.setDataVersion("1.0");
+        this.setCreateTime(new Date());
+        this.setModifyTime(new Date());
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getMenuUrl() {
+        return menuUrl;
+    }
+
+    public void setMenuUrl(String menuUrl) {
+        this.menuUrl = menuUrl;
+    }
 }
