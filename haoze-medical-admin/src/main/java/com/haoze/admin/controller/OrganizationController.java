@@ -21,6 +21,8 @@ import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -45,7 +47,35 @@ public class OrganizationController {
         Condition condition = new Condition(OrganizationEntity.class);
         Example.Criteria criteria = condition.createCriteria();
         final List<OrganizationEntity> list = organizationService.findByCondition(condition);
-        return ResultGenerator.genOkResult(list);
+
+        List<OrganizationDTO> newList= new ArrayList<OrganizationDTO>();
+
+        for(OrganizationEntity organizationEntity : list){
+            OrganizationDTO organizationDTO = new OrganizationDTO();
+            organizationDTO.setOrganizationClass(organizationEntity.getOrganizationClass());
+            organizationDTO.setOrganizationAddress(organizationEntity.getOrganizationAddress());
+            organizationDTO.setOrganizationCode(organizationEntity.getOrganizationCode());
+            organizationDTO.setOrganizationName(organizationEntity.getOrganizationName());
+            organizationDTO.setPyCode(organizationEntity.getPyCode());
+            organizationDTO.setWbCode(organizationEntity.getWbCode());
+            organizationDTO.setStopFlag(organizationEntity.getStopFlag());
+            organizationDTO.setParentToId(organizationEntity.getParentToId());
+            organizationDTO.setToSort(organizationEntity.getToSort());
+
+            List<UserDTO> userDTOList = userService.findManageUserByToId(organizationEntity.getToId());
+            HashMap<String,String> map = new HashMap<String ,String >();
+
+            for(UserDTO userDTO : userDTOList){
+                map.put(userDTO.getName(),userDTO.getTuId());
+            }
+
+            organizationDTO.setNameAndIdMap(map);
+
+            newList.add(organizationDTO);
+
+        }
+
+        return ResultGenerator.genOkResult(newList);
     }
 
     @ApiOperation(value = "组织机构新增", notes = "")
