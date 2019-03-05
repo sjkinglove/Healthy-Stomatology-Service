@@ -111,7 +111,7 @@ public class OrganizationController {
             userDTO.setLoginName(entity.getLoginName());//用户名
             userDTO.setPhone(entity.getPhone());//电话
             userDTO.setPassword(Status.DEFAULT_PASSWORD.getValue());//默认密码
-            userDTO.setName(entity.getUserName());//用户名
+            userDTO.setName(entity.getName());//用户名
             userService.saveUserAndRoleAndOrganizagionCase(userDTO);
 
 
