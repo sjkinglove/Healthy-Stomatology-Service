@@ -76,7 +76,7 @@
         LEFT JOIN t_role r ON ur.TR_ID = r.TR_ID
         LEFT JOIN t_user_organization ud ON u.TU_ID = ud.TU_ID
         WHERE ud.TO_ID = #{toId,jdbcType=VARCHAR}
-        AND r.role_code in ("E01","E02","E03")
+        AND r.role_code in ("M01","M02","M03")
     </select>
 
     <select id="findUserRelWithLoginName" parameterType="String" resultMap="UserWithRoleMap">
