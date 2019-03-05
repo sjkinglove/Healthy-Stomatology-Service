@@ -208,7 +208,7 @@ public class UserController {
         if (list.size() == 0) {
             return ResultGenerator.genOkResult();
         } else {
-            return ResultGenerator.genFailedResult("账号已存在");
+            return ResultGenerator.genOkResult("账号已存在");
         }
     }
 
