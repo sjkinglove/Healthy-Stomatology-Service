@@ -20,6 +20,13 @@ public interface UserMapper extends MyMapper<UserEntity> {
      * @return 用户列表
      */
     List<UserDTO> findAllUserWithRole(@Param("queryString") String queryString);
+
+    /**
+     * 获取机构管理员列表
+     *
+     * @return 用户列表
+     */
+    List<UserDTO> findManageUserByToId(String toId);
     /**
      * 获取用户关联信息
      *

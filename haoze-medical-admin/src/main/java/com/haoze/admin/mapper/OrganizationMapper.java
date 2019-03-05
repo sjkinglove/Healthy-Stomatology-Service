@@ -5,6 +5,7 @@ import com.haoze.admin.model.OrganizationEntity;
 import com.haoze.common.mapper.MyMapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,4 +21,5 @@ public interface OrganizationMapper extends MyMapper<OrganizationEntity> {
     int countUserOrganizationByToId(@Param("toId") String toId);
 
     String test();
+
 }
