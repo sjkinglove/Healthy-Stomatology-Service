@@ -38,8 +38,6 @@ public class OrganizationDTO {
 
     private String phone;
 
-    private String userName;//管理员名
-
     private String name;//管理员名
 
 
@@ -182,13 +180,8 @@ public class OrganizationDTO {
         this.phone = phone;
     }
 
-    public String getUserName() {
-        return userName;
-    }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+
 
 
     public String getName() {
