@@ -133,7 +133,7 @@ public class UserController {
         return userDB;
     }
 
-    @ApiOperation(value = "查询所有", notes = "")
+    @ApiOperation(value = "条件查询查询(账号，用户名模糊查询)", notes = "")
     @GetMapping
     public Result list(@RequestParam(defaultValue = "0") final Integer page,
                        @RequestParam(defaultValue = "0") final Integer size,
