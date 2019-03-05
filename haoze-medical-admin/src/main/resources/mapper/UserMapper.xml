@@ -45,8 +45,8 @@
         LEFT JOIN t_user_organization ud ON u.TU_ID = ud.TU_ID
         <where>
             <if test="queryString != null and queryString != ''">
-                and (u.user_name like '%'||#{queryString,jdbcType=VARCHAR}||'%' or u.login_name like
-                '%'||#{queryString,jdbcType=VARCHAR}||'%')
+                and (u.user_name like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%') or u.login_name like
+                CONCAT('%',#{queryString,jdbcType=VARCHAR},'%') )
             </if>
         </where>
     </select>
