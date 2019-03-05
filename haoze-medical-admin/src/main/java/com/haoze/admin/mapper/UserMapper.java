@@ -64,7 +64,7 @@ public interface UserMapper extends MyMapper<UserEntity> {
     void clearUserRoleRela(String userId);
 
     /**
-     * 保存角色用户关系
+     * 清除用户机构关联关系
      *
      * @param userId
      */
