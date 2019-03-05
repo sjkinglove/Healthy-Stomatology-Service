@@ -90,6 +90,9 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
             u.initUpdate();
             u.setLockFlag(user.getLockFlag());
             u.setPhone(user.getPhone());
+            u.setWorkNo(user.getWorkNo());
+            u.setLoginName(user.getLoginName());
+            u.setUserName(user.getName());
             u.setUserPwd(user.getPassword());
             userMapper.updateByPrimaryKey(u);
             if(user.getRoleId()!=null&&!"".equals(user.getRoleId())){
@@ -121,6 +124,7 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
             tu.setTuId(UUIDUtil.randomString());
             tu.setLoginName(user.getLoginName());
             tu.setUserName(user.getName());
+            tu.setWorkNo(user.getWorkNo());
             tu.setLockFlag(user.getLockFlag());
             tu.setUserTypes(user.getUserTypes());
             tu.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse(Status.FAULT_END_DATE.getValue()));
