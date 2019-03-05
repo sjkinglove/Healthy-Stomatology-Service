@@ -67,13 +67,13 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
                 userMapper.insertUserRoleRela(tur);
             }
 
-            if(user.getOrganizationId()!=null&&!"".equals(user.getOrganizationId())){
+            if(user.getToId()!=null&&!"".equals(user.getToId())){
                 // 用户机构关系
                 UserOrganizationEntity tuo = new UserOrganizationEntity();
                 tuo.initAdd();
                 tuo.setTuoId(UUIDUtil.randomString());
                 tuo.setTuId(user.getTuId());
-                tuo.setToId(user.getOrganizationId());
+                tuo.setToId(user.getToId());
                 userMapper.insertUserOrganizationRela(tuo);
             }
 
@@ -102,13 +102,13 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
                 userMapper.insertUserRoleRela(tur);
             }
 
-            if(user.getOrganizationId()!=null&&!"".equals(user.getOrganizationId())){
+            if(user.getToId()!=null&&!"".equals(user.getToId())){
                 // 用户机构关系
                 UserOrganizationEntity tuo = new UserOrganizationEntity();
                 tuo.initAdd();
                 tuo.setTuoId(UUIDUtil.randomString());
                 tuo.setTuId(user.getTuId());
-                tuo.setToId(user.getOrganizationId());
+                tuo.setToId(user.getToId());
                 userMapper.insertUserOrganizationRela(tuo);
             }
         } else {
@@ -134,13 +134,13 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
                 userMapper.insertUserRoleRela(tur);
             }
 
-            if(user.getOrganizationId()!=null&&!"".equals(user.getOrganizationId())){
+            if(user.getToId()!=null&&!"".equals(user.getToId())){
                 // 用户机构关系
                 UserOrganizationEntity tuo = new UserOrganizationEntity();
                 tuo.initAdd();
                 tuo.setTuoId(UUIDUtil.randomString());
                 tuo.setTuId(user.getTuId());
-                tuo.setToId(user.getOrganizationId());
+                tuo.setToId(user.getToId());
                 userMapper.insertUserOrganizationRela(tuo);
             }
 
@@ -173,14 +173,14 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
             tur.setTrId(user.getRoleId());
             userMapper.insertUserRoleRela(tur);
         }
-        if(user.getOrganizationId()!=null){
+        if(user.getToId()!=null){
             // 用户科室关系
             userMapper.clearUserOrganizationRela(user.getTuId());
             UserOrganizationEntity tuo = new UserOrganizationEntity();
             tuo.initAdd();
             tuo.setTuoId(UUIDUtil.randomString());
             tuo.setTuId(user.getTuId());
-            tuo.setToId(user.getOrganizationId());
+            tuo.setToId(user.getToId());
             userMapper.insertUserOrganizationRela(tuo);
         }
     }
@@ -190,7 +190,7 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
         List<UserDTO> list = this.userMapper.findAllUserWithRole(queryString);
         for (UserDTO e : list) {
             List<String> idsList = new ArrayList<>();
-            idsList.add(e.getOrganizationId());
+            idsList.add(e.getToId());
             String ids = getParentDepartmentId(idsList);
             e.setOrganizationIds(ids);
         }
