@@ -7,6 +7,7 @@ import com.haoze.admin.mapper.FastMenuMapper;
 import com.haoze.admin.mapper.UserMapper;
 import com.haoze.admin.model.FastMenuEntity;
 import com.haoze.admin.service.FastMenuServcie;
+import com.haoze.common.exception.ServiceException;
 import com.haoze.common.service.AbstractService;
 import com.haoze.common.utils.HttpContextUtils;
 import org.springframework.stereotype.Service;
@@ -70,7 +71,7 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
         condition.setOrderByClause("FAST_MENU_SORT ASC");
 
         Example.Criteria criteria = condition.createCriteria();
-        //根据用户ID查询
+        //根据角色ID查询
         criteria.andEqualTo("trId", id);
 
         final List<FastMenuEntity> list = fastMenuMapper.selectByCondition(condition);
@@ -131,10 +132,16 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         String account = request.getHeader("zuul_account");
         UserDTO userDTO = userMapper.findUserRelWithLoginName(account);
-        //保存用户所在机构ID
-        entity.setToId(userDTO.getToId());
 
-        fastMenuMapper.insertFastMenu(entity);
+        if(userDTO != null){
+            //保存用户所在机构ID
+            entity.setToId(userDTO.getToId());
+
+            fastMenuMapper.insertFastMenu(entity);
+        }else{
+            throw new ServiceException("不能获取所在机构");
+        }
+
     }
     /**
      * 更新

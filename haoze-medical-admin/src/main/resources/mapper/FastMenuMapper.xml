@@ -4,7 +4,7 @@
 
 
     <insert id="insertFastMenu" parameterType="com.haoze.admin.model.FastMenuEntity">
-        insert into t_fast_menu (TFM_ID, DATA_VERSION, GMT_CREATE, GMT_MODIFY, TU_ID, TM_ID,FAST_MENU_NAME,FAST_MENU_SORT)
+        insert into t_fast_menu (TFM_ID, DATA_VERSION, GMT_CREATE, GMT_MODIFY, TR_ID, TM_ID,FAST_MENU_NAME,FAST_MENU_SORT)
         values (#{tfmId,jdbcType=VARCHAR}, #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
         #{modifyTime,jdbcType=TIMESTAMP},#{tuId,jdbcType=VARCHAR}, #{tmId,jdbcType=VARCHAR}, #{fastMenuName,jdbcType=VARCHAR}, #{fastMenuSort,jdbcType=VARCHAR})
     </insert>
