@@ -62,6 +62,7 @@ public class OrganizationController {
             organizationDTO.setParentToId(organizationEntity.getParentToId());
             organizationDTO.setToSort(organizationEntity.getToSort());
             organizationDTO.setToId(organizationEntity.getToId());
+            organizationDTO.setParentToName(organizationEntity.getParentToName());
 
             List<UserDTO> userDTOList = userService.findManageUserByToId(organizationEntity.getToId());
             StringBuffer sbName = new StringBuffer();

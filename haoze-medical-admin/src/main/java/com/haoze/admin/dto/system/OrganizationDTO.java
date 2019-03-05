@@ -24,6 +24,8 @@ public class OrganizationDTO {
 
     private String parentToId;//上级机构ID
 
+    private String parentToName;//上级机构名
+
     private String toSort;//排序
 
     private String loginName;//登录名
@@ -195,5 +197,13 @@ public class OrganizationDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getParentToName() {
+        return parentToName;
+    }
+
+    public void setParentToName(String parentToName) {
+        this.parentToName = parentToName;
     }
 }

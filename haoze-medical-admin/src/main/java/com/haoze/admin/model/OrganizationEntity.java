@@ -45,6 +45,9 @@ public class OrganizationEntity extends BaseEntity {
   @Column(name = "PARENT_TO_ID")
   private String parentToId;//上级机构ID
 
+  @Column(name = "PARENT_TO_NAME")
+  private String parentToName;//上级机构名
+
   @Column(name = "TO_SORT")
   private String toSort;//排序
 
@@ -147,4 +150,11 @@ public class OrganizationEntity extends BaseEntity {
     this.toSort = toSort;
   }
 
+  public String getParentToName() {
+    return parentToName;
+  }
+
+  public void setParentToName(String parentToName) {
+    this.parentToName = parentToName;
+  }
 }
