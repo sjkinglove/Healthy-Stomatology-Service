@@ -20,8 +20,11 @@ public class FastMenuEntity extends BaseEntity {
   @Column(name = "TM_ID")
   private String tmId;//菜单ID
 
-  @Column(name = "TU_ID")
-  private String tuId;//用户ID
+  @Column(name = "TR_ID")
+  private String trId;//角色ID
+
+  @Column(name = "TO_ID")
+  private String toId;//快速菜单排序
 
   @Column(name = "FAST_MENU_NAME")
   private String fastMenuName;//快速菜单名
@@ -55,14 +58,6 @@ public class FastMenuEntity extends BaseEntity {
     this.tmId = tmId;
   }
 
-
-  public String getTuId() {
-    return tuId;
-  }
-
-  public void setTuId(String tuId) {
-    this.tuId = tuId;
-  }
 
 
   public String getFastMenuName() {
@@ -111,5 +106,21 @@ public class FastMenuEntity extends BaseEntity {
 
   public void setRemark(String remark) {
     this.remark = remark;
+  }
+
+  public String getTrId() {
+    return trId;
+  }
+
+  public void setTrId(String trId) {
+    this.trId = trId;
+  }
+
+  public String getToId() {
+    return toId;
+  }
+
+  public void setToId(String toId) {
+    this.toId = toId;
   }
 }

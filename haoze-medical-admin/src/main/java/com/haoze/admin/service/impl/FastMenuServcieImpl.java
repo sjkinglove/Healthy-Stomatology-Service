@@ -2,17 +2,23 @@ package com.haoze.admin.service.impl;
 
 import com.haoze.admin.core.Status;
 import com.haoze.admin.dto.system.FastMenuDTO;
+import com.haoze.admin.dto.system.UserDTO;
 import com.haoze.admin.mapper.FastMenuMapper;
+import com.haoze.admin.mapper.UserMapper;
 import com.haoze.admin.model.FastMenuEntity;
 import com.haoze.admin.service.FastMenuServcie;
 import com.haoze.common.service.AbstractService;
+import com.haoze.common.utils.HttpContextUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author shenjun
@@ -24,6 +30,8 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
 
     @Resource
     private FastMenuMapper fastMenuMapper;
+    @Resource
+    private UserMapper userMapper;
 
     /**
      * 根据IDs批量删除快速通道
@@ -52,10 +60,10 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
     }
 
     /**
-     * 根据userID获取快速通道
+     * 根据roleID获取快速通道
      * */
     @Override
-    public List<FastMenuEntity> listByUserId(String id) {
+    public List<FastMenuEntity> listByRoleId(String id) {
 
         Condition condition = new Condition(FastMenuEntity.class);
         //按序号升序排列
@@ -63,7 +71,7 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
 
         Example.Criteria criteria = condition.createCriteria();
         //根据用户ID查询
-        criteria.andEqualTo("tuId", id);
+        criteria.andEqualTo("trId", id);
 
         final List<FastMenuEntity> list = fastMenuMapper.selectByCondition(condition);
         return list;
@@ -81,7 +89,7 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
 
         Example.Criteria criteria = condition.createCriteria();
 
-        criteria.andEqualTo("tuId", entity.getTuId());
+        criteria.andEqualTo("trId", entity.getTrId());
         //查询条件fastMenuName快捷通道名
         if(entity.getFastMenuName()!=null){criteria.andEqualTo("fastMenuName", "%"+entity.getFastMenuName()+"%");}
         //查询条件fastMenuSort序号
@@ -119,6 +127,12 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
         fastMenuMapper.updateSortNoForEnlarge(entity.getFastMenuSort());
         //点击次数初始设置为0
         entity.setClickNum(Integer.valueOf(Status.INIT_CLICK_NUM.getValue()));
+        //根据用户名获取账号
+        HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
+        String account = request.getHeader("zuul_account");
+        UserDTO userDTO = userMapper.findUserRelWithLoginName(account);
+        //保存用户所在机构ID
+        entity.setToId(userDTO.getToId());
 
         fastMenuMapper.insertFastMenu(entity);
     }
@@ -129,6 +143,8 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
     public void updateFastMenu(FastMenuEntity entity) {
         //更新其他快速通道序号
         fastMenuMapper.updateSortNoForEnlarge(entity.getFastMenuSort());
+
+        fastMenuMapper.updateSortNoForReduce(entity.getFastMenuSort());
 
         fastMenuMapper.updateFastMenu(entity);
     }

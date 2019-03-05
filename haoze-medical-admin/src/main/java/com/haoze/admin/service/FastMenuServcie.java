@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface FastMenuServcie extends Service<FastMenuEntity> {
 
-    List<FastMenuEntity> listByUserId(String id);
+    List<FastMenuEntity> listByRoleId(String id);
 
     void saveFastMenu(FastMenuEntity entity);
 

@@ -33,7 +33,9 @@ public interface FastMenuMapper extends MyMapper<FastMenuEntity> {
      * 快捷通道序号加一
      * */
     void updateSortNoForEnlarge(String sort);
-
+    /**
+     * 快捷通道序号减一
+     * */
     void updateSortNoForReduce(String sort);
 
     /**

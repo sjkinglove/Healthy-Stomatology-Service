@@ -6,6 +6,7 @@ import com.haoze.admin.model.FastMenuEntity;
 import com.haoze.admin.service.FastMenuServcie;
 import com.haoze.common.response.Result;
 import com.haoze.common.response.ResultGenerator;
+import com.haoze.common.utils.HttpContextUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -36,11 +38,11 @@ public class FastMenuController {
      * @author shenjun
      * @date 2019/3/4
      */
-    @ApiOperation(value = "获取用户所有快捷通道", notes = "")
+    @ApiOperation(value = "获取角色所有快捷通道", notes = "")
     @GetMapping("listByUserId/{id}")
     public Result listByUserId(@PathVariable final String id) {
 
-        final List<FastMenuEntity> list = fastMenuServcie.listByUserId(id);
+        final List<FastMenuEntity> list = fastMenuServcie.listByRoleId(id);
 
         return ResultGenerator.genOkResult(list);
     }
@@ -115,6 +117,8 @@ public class FastMenuController {
             }else{
                 return ResultGenerator.genFailedResult("异常");
             }
+
+
 
             fastMenuServcie.saveFastMenu(fastMenuEntity);
 
