@@ -19,7 +19,7 @@
         </where>
     </update>
 
-    <select id="selectrOrganizationNameByToId" parameterType="String" resultType="int">
+    <select id="selectrOrganizationNameByToId" parameterType="String" resultType="String">
         select organization_name from t_organization where to_id = #{toId,jdbcType=VARCHAR}
     </select>
 
