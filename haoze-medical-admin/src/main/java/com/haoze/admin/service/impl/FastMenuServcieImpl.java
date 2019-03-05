@@ -120,12 +120,14 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
     }
 
     /**
-     * 保存
+     * 保存新增
      * */
     @Override
     public void saveFastMenu(FastMenuEntity entity) {
         //更新其他快速通道序号
-        fastMenuMapper.updateSortNoForEnlarge(entity.getFastMenuSort());
+        Map<String, Object> map = new HashMap<>();
+        map.put("targetSortNo", entity.getFastMenuSort());
+        fastMenuMapper.updateSortNoForEnlarge(map);
         //点击次数初始设置为0
         entity.setClickNum(Integer.valueOf(Status.INIT_CLICK_NUM.getValue()));
         //根据用户名获取账号
@@ -148,10 +150,19 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
      * */
     @Override
     public void updateFastMenu(FastMenuEntity entity) {
-        //更新其他快速通道序号
-        fastMenuMapper.updateSortNoForEnlarge(entity.getFastMenuSort());
 
-        fastMenuMapper.updateSortNoForReduce(entity.getFastMenuSort());
+        int targetSortNo = Integer.valueOf(entity.getFastMenuSort());
+        int currentSortNo = Integer.valueOf(fastMenuMapper.getFastMenuSortById(entity.getTfmId()));
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("targetSortNo", entity.getFastMenuSort());
+        map.put("currentSortNo", currentSortNo);
+        //更新其他快速通道序号
+        if(targetSortNo > currentSortNo){
+            fastMenuMapper.updateSortNoForReduce(map);
+        }else if(targetSortNo < currentSortNo){
+            fastMenuMapper.updateSortNoForEnlarge(map);
+        }
 
         fastMenuMapper.updateFastMenu(entity);
     }

@@ -6,6 +6,7 @@ import com.haoze.common.mapper.MyMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface FastMenuMapper extends MyMapper<FastMenuEntity> {
     /**
@@ -32,16 +33,23 @@ public interface FastMenuMapper extends MyMapper<FastMenuEntity> {
     /**
      * 快捷通道序号加一
      * */
-    void updateSortNoForEnlarge(String sort);
+    void updateSortNoForEnlarge(Map<String, Object> map);
     /**
      * 快捷通道序号减一
      * */
-    void updateSortNoForReduce(String sort);
+    void updateSortNoForReduce(Map<String, Object> map);
 
     /**
      * 首页快速通道列表接口
      * */
     List<FastMenuDTO> list(String id);
+
+    /**
+     * 根据快速菜单ID获取序号
+     * */
+    String getFastMenuSortById(String id);
+
+
 
 
 }

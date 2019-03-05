@@ -14,13 +14,25 @@
         where TFM_ID = #{tfmId}
     </update>
 
-    <update id="updateSortNoForEnlarge" parameterType="String">
-        update t_fast_menu set FAST_MENU_SORT=FAST_MENU_SORT+1 where FAST_MENU_SORT &gt;= #{fastMenuSort}
+    <update id="updateSortNoForEnlarge" parameterType="java.util.Map">
+        update t_fast_menu set FAST_MENU_SORT=FAST_MENU_SORT+1
+        <where>
+            <if test="targetSortNo != null and targetSortNo != ''">and TO_SORT &gt;= #{targetSortNo}</if>
+            <if test="currentSortNo != null and currentSortNo != ''">and TO_SORT &lt; #{currentSortNo}</if>
+        </where>
     </update>
 
     <update id="updateSortNoForReduce" parameterType="java.util.Map">
-        update t_fast_menu set FAST_MENU_SORT=FAST_MENU_SORT-1 where FAST_MENU_SORT &gt;= #{fastMenuSort}
+        update t_fast_menu set FAST_MENU_SORT=FAST_MENU_SORT-1
+        <where>
+            <if test="currentSortNo != null and currentSortNo != ''">and TO_SORT &gt; #{currentSortNo}</if>
+            <if test="targetSortNo != null and targetSortNo != ''">and TO_SORT &lt;= #{targetSortNo}</if>
+        </where>
     </update>
+
+    <select id="getFastMenuSortById" parameterType="String" resultType="String">
+        select FAST_MENU_SORT from t_fast_menu where TFM_ID=#{id,jdbcType=VARCHAR}
+    </select>
 
     <select id="countMenuRoleByMenuId" parameterType="String" resultType="int">
         select count(1) from t_role_menu where TM_ID=#{menuId,jdbcType=VARCHAR}
