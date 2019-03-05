@@ -18,6 +18,8 @@ public interface UserService extends Service<UserEntity> {
      */
     List<UserDTO> findAllUserWithRole(String queryString);
 
+    List<UserDTO> findManageUserByToId(String toId);
+
     /**
      * 按条件查询用户信息
      *

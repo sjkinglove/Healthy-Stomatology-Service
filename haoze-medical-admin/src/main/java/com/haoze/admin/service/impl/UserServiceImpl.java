@@ -196,6 +196,12 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
         }
         return list;
     }
+    @Override
+    public List<UserDTO> findManageUserByToId(String toId){
+        List<UserDTO> list = this.userMapper.findManageUserByToId(toId);
+
+        return list;
+    }
 
     public String getParentDepartmentId(List<String> list) {
         String id = list.get(0);
