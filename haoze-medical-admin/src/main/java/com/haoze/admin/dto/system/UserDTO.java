@@ -13,7 +13,7 @@ public class UserDTO {
 
     private String password;// 用户密码
 
-    private String organizationId;// 机构ID
+    private String toId;// 机构ID
 
     private String lockFlag;// 锁定标识
 
@@ -176,14 +176,6 @@ public class UserDTO {
         this.setModifyTime(new Date());
     }
 
-    public String getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId;
-    }
-
     public String getOrganizationIds() {
         return organizationIds;
     }
@@ -222,5 +214,13 @@ public class UserDTO {
 
     public void setWorkNo(String workNo) {
         this.workNo = workNo;
+    }
+
+    public String getToId() {
+        return toId;
+    }
+
+    public void setToId(String toId) {
+        this.toId = toId;
     }
 }
