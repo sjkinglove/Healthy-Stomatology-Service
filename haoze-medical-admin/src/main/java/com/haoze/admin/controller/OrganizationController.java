@@ -61,6 +61,7 @@ public class OrganizationController {
             organizationDTO.setStopFlag(organizationEntity.getStopFlag());
             organizationDTO.setParentToId(organizationEntity.getParentToId());
             organizationDTO.setToSort(organizationEntity.getToSort());
+            organizationDTO.setToId(organizationEntity.getToId());
 
             List<UserDTO> userDTOList = userService.findManageUserByToId(organizationEntity.getToId());
             HashMap<String,String> map = new HashMap<String ,String >();
