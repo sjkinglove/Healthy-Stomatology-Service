@@ -22,7 +22,7 @@
         <result column="image" jdbcType="VARCHAR" property="image"/>
         <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
         <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
-        <result column="organization_id" jdbcType="VARCHAR" property="organizationId"/>
+        <result column="organization_id" jdbcType="VARCHAR" property="toId"/>
     </resultMap>
 
     <select id="findAllUserWithRole" resultMap="UserWithRoleMap">
