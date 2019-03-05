@@ -1,5 +1,6 @@
 package com.haoze.admin.service.impl;
 
+import com.haoze.admin.core.Status;
 import com.haoze.admin.dto.system.UserDTO;
 import com.haoze.admin.mapper.UserMapper;
 import com.haoze.admin.model.UserEntity;
@@ -14,10 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author shenjun
@@ -84,7 +84,7 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
      * 重写save方法，密码加密后再存
      */
     @Override
-    public void saveUserAndRoleAndOrganizagionCase(final UserDTO user) {
+    public void saveUserAndRoleAndOrganizagionCase(final UserDTO user) throws ParseException {
         UserEntity u = this.findBy("userName", user.getName());
         if (u != null) {
             u.initUpdate();
@@ -93,21 +93,25 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
             u.setUserPwd(user.getPassword());
             userMapper.updateByPrimaryKey(u);
             if(user.getRoleId()!=null&&!"".equals(user.getRoleId())){
+                //清除关联关系
+                userMapper.clearUserRoleRela(user.getTuId());
                 //用户角色关系
                 UserRoleEntity tur = new UserRoleEntity();
                 tur.initAdd();
                 tur.setTurId(UUIDUtil.randomString());
-                tur.setTuId(user.getTuId());
+                tur.setTuId(u.getTuId());
                 tur.setTrId(user.getRoleId());
                 userMapper.insertUserRoleRela(tur);
             }
 
             if(user.getToId()!=null&&!"".equals(user.getToId())){
+                //清除关联关系
+                userMapper.clearUserOrganizationRela(user.getTuId());
                 // 用户机构关系
                 UserOrganizationEntity tuo = new UserOrganizationEntity();
                 tuo.initAdd();
                 tuo.setTuoId(UUIDUtil.randomString());
-                tuo.setTuId(user.getTuId());
+                tuo.setTuId(u.getTuId());
                 tuo.setToId(user.getToId());
                 userMapper.insertUserOrganizationRela(tuo);
             }
@@ -119,17 +123,20 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
             tu.setUserName(user.getName());
             tu.setLockFlag(user.getLockFlag());
             tu.setUserTypes(user.getUserTypes());
-            tu.setEndDate(user.getEndDate());
+            tu.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse(Status.FAULT_END_DATE.getValue()));
+
             tu.setOnLine(user.getUserLine());
             tu.setImage(user.getImage());
             tu.setUserPwd(user.getPassword());
+            tu.setPhone(user.getPhone());
+
             userMapper.insertSelective(tu);
             if(user.getRoleId()!=null&&!"".equals(user.getRoleId())){
                 //用户角色关系
                 UserRoleEntity tur = new UserRoleEntity();
                 tur.initAdd();
                 tur.setTurId(UUIDUtil.randomString());
-                tur.setTuId(user.getTuId());
+                tur.setTuId(tu.getTuId());
                 tur.setTrId(user.getRoleId());
                 userMapper.insertUserRoleRela(tur);
             }
@@ -139,7 +146,7 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
                 UserOrganizationEntity tuo = new UserOrganizationEntity();
                 tuo.initAdd();
                 tuo.setTuoId(UUIDUtil.randomString());
-                tuo.setTuId(user.getTuId());
+                tuo.setTuId(tu.getTuId());
                 tuo.setToId(user.getToId());
                 userMapper.insertUserOrganizationRela(tuo);
             }

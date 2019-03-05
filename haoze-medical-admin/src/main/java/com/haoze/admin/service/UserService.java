@@ -4,6 +4,7 @@ import com.haoze.admin.dto.system.UserDTO;
 import com.haoze.admin.model.UserEntity;
 import com.haoze.common.service.Service;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -55,7 +56,7 @@ public interface UserService extends Service<UserEntity> {
      *
      * @param user 列名
      */
-    void saveUserAndRoleAndOrganizagionCase(UserDTO user);
+    void saveUserAndRoleAndOrganizagionCase(UserDTO user) throws ParseException;
 
     /**
      * 按条件查询用户信息
