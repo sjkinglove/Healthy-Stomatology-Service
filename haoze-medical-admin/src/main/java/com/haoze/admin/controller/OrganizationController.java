@@ -67,16 +67,21 @@ public class OrganizationController {
             StringBuffer sbName = new StringBuffer();
             StringBuffer sbPhone = new StringBuffer();
 
-            for(UserDTO userDTO : userDTOList){
-                sbName.append(userDTO.getName()).append(",");
-                sbPhone.append(userDTO.getPhone()).append(",");
-            }
-            sbName.deleteCharAt(sbName.length() - 1);
-            sbPhone.deleteCharAt(sbPhone.length() - 1);
-            organizationDTO.setName(sbName.toString());
-            organizationDTO.setPhone(sbPhone.toString());
+            if(userDTOList!=null && userDTOList.size() != 0){
+                for(UserDTO userDTO : userDTOList){
+                    sbName.append(userDTO.getName()).append(",");
+                    sbPhone.append(userDTO.getPhone()).append(",");
+                }
+                sbName.deleteCharAt(sbName.length() - 1);
+                sbPhone.deleteCharAt(sbPhone.length() - 1);
+                organizationDTO.setName(sbName.toString());
+                organizationDTO.setPhone(sbPhone.toString());
 
-            newList.add(organizationDTO);
+                newList.add(organizationDTO);
+            }else{
+                newList.add(organizationDTO);
+            }
+
 
         }
 
