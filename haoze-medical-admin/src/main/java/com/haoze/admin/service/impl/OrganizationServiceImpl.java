@@ -90,7 +90,11 @@ public class OrganizationServiceImpl extends AbstractService<OrganizationEntity>
         entity.initAdd();
         if(entity.getParentToId() == null){
             entity.setParentToId("0");
+            entity.setParentToName("系统管理员");
+        }else{
+            entity.setParentToName(organizationMapper.selectrOrganizationNameByToId(entity.getParentToId()));
         }
+
         //查询该父节点下的排序
         Condition condition = new Condition(OrganizationEntity.class);
         condition.setOrderByClause("TO_SORT desc");

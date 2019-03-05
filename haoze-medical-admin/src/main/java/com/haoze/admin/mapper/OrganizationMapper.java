@@ -20,6 +20,8 @@ public interface OrganizationMapper extends MyMapper<OrganizationEntity> {
 
     int countUserOrganizationByToId(@Param("toId") String toId);
 
+    String selectrOrganizationNameByToId(@Param("toId") String toId);
+
     String test();
 
 }

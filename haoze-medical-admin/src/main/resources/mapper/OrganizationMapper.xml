@@ -19,6 +19,10 @@
         </where>
     </update>
 
+    <select id="selectrOrganizationNameByToId" parameterType="String" resultType="int">
+        select organization_name from t_user_organization where to_id = #{toId,jdbcType=VARCHAR}
+    </select>
+
     <select id="countUserOrganizationByToId" parameterType="String" resultType="int">
         select count(1) from t_user_organization where to_id = #{toId,jdbcType=VARCHAR}
     </select>
