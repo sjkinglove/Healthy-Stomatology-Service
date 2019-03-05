@@ -150,8 +150,9 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
      * */
     @Override
     public void updateFastMenu(FastMenuEntity entity) {
-
+        //目标序号
         int targetSortNo = Integer.valueOf(entity.getFastMenuSort());
+        //当前序号
         int currentSortNo = Integer.valueOf(fastMenuMapper.getFastMenuSortById(entity.getTfmId()));
 
         Map<String, Object> map = new HashMap<>();
