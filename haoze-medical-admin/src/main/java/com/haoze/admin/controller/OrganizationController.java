@@ -64,13 +64,17 @@ public class OrganizationController {
             organizationDTO.setToId(organizationEntity.getToId());
 
             List<UserDTO> userDTOList = userService.findManageUserByToId(organizationEntity.getToId());
-            HashMap<String,String> map = new HashMap<String ,String >();
+            StringBuffer sbName = new StringBuffer();
+            StringBuffer sbPhone = new StringBuffer();
 
             for(UserDTO userDTO : userDTOList){
-                map.put(userDTO.getName(),userDTO.getPhone());
+                sbName.append(userDTO.getName()).append(",");
+                sbPhone.append(userDTO.getPhone()).append(",");
             }
-
-            organizationDTO.setNameAndPhoneMap(map);
+            sbName.deleteCharAt(sbName.length() - 1);
+            sbPhone.deleteCharAt(sbPhone.length() - 1);
+            organizationDTO.setName(sbName.toString());
+            organizationDTO.setPhone(sbPhone.toString());
 
             newList.add(organizationDTO);
 

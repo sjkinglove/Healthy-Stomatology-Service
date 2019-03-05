@@ -38,7 +38,8 @@ public class OrganizationDTO {
 
     private String userName;//管理员名
 
-    private HashMap<String,String> NameAndPhoneMap;//管理员名，管理员ID
+    private String name;//管理员名
+
 
 
     public String getToId() {
@@ -187,11 +188,12 @@ public class OrganizationDTO {
         this.userName = userName;
     }
 
-    public HashMap<String, String> getNameAndPhoneMap() {
-        return NameAndPhoneMap;
+
+    public String getName() {
+        return name;
     }
 
-    public void setNameAndPhoneMap(HashMap<String, String> nameAndPhoneMap) {
-        NameAndPhoneMap = nameAndPhoneMap;
+    public void setName(String name) {
+        this.name = name;
     }
 }
