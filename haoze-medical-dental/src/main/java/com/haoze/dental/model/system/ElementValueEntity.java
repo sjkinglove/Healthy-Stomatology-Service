@@ -1,47 +1,58 @@
-package com.haoze.dental.dto;
+package com.haoze.dental.model.system;
 
 
 
-import com.haoze.dental.model.system.PrimaryValueEntity;
-
-
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author zj
  * @date 2018/12/6
  */
+@Table(name = "SYS_PRIMARY_DATA")
+public class ElementValueEntity {
 
-public class ElementValueDTO {
-
+    @Id
+    @Column(name = "PRIMARYDATA_ID")
     private String primaryDataId;
 
+    @Column(name = "DATA_VERSION")
     private String dataVersion;// 数据版本
 
+    @Column(name = "GMT_CREATE")
     private Date gmtCreate;// 数据创建时间
 
+    @Column(name = "GMT_MODIFY")
     private Date gmtModify;// 数据最后修改时间
 
+    @Column(name = "HOSPITAL_ID")
     private String hospitalId;// 医疗机构
 
+    @Column(name = "PRIMARY_DATA_CODE")
     private String primaryDataCode;// 目录代码
 
+    @Column(name = "PRIMARY_DATA_NAME")
     private String primaryDataName;// 名称
 
+    @Column(name = "RANGE_CODE")
     private String rangeCode; // 排序
 
+    @Column(name = "IDENTIFICATION_FLAG")
     private String identificationFlag;// 上级ID
 
+    @Column(name = "DATA_VIEW_TYPE")
     private String dataViewType;// 关联数据元ID
 
+    @Column(name = "PY_CODE")
     private String pyCode;// 类型
 
+    @Column(name = "WB_CODE")
     private String wbCode;// 类型
 
+    @Column(name = "STOP_FLAG")
     private String stopFlag;// 停用标志
-
-    private List<PrimaryValueEntity> valueList;
 
     public String getPrimaryDataId() {
         return primaryDataId;
@@ -137,14 +148,6 @@ public class ElementValueDTO {
 
     public void setWbCode(String wbCode) {
         this.wbCode = wbCode;
-    }
-
-    public List<PrimaryValueEntity> getValueList() {
-        return valueList;
-    }
-
-    public void setValueList(List<PrimaryValueEntity> valueList) {
-        this.valueList = valueList;
     }
 
     public String getStopFlag() {

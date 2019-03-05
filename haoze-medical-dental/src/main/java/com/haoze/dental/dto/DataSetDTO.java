@@ -1,7 +1,7 @@
 package com.haoze.dental.dto;
 
-import com.haoze.dental.model.DataSetDetailEntity;
-import com.haoze.dental.model.DataSetEntity;
+import com.haoze.dental.model.system.DataSetDetailEntity;
+import com.haoze.dental.model.system.DataSetEntity;
 
 
 import java.util.List;
