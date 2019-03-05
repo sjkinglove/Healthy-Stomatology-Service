@@ -39,7 +39,7 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
      * */
     @Override
     public void deleteByIds(String ids) {
-
+        //判断拼接字符串有没有加引号
         if (ids!=null&&!"".equals(ids)) {
             if(ids.contains("\'")||ids.contains("\"")){
                 fastMenuMapper.deleteByIds(ids);
@@ -168,6 +168,5 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
 
         fastMenuMapper.updateFastMenu(entity);
     }
-
 
 }
