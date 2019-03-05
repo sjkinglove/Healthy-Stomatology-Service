@@ -3,6 +3,7 @@ package com.haoze.admin.controller;
 import com.haoze.admin.core.Status;
 import com.haoze.admin.dto.system.FastMenuDTO;
 import com.haoze.admin.model.FastMenuEntity;
+import com.haoze.admin.model.MenuEntity;
 import com.haoze.admin.service.FastMenuServcie;
 import com.haoze.common.response.Result;
 import com.haoze.common.response.ResultGenerator;
@@ -12,6 +13,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import tk.mybatis.mapper.entity.Condition;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -80,6 +83,26 @@ public class FastMenuController {
         final List<FastMenuDTO> list = fastMenuServcie.list(id);
 
         return ResultGenerator.genOkResult(list);
+    }
+
+    /**
+     * 首页快捷通道列表
+     *
+     * @return
+     * @author shenjun
+     * @date 2019/3/4
+     */
+    @ApiOperation(value = "全快速通道列表", notes = "")
+    @GetMapping
+    public Result list() {
+
+        Condition condition = new Condition(FastMenuEntity.class);
+        Example.Criteria criteria = condition.createCriteria();
+        condition.setOrderByClause("FAST_MENU_SORT");
+        final List<FastMenuEntity> list = fastMenuServcie.findByCondition(condition);
+        return ResultGenerator.genOkResult(list);
+
+
     }
 
     /**
