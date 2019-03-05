@@ -84,7 +84,7 @@ public class OrganizationServiceImpl extends AbstractService<OrganizationEntity>
 
         if(entity.getParentToId() == null){
             entity.setParentToId("0");
-            entity.setParentToName("系统管理员");
+            entity.setParentToName("");
         }else{
             entity.setParentToName(organizationMapper.selectrOrganizationNameByToId(entity.getParentToId()));
         }
@@ -98,7 +98,7 @@ public class OrganizationServiceImpl extends AbstractService<OrganizationEntity>
         entity.initAdd();
         if(entity.getParentToId() == null){
             entity.setParentToId("0");
-            entity.setParentToName("系统管理员");
+            entity.setParentToName("");
         }else{
             entity.setParentToName(organizationMapper.selectrOrganizationNameByToId(entity.getParentToId()));
         }
