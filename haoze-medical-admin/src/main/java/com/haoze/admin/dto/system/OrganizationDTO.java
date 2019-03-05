@@ -1,5 +1,7 @@
 package com.haoze.admin.dto.system;
 
+import java.util.HashMap;
+
 public class OrganizationDTO {
 
     private String toId;//机构ID
@@ -34,7 +36,9 @@ public class OrganizationDTO {
 
     private String phone;
 
-    private String userName;
+    private String userName;//管理员名
+
+    private HashMap<String,String> NameAndIdMap;//管理员名，管理员ID
 
 
     public String getToId() {
@@ -181,5 +185,14 @@ public class OrganizationDTO {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+
+    public HashMap<String, String> getNameAndIdMap() {
+        return NameAndIdMap;
+    }
+
+    public void setNameAndIdMap(HashMap<String, String> nameAndIdMap) {
+        NameAndIdMap = nameAndIdMap;
     }
 }
