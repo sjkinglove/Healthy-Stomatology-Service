@@ -113,6 +113,7 @@ public class OrganizationController {
             userDTO.setLoginName(entity.getLoginName());//用户名
             userDTO.setPhone(entity.getPhone());//电话
             userDTO.setPassword(Status.DEFAULT_PASSWORD.getValue());//默认密码
+            userDTO.setWorkNo(entity.getWorkNo());//工号
             userDTO.setName(entity.getName());//用户名
             userDTO.setRoleId(entity.getRoleId());
 
@@ -135,21 +136,47 @@ public class OrganizationController {
 
     @ApiOperation(value = "编辑机构", notes = "")
     @PutMapping
-    public Result edit(@RequestBody @Valid final OrganizationEntity entity,
+    public Result edit(@RequestBody @Valid final OrganizationDTO entity,
                        final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             final String msg = bindingResult.getFieldError().getDefaultMessage();
             return ResultGenerator.genFailedResult(msg);
         } else {
-            entity.initUpdate();
+
+            OrganizationEntity organizationEntity =new OrganizationEntity();
+
+            organizationEntity.setToId(entity.getToId());
+            organizationEntity.setOrganizationName(entity.getOrganizationName());
+            organizationEntity.setOrganizationAddress(entity.getOrganizationAddress());
+            organizationEntity.setOrganizationClass(entity.getOrganizationClass());
+            organizationEntity.setOrganizationClassId(entity.getOrganizationClassId());
+            organizationEntity.setParentToId(entity.getParentToId());
+            organizationEntity.setParentToName(entity.getParentToName());
+            organizationEntity.setStopFlag(entity.getStopFlag());
+
+            organizationEntity.initUpdate();
             try {
                 entity.setPyCode(ChineseCharactersCode.getPinyinCode(entity.getOrganizationName()));
                 entity.setWbCode(ChineseCharactersCode.getWBCode(entity.getOrganizationName()));
             } catch (BadHanyuPinyinOutputFormatCombination e) {
                 e.printStackTrace();
             }
-            organizationService.update(entity);
-            return ResultGenerator.genOkResult("保存成功！");
+            organizationService.update(organizationEntity);
+
+            UserDTO userDTO = new UserDTO();
+            userDTO.setLoginName(entity.getLoginName());//用户名
+            userDTO.setPhone(entity.getPhone());//电话
+            userDTO.setPassword(Status.DEFAULT_PASSWORD.getValue());//默认密码
+            userDTO.setWorkNo(entity.getWorkNo());//工号
+            userDTO.setName(entity.getName());//用户名
+            userDTO.setRoleId(entity.getRoleId());
+
+            try {
+                userService.saveUserAndRoleAndOrganizagionCase(userDTO);
+                return ResultGenerator.genOkResult("保存成功！");
+            } catch (ParseException e) {
+                return ResultGenerator.genFailedResult("保存失败");
+            }
         }
     }
 

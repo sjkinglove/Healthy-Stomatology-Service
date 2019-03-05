@@ -40,6 +40,8 @@ public class OrganizationDTO {
 
     private String name;//管理员名
 
+    private String workNo;
+
 
 
     public String getToId() {
@@ -198,5 +200,13 @@ public class OrganizationDTO {
 
     public void setParentToName(String parentToName) {
         this.parentToName = parentToName;
+    }
+
+    public String getWorkNo() {
+        return workNo;
+    }
+
+    public void setWorkNo(String workNo) {
+        this.workNo = workNo;
     }
 }
