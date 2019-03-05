@@ -21,6 +21,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -104,6 +105,7 @@ public class OrganizationController {
             organizationEntity.setOrganizationClassId(entity.getOrganizationClassId());
             organizationEntity.setParentToId(entity.getParentToId());
             organizationEntity.setParentToName(entity.getParentToName());
+            organizationEntity.setStopFlag(entity.getStopFlag());
 
             organizationService.save(organizationEntity);
 
@@ -112,10 +114,17 @@ public class OrganizationController {
             userDTO.setPhone(entity.getPhone());//电话
             userDTO.setPassword(Status.DEFAULT_PASSWORD.getValue());//默认密码
             userDTO.setName(entity.getName());//用户名
-            userService.saveUserAndRoleAndOrganizagionCase(userDTO);
+            userDTO.setRoleId(entity.getRoleId());
+
+            try {
+                userService.saveUserAndRoleAndOrganizagionCase(userDTO);
+                return ResultGenerator.genOkResult("保存成功！");
+            } catch (ParseException e) {
+                return ResultGenerator.genFailedResult("保存失败");
+            }
 
 
-            return ResultGenerator.genOkResult("保存成功！");
+
         }
     }
     @GetMapping("test")
