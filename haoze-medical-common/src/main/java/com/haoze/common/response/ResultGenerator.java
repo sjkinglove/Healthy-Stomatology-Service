@@ -28,6 +28,13 @@ public class ResultGenerator {
                 .build();
     }
 
+    public static Result genOkFailedResult(final String msg) {
+        return new Result
+                .Builder(HttpStatus.OK.value())
+                .msg(msg)
+                .build();
+    }
+
     public static Result genFailedResult(final String msg) {
         return new Result
                 .Builder(HttpStatus.BAD_REQUEST.value())
