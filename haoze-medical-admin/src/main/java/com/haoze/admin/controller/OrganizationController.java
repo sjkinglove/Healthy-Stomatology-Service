@@ -103,6 +103,7 @@ public class OrganizationController {
             organizationEntity.setOrganizationClass(entity.getOrganizationClass());
             organizationEntity.setOrganizationClassId(entity.getOrganizationClassId());
             organizationEntity.setParentToId(entity.getParentToId());
+            organizationEntity.setParentToName(entity.getParentToName());
 
             organizationService.save(organizationEntity);
 
