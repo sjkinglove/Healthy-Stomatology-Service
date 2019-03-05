@@ -19,6 +19,8 @@
         <result column="userTypes" jdbcType="VARCHAR" property="userTypes"/>
         <result column="endDate" jdbcType="VARCHAR" property="endDate"/>
         <result column="userLine" jdbcType="VARCHAR" property="userLine"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="workNo" jdbcType="VARCHAR" property="workNo"/>
         <result column="image" jdbcType="VARCHAR" property="image"/>
         <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
         <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
@@ -35,6 +37,8 @@
         u.USER_TYPES as userTypes,
         u.END_DATE as endDate,
         u.ON_LINE as userLine,
+        u.PHONE as phone,
+        u.WORK_NO as workNo,
         u.IMAGE as image,
         r.TR_ID as role_id,
         r.ROLE_NAME as role_name,
@@ -69,6 +73,8 @@
         u.END_DATE as endDate,
         u.ON_LINE as userLine,
         u.IMAGE as image,
+        u.PHONE as phone,
+        u.WORK_NO as workNo,
         r.ROLE_CODE as role_code,
         r.ROLE_NAME as role_name,
         m.menu_permission as permission_code,
