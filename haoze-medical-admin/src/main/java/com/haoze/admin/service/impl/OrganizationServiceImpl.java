@@ -81,6 +81,14 @@ public class OrganizationServiceImpl extends AbstractService<OrganizationEntity>
             e.printStackTrace();
         }
         entity.setToSort(String.valueOf(targetSort));
+
+        if(entity.getParentToId() == null){
+            entity.setParentToId("0");
+            entity.setParentToName("系统管理员");
+        }else{
+            entity.setParentToName(organizationMapper.selectrOrganizationNameByToId(entity.getParentToId()));
+        }
+
         organizationMapper.updateByPrimaryKeySelective(entity);
     }
 
