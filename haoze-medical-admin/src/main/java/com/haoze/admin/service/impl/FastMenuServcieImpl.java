@@ -155,8 +155,9 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
         int currentSortNo = Integer.valueOf(fastMenuMapper.getFastMenuSortById(entity.getTfmId()));
 
         Map<String, Object> map = new HashMap<>();
-        map.put("targetSortNo", entity.getFastMenuSort());
+        map.put("targetSortNo", targetSortNo);
         map.put("currentSortNo", currentSortNo);
+
         //更新其他快速通道序号
         if(targetSortNo > currentSortNo){
             fastMenuMapper.updateSortNoForReduce(map);
