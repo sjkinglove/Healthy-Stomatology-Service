@@ -48,7 +48,7 @@ public class UserDTO {
     // 用户的角色对应的权限code
     private List<String> permissionCodeList;
 
-    private String workNo;
+    private String workNo;//工号
 
 
     public String getName() {

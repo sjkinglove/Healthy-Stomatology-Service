@@ -66,10 +66,10 @@ public class OrganizationController {
             HashMap<String,String> map = new HashMap<String ,String >();
 
             for(UserDTO userDTO : userDTOList){
-                map.put(userDTO.getName(),userDTO.getTuId());
+                map.put(userDTO.getName(),userDTO.getPhone());
             }
 
-            organizationDTO.setNameAndIdMap(map);
+            organizationDTO.setNameAndPhoneMap(map);
 
             newList.add(organizationDTO);
 
