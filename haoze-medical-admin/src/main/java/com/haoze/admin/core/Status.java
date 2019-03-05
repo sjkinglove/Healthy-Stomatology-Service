@@ -4,11 +4,17 @@ package com.haoze.admin.core;
  * @date 2019/3/4
  */
 public enum Status {
-    SCUUESS("1", "成功"), FAILED("2", "失败"),
-    INIT_CLICK_NUM("0","归零"),DEFAULT_PASSWORD("123123","默认密码"),
-    OPEN_FLAG("0","开启"),CLOSE_FLAG("1","关闭");
+    INIT_CLICK_NUM("0","归零"),
+    DEFAULT_PASSWORD("123123","默认密码"),
+    OPEN_FLAG("0","开启"),
+    CLOSE_FLAG("1","关闭"),
+    PARENT_TO_ID("",""),
+    FAULT_END_DATE("2099-12-12","默认使用截止日期");
+
+
 
     private String value;
+
     private String desc;
 
     public String getValue() {
