@@ -55,6 +55,29 @@
         </where>
     </select>
 
+    <select id="findUserRelWithLoginName" parameterType="String" resultMap="UserWithRoleMap">
+        SELECT
+        u.TU_ID as tuId,
+        u.LOGIN_NAME as loginName,
+        u.USER_PWD as password,
+        u.USER_NAME as name,
+        u.LOCK_FLAG as lockFlag,
+        u.USER_TYPES as userTypes,
+        u.END_DATE as endDate,
+        u.ON_LINE as userLine,
+        u.PHONE as phone,
+        u.WORK_NO as workNo,
+        u.IMAGE as image,
+        r.TR_ID as role_id,
+        r.ROLE_NAME as role_name,
+        ud.TO_ID as organization_id
+        FROM t_user u
+        LEFT JOIN t_user_role ur ON u.TU_ID = ur.TU_ID
+        LEFT JOIN t_role r ON ur.TR_ID = r.TR_ID
+        LEFT JOIN t_user_organization ud ON u.TU_ID = ud.TU_ID
+        WHERE U.LOGIN_NAME = #{account,jdbcType=VARCHAR}
+    </select>
+
     <resultMap id="UserDetailMap" type="com.haoze.admin.dto.system.UserDTO" extends="UserWithRoleMap">
         <!-- 1角色对应多权限 -->
         <collection property="permissionCodeList" ofType="String">
