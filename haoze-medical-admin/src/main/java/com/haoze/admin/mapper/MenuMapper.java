@@ -23,5 +23,5 @@ public interface MenuMapper extends MyMapper<MenuEntity> {
 
     int countMenuRoleByMenuId(@Param("menuId") String menuId);
 
-    String selectCompleteMenuUrlByMenuId(String menuId);
+    Map<String,String> selectCompleteMenuUrlByMenuId(String menuId);
 }

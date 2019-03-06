@@ -52,8 +52,8 @@
         ORDER BY MENU_SORT
     </select>
 
-    <select id="selectCompleteMenuUrlByMenuId" parameterType="String" resultType="String">
-        select concat(tm2.menu_url,tm1.menu_url)
+    <select id="selectCompleteMenuUrlByMenuId" parameterType="String" resultType="java.util.Map">
+        select concat(tm2.menu_url,tm1.menu_url) menuUrl,tm1.MODEL_TYPE_FLAG menuType
         from t_menu tm1
         inner join t_menu tm2 on tm1.parent_menu_id = tm2.tm_id
         where tm1.TM_ID = #{menuId,jdbcType=VARCHAR}

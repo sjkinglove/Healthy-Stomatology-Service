@@ -46,6 +46,8 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
     public void deleteByIds(String ids) {
         //判断拼接字符串有没有加引号
         if (ids!=null&&!"".equals(ids)) {
+
+
             if(ids.contains("\'")||ids.contains("\"")){
                 fastMenuMapper.deleteByIds(ids);
             }else{
@@ -55,11 +57,16 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
 
                 for(String fastMenuId:idArry){
                    sb.append("\'").append(fastMenuId).append("\'").append(",");
+
+                    fastMenuMapper.getFastMenuSortById(fastMenuId);
+
                 }
                 //移除末尾逗号
                 sb.deleteCharAt(sb.length() - 1);
 
                 fastMenuMapper.deleteByIds(sb.toString());
+
+
             }
         }
 
@@ -130,6 +137,11 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
     @Override
     public void saveFastMenu(FastMenuDTO entity) {
 
+        //更新其他快速通道序号
+        Map<String, Object> map = new HashMap<>();
+        map.put("targetSortNo", entity.getFastMenuSort());
+        fastMenuMapper.updateSortNoForEnlarge(map);
+
         FastMenuEntity fastMenuEntity =new FastMenuEntity();
 
         UserDTO userDTO = userMapper.findUserRelWithUserId(entity.getTuId());
@@ -157,7 +169,12 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
         //点击次数初始设置为0
         fastMenuEntity.setClickNum(Integer.valueOf(Status.INIT_CLICK_NUM.getValue()));
 
-        fastMenuEntity.setFastMenuUrl(menuMapper.selectCompleteMenuUrlByMenuId(fastMenuEntity.getTmId()));
+        Map<String,String> menuMap =menuMapper.selectCompleteMenuUrlByMenuId(fastMenuEntity.getTmId());
+        fastMenuEntity.setFastMenuUrl(menuMap.get("menuUrl"));
+
+        fastMenuEntity.setFastMenuType(menuMap.get("menuType"));
+
+
         //快速菜单主键ID
         fastMenuEntity.setTfmId(UUIDUtil.randomString());
 
@@ -165,10 +182,7 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
 
         fastMenuMapper.insertFastMenu(fastMenuEntity);
 
-        //更新其他快速通道序号
-        Map<String, Object> map = new HashMap<>();
-        map.put("targetSortNo", fastMenuEntity.getFastMenuSort());
-        fastMenuMapper.updateSortNoForEnlarge(map);
+
 
     }
     /**
@@ -191,6 +205,11 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
         }else if(targetSortNo < currentSortNo){
             fastMenuMapper.updateSortNoForEnlarge(map);
         }
+
+        Map<String,String> menuMap =menuMapper.selectCompleteMenuUrlByMenuId(entity.getTmId());
+        entity.setFastMenuUrl(menuMap.get("menuUrl"));
+
+        entity.setFastMenuType(menuMap.get("menuType"));
 
         fastMenuMapper.updateFastMenu(entity);
     }

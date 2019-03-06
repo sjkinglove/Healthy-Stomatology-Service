@@ -151,6 +151,12 @@ public class FastMenuController {
                 return ResultGenerator.genFailedResult("异常");
             }
 
+            if(entity.getTmId()!=null){
+                fastMenuEntity.setTmId(entity.getTmId());
+            }else{
+                return ResultGenerator.genFailedResult("异常");
+            }
+
             if(entity.getFastMenuName()!=null){
                 fastMenuEntity.setFastMenuName(entity.getFastMenuName());
             }else{

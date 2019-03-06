@@ -42,6 +42,8 @@ public class FastMenuDTO {
 
     private String fastMenuUrl;//快捷菜单地址
 
+    private String fastMenuType;//快捷菜单类型
+
     public String getTfmId() {
         return tfmId;
     }
@@ -183,5 +185,13 @@ public class FastMenuDTO {
 
     public void setFastMenuUrl(String fastMenuUrl) {
         this.fastMenuUrl = fastMenuUrl;
+    }
+
+    public String getFastMenuType() {
+        return fastMenuType;
+    }
+
+    public void setFastMenuType(String fastMenuType) {
+        this.fastMenuType = fastMenuType;
     }
 }

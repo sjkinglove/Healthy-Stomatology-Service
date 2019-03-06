@@ -4,13 +4,15 @@
 
 
     <insert id="insertFastMenu" parameterType="com.haoze.admin.model.FastMenuEntity">
-        insert into t_fast_menu (TFM_ID, DATA_VERSION, GMT_CREATE, GMT_MODIFY, TR_ID, TM_ID,FAST_MENU_NAME,FAST_MENU_SORT)
+        insert into t_fast_menu (TFM_ID, DATA_VERSION, GMT_CREATE, GMT_MODIFY, TR_ID, TM_ID,FAST_MENU_NAME,FAST_MENU_SORT,FAST_MENU_URL,FAST_MENU_TYPE,REMARK,OPEN_STATE,CLICK_NUM,TO_ID)
         values (#{tfmId,jdbcType=VARCHAR}, #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
-        #{modifyTime,jdbcType=TIMESTAMP},#{trId,jdbcType=VARCHAR}, #{tmId,jdbcType=VARCHAR}, #{fastMenuName,jdbcType=VARCHAR}, #{fastMenuSort,jdbcType=VARCHAR})
+        #{modifyTime,jdbcType=TIMESTAMP},#{trId,jdbcType=VARCHAR}, #{tmId,jdbcType=VARCHAR}, #{fastMenuName,jdbcType=VARCHAR}, #{fastMenuSort,jdbcType=VARCHAR},
+        #{fastMenuUrl,jdbcType=VARCHAR},#{fastMenuType,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{openState,jdbcType=VARCHAR},#{clickNum,jdbcType=VARCHAR},#{toId,jdbcType=VARCHAR})
     </insert>
 
     <update id="updateFastMenu" parameterType="com.haoze.admin.model.FastMenuEntity">
-        update t_fast_menu set GMT_MODIFY=#{modifyTime},FAST_MENU_SORT=#{fastMenuSort},FAST_MENU_NAME=#{fastMenuName},TM_ID=#{tmId}
+        update t_fast_menu set GMT_MODIFY=#{modifyTime},FAST_MENU_SORT=#{fastMenuSort},FAST_MENU_NAME=#{fastMenuName},TM_ID=#{tmId},FAST_MENU_TYPE=#{fastMenuType},
+        FAST_MENU_URL=#{fastMenuUrl},REMARK=#{remark},OPEN_STATE=#{openState},CLICK_NUM=#{clickNum}
         where TFM_ID = #{tfmId}
     </update>
 
@@ -33,6 +35,7 @@
     <select id="getFastMenuSortById" parameterType="String" resultType="String">
         select FAST_MENU_SORT from t_fast_menu where TFM_ID=#{id,jdbcType=VARCHAR}
     </select>
+
 
     <select id="countMenuRoleByMenuId" parameterType="String" resultType="int">
         select count(1) from t_role_menu where TM_ID=#{menuId,jdbcType=VARCHAR}
