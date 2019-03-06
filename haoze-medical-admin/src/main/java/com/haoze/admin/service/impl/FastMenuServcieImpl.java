@@ -46,9 +46,20 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
     public void deleteByIds(String ids) {
         //判断拼接字符串有没有加引号
         if (ids!=null&&!"".equals(ids)) {
-
-
             if(ids.contains("\'")||ids.contains("\"")){
+                String[] idArry = ids.split(",");
+
+                for(String fastMenuId:idArry){
+
+                    String currentSortNo = fastMenuMapper.getFastMenuSortById(fastMenuId);
+
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("currentSortNo", currentSortNo);
+
+                    fastMenuMapper.updateSortNoForReduce(map);
+
+                }
+
                 fastMenuMapper.deleteByIds(ids);
             }else{
                 String[] idArry = ids.split(",");
@@ -58,7 +69,12 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
                 for(String fastMenuId:idArry){
                    sb.append("\'").append(fastMenuId).append("\'").append(",");
 
-                    fastMenuMapper.getFastMenuSortById(fastMenuId);
+                    String currentSortNo = fastMenuMapper.getFastMenuSortById(fastMenuId);
+
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("currentSortNo", currentSortNo);
+
+                    fastMenuMapper.updateSortNoForReduce(map);
 
                 }
                 //移除末尾逗号
