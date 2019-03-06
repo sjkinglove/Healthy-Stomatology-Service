@@ -94,7 +94,7 @@ public class OrganizationServiceImpl extends AbstractService<OrganizationEntity>
 
     @Override
     public void save(OrganizationEntity entity) {
-        entity.setToId(UUIDUtil.randomString());
+
         entity.initAdd();
         if(entity.getParentToId() == null){
             entity.setParentToId("0");

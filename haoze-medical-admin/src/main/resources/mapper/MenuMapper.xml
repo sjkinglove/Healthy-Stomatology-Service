@@ -52,6 +52,13 @@
         ORDER BY MENU_SORT
     </select>
 
+    <select id="selectCompleteMenuUrlByMenuId" parameterType="String" resultType="String">
+        select concat(tm2.menu_url,tm1.menu_url)
+        from t_menu tm1
+        inner join t_menu tm2 on tm1.parent_menu_id = tm2.tm_id
+        where tm1.TM_ID = #{menuId,jdbcType=VARCHAR}
+    </select>
+
     <select id="countMenuRoleByMenuId" parameterType="String" resultType="int">
         select count(1) from t_role_menu where TM_ID=#{menuId,jdbcType=VARCHAR}
     </select>

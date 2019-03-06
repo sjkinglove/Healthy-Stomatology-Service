@@ -97,7 +97,7 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
             userMapper.updateByPrimaryKey(u);
             if(user.getRoleId()!=null&&!"".equals(user.getRoleId())){
                 //清除关联关系
-                userMapper.clearUserRoleRela(user.getTuId());
+                userMapper.clearUserRoleRela(u.getTuId());
                 //用户角色关系
                 UserRoleEntity tur = new UserRoleEntity();
                 tur.initAdd();
@@ -109,7 +109,7 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
 
             if(user.getToId()!=null&&!"".equals(user.getToId())){
                 //清除关联关系
-                userMapper.clearUserOrganizationRela(user.getTuId());
+                userMapper.clearUserOrganizationRela(u.getTuId());
                 // 用户机构关系
                 UserOrganizationEntity tuo = new UserOrganizationEntity();
                 tuo.initAdd();

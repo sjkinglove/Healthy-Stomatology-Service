@@ -121,29 +121,8 @@ public class FastMenuController {
             final String msg = bindingResult.getFieldError().getDefaultMessage();
             return ResultGenerator.genFailedResult(msg);
         } else {
-            FastMenuEntity fastMenuEntity =new FastMenuEntity();
 
-            if(entity.getFastMenuName()!=null){
-                fastMenuEntity.setFastMenuName(entity.getFastMenuName());
-            }else{
-                return ResultGenerator.genFailedResult("异常");
-            }
-
-            if(entity.getOpenState()!=null){
-                fastMenuEntity.setOpenState(entity.getOpenState());
-            }else{
-                return ResultGenerator.genFailedResult("异常");
-            }
-
-            if(entity.getFastMenuSort()!=null){
-                fastMenuEntity.setFastMenuSort(entity.getFastMenuSort());
-            }else{
-                return ResultGenerator.genFailedResult("异常");
-            }
-
-
-
-            fastMenuServcie.saveFastMenu(fastMenuEntity);
+            fastMenuServcie.saveFastMenu(entity);
 
             return ResultGenerator.genOkResult("保存成功！");
         }

@@ -32,7 +32,7 @@ public interface UserMapper extends MyMapper<UserEntity> {
      *
      * @return
      */
-    UserDTO findUserRelWithLoginName(String account);
+    UserDTO findUserRelWithUserId(String account);
 
     /**
      * 按条件查询用户信息

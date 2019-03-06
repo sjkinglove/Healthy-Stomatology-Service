@@ -51,6 +51,7 @@ public class UserDTO {
     private String workNo;//工号
 
 
+
     public String getName() {
         return name;
     }
@@ -223,4 +224,5 @@ public class UserDTO {
     public void setToId(String toId) {
         this.toId = toId;
     }
+
 }

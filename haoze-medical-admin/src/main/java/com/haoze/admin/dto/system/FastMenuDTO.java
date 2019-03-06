@@ -38,6 +38,10 @@ public class FastMenuDTO {
 
     private String menuType;//菜单类型
 
+    private String tuId;//用户ID
+
+    private String fastMenuUrl;//快捷菜单地址
+
     public String getTfmId() {
         return tfmId;
     }
@@ -163,5 +167,21 @@ public class FastMenuDTO {
 
     public void setToId(String toId) {
         this.toId = toId;
+    }
+
+    public String getTuId() {
+        return tuId;
+    }
+
+    public void setTuId(String tuId) {
+        this.tuId = tuId;
+    }
+
+    public String getFastMenuUrl() {
+        return fastMenuUrl;
+    }
+
+    public void setFastMenuUrl(String fastMenuUrl) {
+        this.fastMenuUrl = fastMenuUrl;
     }
 }

@@ -79,7 +79,7 @@
         AND r.ROLE_LEVEL in ("1","2","3")
     </select>
 
-    <select id="findUserRelWithLoginName" parameterType="String" resultMap="UserWithRoleMap">
+    <select id="findUserRelWithUserId" parameterType="String" resultMap="UserWithRoleMap">
         SELECT
         u.TU_ID as tuId,
         u.LOGIN_NAME as loginName,
@@ -99,7 +99,7 @@
         LEFT JOIN t_user_role ur ON u.TU_ID = ur.TU_ID
         LEFT JOIN t_role r ON ur.TR_ID = r.TR_ID
         LEFT JOIN t_user_organization ud ON u.TU_ID = ud.TU_ID
-        WHERE U.LOGIN_NAME = #{account,jdbcType=VARCHAR}
+        WHERE U.TU_ID = #{tuId,jdbcType=VARCHAR}
     </select>
 
     <resultMap id="UserDetailMap" type="com.haoze.admin.dto.system.UserDTO" extends="UserWithRoleMap">

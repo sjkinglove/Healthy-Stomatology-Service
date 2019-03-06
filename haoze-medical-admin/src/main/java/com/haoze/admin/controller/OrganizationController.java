@@ -10,6 +10,7 @@ import com.haoze.admin.service.UserService;
 import com.haoze.common.response.Result;
 import com.haoze.common.response.ResultGenerator;
 import com.haoze.common.utils.ChineseCharactersCode;
+import com.haoze.common.utils.UUIDUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
@@ -52,6 +53,7 @@ public class OrganizationController {
         List<OrganizationDTO> newList= new ArrayList<OrganizationDTO>();
 
         for(OrganizationEntity organizationEntity : list){
+
             OrganizationDTO organizationDTO = new OrganizationDTO();
             organizationDTO.setOrganizationClass(organizationEntity.getOrganizationClass());
             organizationDTO.setOrganizationAddress(organizationEntity.getOrganizationAddress());
@@ -66,18 +68,13 @@ public class OrganizationController {
             organizationDTO.setParentToName(organizationEntity.getParentToName());
 
             List<UserDTO> userDTOList = userService.findManageUserByToId(organizationEntity.getToId());
-            StringBuffer sbName = new StringBuffer();
-            StringBuffer sbPhone = new StringBuffer();
+            if(userDTOList != null && userDTOList.size() != 0){
 
-            if(userDTOList!=null && userDTOList.size() != 0){
-                for(UserDTO userDTO : userDTOList){
-                    sbName.append(userDTO.getName()).append(",");
-                    sbPhone.append(userDTO.getPhone()).append(",");
-                }
-                sbName.deleteCharAt(sbName.length() - 1);
-                sbPhone.deleteCharAt(sbPhone.length() - 1);
-                organizationDTO.setName(sbName.toString());
-                organizationDTO.setPhone(sbPhone.toString());
+                organizationDTO.setName(userDTOList.get(0).getName());
+                organizationDTO.setPhone(userDTOList.get(0).getPhone());
+                organizationDTO.setLoginName(userDTOList.get(0).getLoginName());
+                organizationDTO.setPhone(userDTOList.get(0).getPhone());
+                organizationDTO.setRoleId(userDTOList.get(0).getRoleId());
 
                 newList.add(organizationDTO);
             }else{
@@ -106,7 +103,7 @@ public class OrganizationController {
             organizationEntity.setParentToId(entity.getParentToId());
             organizationEntity.setParentToName(entity.getParentToName());
             organizationEntity.setStopFlag(entity.getStopFlag());
-
+            organizationEntity.setToId(UUIDUtil.randomString());
             organizationService.save(organizationEntity);
 
             UserDTO userDTO = new UserDTO();
@@ -115,7 +112,8 @@ public class OrganizationController {
             userDTO.setPassword(Status.DEFAULT_PASSWORD.getValue());//默认密码
             userDTO.setWorkNo(entity.getWorkNo());//工号
             userDTO.setName(entity.getName());//用户名
-            userDTO.setRoleId(entity.getRoleId());
+            userDTO.setRoleId(entity.getRoleId());//角色ID
+            userDTO.setToId(organizationEntity.getToId());//组织机构ID
 
             try {
                 userService.saveUserAndRoleAndOrganizagionCase(userDTO);
@@ -210,7 +208,7 @@ public class OrganizationController {
         if (list.size() == 0) {
             return ResultGenerator.genOkResult();
         } else {
-            return ResultGenerator.genFailedResult("名称已存在");
+            return ResultGenerator.genOkFailedResult("名称已存在");
         }
     }
 }

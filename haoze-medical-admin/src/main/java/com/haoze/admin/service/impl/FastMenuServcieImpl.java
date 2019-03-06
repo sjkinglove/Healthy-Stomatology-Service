@@ -4,12 +4,15 @@ import com.haoze.admin.core.Status;
 import com.haoze.admin.dto.system.FastMenuDTO;
 import com.haoze.admin.dto.system.UserDTO;
 import com.haoze.admin.mapper.FastMenuMapper;
+import com.haoze.admin.mapper.MenuMapper;
 import com.haoze.admin.mapper.UserMapper;
 import com.haoze.admin.model.FastMenuEntity;
 import com.haoze.admin.service.FastMenuServcie;
 import com.haoze.common.exception.ServiceException;
+import com.haoze.common.response.ResultGenerator;
 import com.haoze.common.service.AbstractService;
 import com.haoze.common.utils.HttpContextUtils;
+import com.haoze.common.utils.UUIDUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Condition;
@@ -33,6 +36,8 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
     private FastMenuMapper fastMenuMapper;
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private MenuMapper menuMapper;
 
     /**
      * 根据IDs批量删除快速通道
@@ -123,26 +128,47 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
      * 保存新增
      * */
     @Override
-    public void saveFastMenu(FastMenuEntity entity) {
-        //更新其他快速通道序号
-        Map<String, Object> map = new HashMap<>();
-        map.put("targetSortNo", entity.getFastMenuSort());
-        fastMenuMapper.updateSortNoForEnlarge(map);
-        //点击次数初始设置为0
-        entity.setClickNum(Integer.valueOf(Status.INIT_CLICK_NUM.getValue()));
-        //根据用户名获取账号
-        HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-        String account = request.getHeader("zuul_account");
-        UserDTO userDTO = userMapper.findUserRelWithLoginName(account);
+    public void saveFastMenu(FastMenuDTO entity) {
+
+        FastMenuEntity fastMenuEntity =new FastMenuEntity();
+
+        UserDTO userDTO = userMapper.findUserRelWithUserId(entity.getTuId());
 
         if(userDTO != null){
             //保存用户所在机构ID
-            entity.setToId(userDTO.getToId());
-
-            fastMenuMapper.insertFastMenu(entity);
+            fastMenuEntity.setToId(userDTO.getToId());
         }else{
-            throw new ServiceException("不能获取所在机构");
+            throw new ServiceException("查无此账号");
         }
+
+        if(fastMenuEntity.getTrId()==null||"".equals(fastMenuEntity.getTrId())){fastMenuEntity.setTrId(userDTO.getRoleId());}
+        //快捷菜单名
+        fastMenuEntity.setFastMenuName(entity.getFastMenuName());
+        //排序
+        fastMenuEntity.setFastMenuSort(entity.getFastMenuSort());
+        //备注
+        fastMenuEntity.setRemark(entity.getRemark());
+        //开启状态
+        fastMenuEntity.setOpenState(entity.getOpenState());
+        //菜单ID
+        fastMenuEntity.setTmId(entity.getTmId());
+        //角色ID
+        fastMenuEntity.setTrId(entity.getTrId());
+        //点击次数初始设置为0
+        fastMenuEntity.setClickNum(Integer.valueOf(Status.INIT_CLICK_NUM.getValue()));
+
+        fastMenuEntity.setFastMenuUrl(menuMapper.selectCompleteMenuUrlByMenuId(fastMenuEntity.getTmId()));
+        //快速菜单主键ID
+        fastMenuEntity.setTfmId(UUIDUtil.randomString());
+
+        fastMenuEntity.initAdd();
+
+        fastMenuMapper.insertFastMenu(fastMenuEntity);
+
+        //更新其他快速通道序号
+        Map<String, Object> map = new HashMap<>();
+        map.put("targetSortNo", fastMenuEntity.getFastMenuSort());
+        fastMenuMapper.updateSortNoForEnlarge(map);
 
     }
     /**

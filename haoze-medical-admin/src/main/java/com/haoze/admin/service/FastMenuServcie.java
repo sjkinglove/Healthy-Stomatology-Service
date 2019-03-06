@@ -13,7 +13,7 @@ public interface FastMenuServcie extends Service<FastMenuEntity> {
 
     List<FastMenuEntity> listByRoleId(String id);
 
-    void saveFastMenu(FastMenuEntity entity);
+    void saveFastMenu(FastMenuDTO entity);
 
     void updateFastMenu(FastMenuEntity entity);
 

@@ -41,6 +41,9 @@ public class FastMenuEntity extends BaseEntity {
   @Column(name = "REMARK")
   private String remark;//快速菜单排序
 
+  @Column(name = "FAST_MENU_URL")
+  private String fastMenuUrl;//快速菜单排序
+
   public String getTfmId() {
     return tfmId;
   }
@@ -122,5 +125,13 @@ public class FastMenuEntity extends BaseEntity {
 
   public void setToId(String toId) {
     this.toId = toId;
+  }
+
+  public String getFastMenuUrl() {
+    return fastMenuUrl;
+  }
+
+  public void setFastMenuUrl(String fastMenuUrl) {
+    this.fastMenuUrl = fastMenuUrl;
   }
 }

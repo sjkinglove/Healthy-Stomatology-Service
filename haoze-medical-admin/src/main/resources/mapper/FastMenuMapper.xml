@@ -6,7 +6,7 @@
     <insert id="insertFastMenu" parameterType="com.haoze.admin.model.FastMenuEntity">
         insert into t_fast_menu (TFM_ID, DATA_VERSION, GMT_CREATE, GMT_MODIFY, TR_ID, TM_ID,FAST_MENU_NAME,FAST_MENU_SORT)
         values (#{tfmId,jdbcType=VARCHAR}, #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
-        #{modifyTime,jdbcType=TIMESTAMP},#{tuId,jdbcType=VARCHAR}, #{tmId,jdbcType=VARCHAR}, #{fastMenuName,jdbcType=VARCHAR}, #{fastMenuSort,jdbcType=VARCHAR})
+        #{modifyTime,jdbcType=TIMESTAMP},#{trId,jdbcType=VARCHAR}, #{tmId,jdbcType=VARCHAR}, #{fastMenuName,jdbcType=VARCHAR}, #{fastMenuSort,jdbcType=VARCHAR})
     </insert>
 
     <update id="updateFastMenu" parameterType="com.haoze.admin.model.FastMenuEntity">
@@ -17,16 +17,16 @@
     <update id="updateSortNoForEnlarge" parameterType="java.util.Map">
         update t_fast_menu set FAST_MENU_SORT=FAST_MENU_SORT+1
         <where>
-            <if test="targetSortNo != null and targetSortNo != ''">and TO_SORT &gt;= #{targetSortNo}</if>
-            <if test="currentSortNo != null and currentSortNo != ''">and TO_SORT &lt; #{currentSortNo}</if>
+            <if test="targetSortNo != null and targetSortNo != ''">and FAST_MENU_SORT &gt;= #{targetSortNo}</if>
+            <if test="currentSortNo != null and currentSortNo != ''">and FAST_MENU_SORT &lt; #{currentSortNo}</if>
         </where>
     </update>
 
     <update id="updateSortNoForReduce" parameterType="java.util.Map">
         update t_fast_menu set FAST_MENU_SORT=FAST_MENU_SORT-1
         <where>
-            <if test="currentSortNo != null and currentSortNo != ''">and TO_SORT &gt; #{currentSortNo}</if>
-            <if test="targetSortNo != null and targetSortNo != ''">and TO_SORT &lt;= #{targetSortNo}</if>
+            <if test="currentSortNo != null and currentSortNo != ''">and FAST_MENU_SORT &gt; #{currentSortNo}</if>
+            <if test="targetSortNo != null and targetSortNo != ''">and FAST_MENU_SORT &lt;= #{targetSortNo}</if>
         </where>
     </update>
 
