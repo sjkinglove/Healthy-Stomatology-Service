@@ -49,7 +49,6 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
         if (ids!=null&&!"".equals(ids)) {
             if(ids.contains("\'")||ids.contains("\"")){
                 fastMenuMapper.deleteByIds(ids);
-
                 //批量删除成功进行重新排序
                 fastMenuMapper.updateReSort();
             }else{
@@ -164,7 +163,7 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
         //菜单ID
         fastMenuEntity.setTmId(entity.getTmId());
         //角色ID
-        fastMenuEntity.setTrId(entity.getTrId());
+        fastMenuEntity.setTrId(userDTO.getRoleId());
         //点击次数初始设置为0
         fastMenuEntity.setClickNum(Integer.valueOf(Status.INIT_CLICK_NUM.getValue()));
 
