@@ -149,8 +149,16 @@ public class MenuController {
             final String msg = bindingResult.getFieldError().getDefaultMessage();
             return ResultGenerator.genFailedResult(msg);
         } else {
+
             entity.initUpdate();
+
+            //判断菜单父节点是否为空
+            if (entity.getParentMenuId() == null || "".equals(entity.getParentMenuId())) {
+                entity.setParentMenuId("0");
+            }
+
             menuService.update(entity);
+
             return ResultGenerator.genOkResult("保存成功！");
         }
     }
