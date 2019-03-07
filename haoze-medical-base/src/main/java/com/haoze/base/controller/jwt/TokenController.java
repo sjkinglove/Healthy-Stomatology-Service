@@ -25,6 +25,10 @@ public class TokenController {
     public String getAccountByToken(@PathVariable String token) {
         return jwtUtil.getUsername(token);// jwtUtil中存入的userName其实是账号
     }
+    @GetMapping("/getIdByToken/{token}")
+    public String getIdByToken(@PathVariable String token) {
+        return jwtUtil.getId(token);// jwtUtil中存入的userName其实是账号
+    }
 
     @GetMapping("/getToken")
     public String getToken(@RequestParam("loginName") String account, @RequestParam("tuId") String id, @RequestParam("auth") String auth) {

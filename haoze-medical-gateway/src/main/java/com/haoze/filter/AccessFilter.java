@@ -65,6 +65,7 @@ public class AccessFilter extends ZuulFilter {
                 return null;
             }
             String account = jwtService.getAccountByToken(token);
+            String id = jwtService.getIdByToken(token);
             if (account == null) { // 无token 或token无效 或token过期
                 //返回错误信息
                 setFailedRequest(ResultGenerator.genUnauthorizedResult(), 401);
@@ -72,7 +73,7 @@ public class AccessFilter extends ZuulFilter {
             }
             // 为后续转发的请求加上身份信息
             ctx.addZuulRequestHeader("zuul_account", account);
-
+            ctx.addZuulRequestHeader("zuul_id", id);
             /*  以上部分已经从token中获取到正确的account信息，表示已登录
                 以下是获取登录人信息的请求
                 注意 获取用户信息时，account参数需要从token中获取，而不是前台传入accout直接去info方法获取

@@ -41,6 +41,13 @@ public class JwtUtil {
         final Claims claims = this.getClaims(token);
         return claims == null ? null : claims.getSubject();
     }
+/**
+        * 根据token得到id
+     */
+    public String getId(final String token) {
+        final Claims claims = this.getClaims(token);
+        return claims == null ? null : claims.getId();
+    }
 
 
     /**

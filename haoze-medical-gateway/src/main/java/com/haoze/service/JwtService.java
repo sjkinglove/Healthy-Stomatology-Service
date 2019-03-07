@@ -12,5 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface JwtService {
     @GetMapping("/jwt/getAccountByToken/{token}")
     String getAccountByToken(@PathVariable("token") String token);
+    @GetMapping("/jwt/getIdByToken/{token}")
+    String getIdByToken(@PathVariable("token") String token);
 
 }
