@@ -175,7 +175,7 @@ public class MenuController {
         // 查询是否关联角色
         int count = menuService.countMenuRoleByMenuId(id);
         if (count > 0) {
-            return ResultGenerator.genFailedResult("已关联角色，请先删除角色");
+            return ResultGenerator.genOkFailedResult("已关联角色，请先删除角色");
         }
         menuService.deleteById(id);
         return ResultGenerator.genOkResult("删除成功！");
@@ -199,7 +199,7 @@ public class MenuController {
         if (list.size() == 0) {
             return ResultGenerator.genOkResult();
         } else {
-            return ResultGenerator.genFailedResult("路径已存在");
+            return ResultGenerator.genOkFailedResult("路径已存在");
         }
     }
 
@@ -222,7 +222,7 @@ public class MenuController {
         if (list.size() == 0) {
             return ResultGenerator.genOkResult();
         } else {
-            return ResultGenerator.genFailedResult("权限编码已存在");
+            return ResultGenerator.genOkFailedResult("权限编码已存在");
         }
     }
 
@@ -244,7 +244,7 @@ public class MenuController {
         if (list.size() == 0) {
             return ResultGenerator.genOkResult();
         } else {
-            return ResultGenerator.genFailedResult("名称已存在");
+            return ResultGenerator.genOkFailedResult("名称已存在");
         }
     }
 }

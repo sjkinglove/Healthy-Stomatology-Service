@@ -145,7 +145,7 @@ public class FastMenuController {
 
                 return ResultGenerator.genOkResult("保存成功！");
             }else{
-                return ResultGenerator.genFailedResult("无法从TOKEN中获取用户ID");
+                return ResultGenerator.genOkFailedResult("无法从TOKEN中获取用户ID");
             }
 
         }
@@ -177,25 +177,25 @@ public class FastMenuController {
             if(entity.getTmId()!=null){
                 fastMenuEntity.setTmId(entity.getTmId());
             }else{
-                return ResultGenerator.genFailedResult("异常");
+                return ResultGenerator.genOkFailedResult("异常");
             }
 
             if(entity.getFastMenuName()!=null){
                 fastMenuEntity.setFastMenuName(entity.getFastMenuName());
             }else{
-                return ResultGenerator.genFailedResult("异常");
+                return ResultGenerator.genOkFailedResult("异常");
             }
 
             if(entity.getOpenState()!=null){
                 fastMenuEntity.setOpenState(entity.getOpenState());
             }else{
-                return ResultGenerator.genFailedResult("异常");
+                return ResultGenerator.genOkFailedResult("异常");
             }
 
             if(entity.getFastMenuSort()!=null){
                 fastMenuEntity.setFastMenuSort(entity.getFastMenuSort());
             }else{
-                return ResultGenerator.genFailedResult("异常");
+                return ResultGenerator.genOkFailedResult("异常");
             }
 
             fastMenuServcie.updateFastMenu(fastMenuEntity);
