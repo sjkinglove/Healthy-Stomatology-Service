@@ -259,7 +259,7 @@ public class FastMenuController {
         if (list.size() == 0) {
             return ResultGenerator.genOkResult();
         } else {
-            return ResultGenerator.genFailedResult("快速通道名称已存在");
+            return ResultGenerator.genOkFailedResult("快速通道名称已存在");
         }
     }
 }
