@@ -7,6 +7,7 @@ import com.haoze.admin.mapper.FastMenuMapper;
 import com.haoze.admin.mapper.MenuMapper;
 import com.haoze.admin.mapper.UserMapper;
 import com.haoze.admin.model.FastMenuEntity;
+import com.haoze.admin.model.MenuEntity;
 import com.haoze.admin.service.FastMenuServcie;
 import com.haoze.common.exception.ServiceException;
 import com.haoze.common.response.ResultGenerator;
@@ -47,20 +48,10 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
         //判断拼接字符串有没有加引号
         if (ids!=null&&!"".equals(ids)) {
             if(ids.contains("\'")||ids.contains("\"")){
-                String[] idArry = ids.split(",");
-
-                for(String fastMenuId:idArry){
-
-                    String currentSortNo = fastMenuMapper.getFastMenuSortById(fastMenuId);
-
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("currentSortNo", currentSortNo);
-
-                    fastMenuMapper.updateSortNoForReduce(map);
-
-                }
-
                 fastMenuMapper.deleteByIds(ids);
+
+                //批量删除成功进行重新排序
+                fastMenuMapper.updateReSort();
             }else{
                 String[] idArry = ids.split(",");
 
@@ -68,21 +59,13 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
 
                 for(String fastMenuId:idArry){
                    sb.append("\'").append(fastMenuId).append("\'").append(",");
-
-                    String currentSortNo = fastMenuMapper.getFastMenuSortById(fastMenuId);
-
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("currentSortNo", currentSortNo);
-
-                    fastMenuMapper.updateSortNoForReduce(map);
-
                 }
                 //移除末尾逗号
                 sb.deleteCharAt(sb.length() - 1);
 
                 fastMenuMapper.deleteByIds(sb.toString());
-
-
+                //批量删除成功进行重新排序
+                fastMenuMapper.updateReSort();
             }
         }
 
@@ -169,7 +152,7 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
             throw new ServiceException("查无此账号");
         }
 
-        if(fastMenuEntity.getTrId()==null||"".equals(fastMenuEntity.getTrId())){fastMenuEntity.setTrId(userDTO.getRoleId());}
+        if(fastMenuEntity.getTrId()==null|| "".equals(fastMenuEntity.getTrId())){fastMenuEntity.setTrId(userDTO.getRoleId());}
         //快捷菜单名
         fastMenuEntity.setFastMenuName(entity.getFastMenuName());
         //排序
@@ -186,6 +169,8 @@ public class FastMenuServcieImpl extends AbstractService<FastMenuEntity> impleme
         fastMenuEntity.setClickNum(Integer.valueOf(Status.INIT_CLICK_NUM.getValue()));
 
         Map<String,String> menuMap =menuMapper.selectCompleteMenuUrlByMenuId(fastMenuEntity.getTmId());
+
+
         fastMenuEntity.setFastMenuUrl(menuMap.get("menuUrl"));
 
         fastMenuEntity.setFastMenuType(menuMap.get("menuType"));

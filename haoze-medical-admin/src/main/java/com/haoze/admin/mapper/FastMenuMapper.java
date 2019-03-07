@@ -40,6 +40,11 @@ public interface FastMenuMapper extends MyMapper<FastMenuEntity> {
     void updateSortNoForReduce(Map<String, Object> map);
 
     /**
+     * 序号根据大小重新从1开始连续排序
+     * */
+    void updateReSort();
+
+    /**
      * 首页快速通道列表接口
      * */
     List<FastMenuDTO> list(String id);

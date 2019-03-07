@@ -101,14 +101,11 @@ public class FastMenuController {
     @ApiOperation(value = "全快速通道列表", notes = "")
     @GetMapping
     public Result list() {
-
         Condition condition = new Condition(FastMenuEntity.class);
         Example.Criteria criteria = condition.createCriteria();
         condition.setOrderByClause("FAST_MENU_SORT");
         final List<FastMenuEntity> list = fastMenuServcie.findByCondition(condition);
         return ResultGenerator.genOkResult(list);
-
-
     }
 
     /**
@@ -128,8 +125,8 @@ public class FastMenuController {
             return ResultGenerator.genFailedResult(msg);
         } else {
             HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-            String tuId = request.getHeader("zuul_id");
-            //String tuId = "c4e3ac134f044ebd8641f09ee451254b";
+            //String tuId = request.getHeader("zuul_id");
+            String tuId = "c4e3ac134f044ebd8641f09ee451254b";
             if(tuId!=null && !"".equals(tuId)){
                 entity.setTuId(tuId);
 

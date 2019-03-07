@@ -63,4 +63,10 @@
     <update id="updateStopFlagById" parameterType="String">
         update t_fast_menu  set OPEN_STATE = #{openState,jdbcType=VARCHAR} where TFM_ID = #{id,jdbcType=VARCHAR}
     </update>
+
+    <update id="updateReSort" parameterType="String">
+        update t_fast_menu t1,(SELECT @rowno:=@rowno+1 as rowno,r.tfm_id,r.fast_menu_sort from t_fast_menu r,(select @rowno:=0) t order by r.fast_menu_sort) t2
+        set t1.fast_menu_sort = t2.rowno
+        where t1.tfm_id = t2.tfm_id;
+    </update>
 </mapper>
