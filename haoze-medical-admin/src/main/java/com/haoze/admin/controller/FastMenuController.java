@@ -2,9 +2,12 @@ package com.haoze.admin.controller;
 
 import com.haoze.admin.core.Status;
 import com.haoze.admin.dto.system.FastMenuDTO;
+import com.haoze.admin.dto.system.UserDTO;
 import com.haoze.admin.model.FastMenuEntity;
 import com.haoze.admin.model.MenuEntity;
+import com.haoze.admin.model.UserEntity;
 import com.haoze.admin.service.FastMenuServcie;
+import com.haoze.admin.service.UserService;
 import com.haoze.common.response.Result;
 import com.haoze.common.response.ResultGenerator;
 import com.haoze.common.utils.HttpContextUtils;
@@ -32,6 +35,9 @@ import java.util.List;
 public class FastMenuController {
     @Resource
     private FastMenuServcie fastMenuServcie;
+
+    @Resource
+    private UserService userService;
 
     /**
      * 获取用户所有快捷通道
@@ -121,10 +127,19 @@ public class FastMenuController {
             final String msg = bindingResult.getFieldError().getDefaultMessage();
             return ResultGenerator.genFailedResult(msg);
         } else {
+            HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
+            //String tuId = request.getHeader("zuul_id");
+            String tuId = "c4e3ac134f044ebd8641f09ee451254b";
+            if(tuId!=null && !"".equals(tuId)){
+                entity.setTuId(tuId);
 
-            fastMenuServcie.saveFastMenu(entity);
+                fastMenuServcie.saveFastMenu(entity);
 
-            return ResultGenerator.genOkResult("保存成功！");
+                return ResultGenerator.genOkResult("保存成功！");
+            }else{
+                return ResultGenerator.genFailedResult("无法从TOKEN中获取用户ID");
+            }
+
         }
     }
 
@@ -216,7 +231,27 @@ public class FastMenuController {
         }else{
             return ResultGenerator.genFailedResult("空异常");
         }
+    }
 
-
+    @ApiOperation(value = "快捷通道名重复验证录入", notes = "")
+    @PostMapping("hasFastMenuName")
+    public Result getInfoByName(@RequestBody final FastMenuEntity entity) {
+        String name = entity.getFastMenuName();
+        String id = entity.getTfmId();
+        if ("".equals(name)) {
+            return ResultGenerator.genOkResult();
+        }
+        Condition condition = new Condition(FastMenuEntity.class);
+        Example.Criteria criteria = condition.createCriteria();
+        criteria.andEqualTo("fastMenuName", name);
+        if (!"".equals(id)) {
+            criteria.andNotEqualTo("tfmId", id);
+        }
+        final List<FastMenuEntity> list = fastMenuServcie.findByCondition(condition);
+        if (list.size() == 0) {
+            return ResultGenerator.genOkResult();
+        } else {
+            return ResultGenerator.genFailedResult("快速通道名称已存在");
+        }
     }
 }
