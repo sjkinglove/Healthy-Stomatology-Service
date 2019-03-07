@@ -93,7 +93,7 @@ public class MenuController {
             entity.setTmId(UUIDUtil.randomString());
             entity.setDisplayFlag("0");
             entity.initAdd();
-            if (entity.getParentMenuId() == null) {
+            if (entity.getParentMenuId() == null || "".equals(entity.getParentMenuId())) {
                 entity.setParentMenuId("0");
             }
             //查询该父节点下的排序
