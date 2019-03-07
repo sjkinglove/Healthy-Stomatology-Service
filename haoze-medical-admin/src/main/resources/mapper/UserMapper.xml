@@ -138,6 +138,10 @@
         </where>
     </select>
 
+    <select id="selectByLoginName" resultMap="UserDetailMap">
+        select * from t_user where LOGIN_NAME = #{account}
+    </select>
+
     <insert id="insertUserRoleRela" parameterType="com.haoze.admin.model.UserRoleEntity">
         insert into T_USER_ROLE (TUR_ID, DATA_VERSION, GMT_CREATE, GMT_MODIFY, TR_ID, USER_ROLE_SORT, TU_ID)
         values (#{turId,jdbcType=VARCHAR}, #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
