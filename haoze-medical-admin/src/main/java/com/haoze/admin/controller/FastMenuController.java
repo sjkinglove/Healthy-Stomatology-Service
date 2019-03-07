@@ -1,5 +1,6 @@
 package com.haoze.admin.controller;
 
+import com.github.pagehelper.PageHelper;
 import com.haoze.admin.core.Status;
 import com.haoze.admin.dto.system.FastMenuDTO;
 import com.haoze.admin.dto.system.UserDTO;
@@ -18,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.util.StringUtil;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -100,10 +102,19 @@ public class FastMenuController {
      */
     @ApiOperation(value = "全快速通道列表", notes = "")
     @GetMapping
-    public Result list() {
+    public Result list(@RequestParam(defaultValue = "0") final Integer page,
+                       @RequestParam(defaultValue = "0") final Integer size,
+                       @RequestParam(defaultValue = "") final String queryString) {
+        PageHelper.startPage(page, size);
         Condition condition = new Condition(FastMenuEntity.class);
         Example.Criteria criteria = condition.createCriteria();
+        if (StringUtil.isNotEmpty(queryString)) {
+            criteria.andLike("fastMenuName", "%" + queryString + "%")
+                    .orLike("fastMenuSort", "%" + queryString + "%")
+                    .orLike("remark", queryString);
+        }
         condition.setOrderByClause("FAST_MENU_SORT");
+
         final List<FastMenuEntity> list = fastMenuServcie.findByCondition(condition);
         return ResultGenerator.genOkResult(list);
     }
