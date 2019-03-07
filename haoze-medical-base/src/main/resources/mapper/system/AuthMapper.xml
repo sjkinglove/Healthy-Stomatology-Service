@@ -3,19 +3,19 @@
 <mapper namespace="com.haoze.base.mapper.auth.AuthMapper">
 
     <select id="countRole" resultType="int">
-        SELECT count(1) from sys_user u
-        left join SYS_USER_GROUP r on u.USER_ID = r.USER_ID
-        where u.LOGIN_NAME=#{account} and r.GROUP_ID in
+        SELECT count(1) from t_user u
+        left join t_user_role r on u.TU_ID = r.TU_ID
+        where u.LOGIN_NAME=#{account} and r.TR_ID in
         <foreach item="item" index="index" collection="roleList" open="(" separator="," close=")">
             #{item}
         </foreach>
     </select>
 
     <select id="countPermission" resultType="int">
-        SELECT count(1) from sys_user u
-        left join SYS_USER_GROUP ur on u.USER_ID = ur.USER_ID
-        left join SYS_GROUP_MENU rm on rm.GROUP_ID = ur.GROUP_ID
-        left join sys_menu m on rm.menu_id = m.menu_id
+        SELECT count(1) from t_user u
+        left join t_user_role ur on u.TU_ID = ur.TU_ID
+        left join t_role_menu rm on rm.TR_ID = ur.TR_ID
+        left join t_menu m on rm.TM_ID = m.TM_ID
         where u.LOGIN_NAME=#{account}
         and m.MENU_PERMISSION in
         <foreach item="item" index="index" collection="permissionList" open="(" separator="," close=")">
