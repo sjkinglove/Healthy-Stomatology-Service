@@ -172,6 +172,8 @@ public class UserServiceImpl extends AbstractService<UserEntity> implements User
         userEntity.setEndDate(user.getEndDate());
         userEntity.setOnLine(user.getUserLine());
         userEntity.setImage(user.getImage());
+        userEntity.setPhone(user.getPhone());
+
         userMapper.updateByPrimaryKeySelective(userEntity);
 
         if(user.getRoleId()!=null){
