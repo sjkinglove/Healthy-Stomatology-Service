@@ -6,6 +6,7 @@ import com.haoze.common.model.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -50,6 +51,23 @@ public class TUser extends BaseEntity {
 
   @Column(name = "IMAGE")
   private String image;/// 图像文件标识
+
+  /*---------- 以下字段来自联表查询 ------------*/
+  // 用户的角色Id
+  @Transient
+  private String trId;
+
+  // 用户的角色code
+  @Transient
+  private String roleCode;
+
+  // 用户的部门id
+  @Transient
+  private String toId;
+
+  // 用户的角色名
+  @Transient
+  private String roleName;
 
 
   public String getTuId() {
@@ -132,4 +150,35 @@ public class TUser extends BaseEntity {
     this.image = image;
   }
 
+  public String getTrId() {
+    return trId;
+  }
+
+  public void setTrId(String trId) {
+    this.trId = trId;
+  }
+
+  public String getRoleCode() {
+    return roleCode;
+  }
+
+  public void setRoleCode(String roleCode) {
+    this.roleCode = roleCode;
+  }
+
+  public String getToId() {
+    return toId;
+  }
+
+  public void setToId(String toId) {
+    this.toId = toId;
+  }
+
+  public String getRoleName() {
+    return roleName;
+  }
+
+  public void setRoleName(String roleName) {
+    this.roleName = roleName;
+  }
 }
