@@ -217,4 +217,26 @@ public class MenuController {
             return ResultGenerator.genFailedResult("权限编码已存在");
         }
     }
+
+    @ApiOperation(value = "菜单名重复验证录入", notes = "")
+    @PostMapping("hasMenuName")
+    public Result getInfoByName(@RequestBody final MenuEntity entity) {
+        String name = entity.getMenuName();
+        String id = entity.getTmId();
+        if ("".equals(name)) {
+            return ResultGenerator.genOkResult();
+        }
+        Condition condition = new Condition(MenuEntity.class);
+        Example.Criteria criteria = condition.createCriteria();
+        criteria.andEqualTo("menuName", name);
+        if (!"".equals(id)) {
+            criteria.andNotEqualTo("tmId", id);
+        }
+        final List<MenuEntity> list = menuService.findByCondition(condition);
+        if (list.size() == 0) {
+            return ResultGenerator.genOkResult();
+        } else {
+            return ResultGenerator.genFailedResult("名称已存在");
+        }
+    }
 }
