@@ -84,6 +84,7 @@ public class AccessFilter extends ZuulFilter {
                 m.put("code", 200);
                 m.put("data", user);
                 ctx.addZuulRequestHeader("zuul_userId", user.getTuId());
+                ctx.addZuulRequestHeader("zuul_organizationId", user.getToId());
                 setFailedRequest(m, 200);
                 return null;
             }
