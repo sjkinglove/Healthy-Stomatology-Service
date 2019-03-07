@@ -128,8 +128,8 @@ public class FastMenuController {
             return ResultGenerator.genFailedResult(msg);
         } else {
             HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-            //String tuId = request.getHeader("zuul_id");
-            String tuId = "c4e3ac134f044ebd8641f09ee451254b";
+            String tuId = request.getHeader("zuul_id");
+            //String tuId = "c4e3ac134f044ebd8641f09ee451254b";
             if(tuId!=null && !"".equals(tuId)){
                 entity.setTuId(tuId);
 
