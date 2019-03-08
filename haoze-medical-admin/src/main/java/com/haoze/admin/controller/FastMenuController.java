@@ -1,6 +1,7 @@
 package com.haoze.admin.controller;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.haoze.admin.core.Status;
 import com.haoze.admin.dto.system.FastMenuDTO;
 import com.haoze.admin.dto.system.UserDTO;
@@ -111,12 +112,13 @@ public class FastMenuController {
         if (StringUtil.isNotEmpty(queryString)) {
             criteria.andLike("fastMenuName", "%" + queryString + "%")
                     .orLike("fastMenuSort", "%" + queryString + "%")
-                    .orLike("remark", queryString);
+                    .orLike("remark", "%" + queryString + "%");
         }
         condition.setOrderByClause("FAST_MENU_SORT");
 
         final List<FastMenuEntity> list = fastMenuServcie.findByCondition(condition);
-        return ResultGenerator.genOkResult(list);
+        final PageInfo<FastMenuEntity> pageInfo = new PageInfo<>(list);
+        return ResultGenerator.genOkResult(pageInfo);
     }
 
     /**
