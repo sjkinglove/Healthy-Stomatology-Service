@@ -170,31 +170,32 @@ public class FastMenuController {
             return ResultGenerator.genFailedResult(msg);
         } else {
             FastMenuEntity fastMenuEntity =new FastMenuEntity();
-
+            //关键字段校验
+            //快速菜单ID是否为空
             if(entity.getTfmId()!=null){
                 fastMenuEntity.setTfmId(entity.getTfmId());
             }else{
                 return ResultGenerator.genFailedResult("异常");
             }
-
+            //菜单ID是否为空
             if(entity.getTmId()!=null){
                 fastMenuEntity.setTmId(entity.getTmId());
             }else{
                 return ResultGenerator.genOkFailedResult("异常");
             }
-
+            //快捷通道名是否为空
             if(entity.getFastMenuName()!=null){
                 fastMenuEntity.setFastMenuName(entity.getFastMenuName());
             }else{
                 return ResultGenerator.genOkFailedResult("异常");
             }
-
+            //开启状态
             if(entity.getOpenState()!=null){
                 fastMenuEntity.setOpenState(entity.getOpenState());
             }else{
                 return ResultGenerator.genOkFailedResult("异常");
             }
-
+            //排序序号
             if(entity.getFastMenuSort()!=null){
                 fastMenuEntity.setFastMenuSort(entity.getFastMenuSort());
             }else{
