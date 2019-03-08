@@ -43,7 +43,7 @@ public class PersonEntity extends BaseEntity {
   private String nation;
 
   @Column(name = "MOBILE")
-  private double mobile;
+  private String mobile;
 
   @Column(name = "ADDRESS")
   private String address;
@@ -66,6 +66,12 @@ public class PersonEntity extends BaseEntity {
   @Column(name = "CLASS_NAME")
   private String className;
 
+  @Column(name = "GRADE_ID")
+  private String gradeId;
+
+  @Column(name = "GRADE_NAME")
+  private String gradeName;
+
   @Column(name = "PY_CODE")
   private String pyCode;
 
@@ -74,6 +80,9 @@ public class PersonEntity extends BaseEntity {
 
   @Column(name = "ORGANIZATION_ID")
   private String organizationId;
+
+  @Column(name = "AGE")
+  private Integer age;
 
 
   public String getTpId() {
@@ -148,11 +157,11 @@ public class PersonEntity extends BaseEntity {
   }
 
 
-  public double getMobile() {
+  public String getMobile() {
     return mobile;
   }
 
-  public void setMobile(double mobile) {
+  public void setMobile(String mobile) {
     this.mobile = mobile;
   }
 
@@ -262,5 +271,31 @@ public class PersonEntity extends BaseEntity {
 
   public void setBirthTime(Date birthTime) {
     this.birthTime = birthTime;
+  }
+
+
+
+  public String getGradeId() {
+    return gradeId;
+  }
+
+  public void setGradeId(String gradeId) {
+    this.gradeId = gradeId;
+  }
+
+  public String getGradeName() {
+    return gradeName;
+  }
+
+  public void setGradeName(String gradeName) {
+    this.gradeName = gradeName;
+  }
+
+  public Integer getAge() {
+    return age;
+  }
+
+  public void setAge(Integer age) {
+    this.age = age;
   }
 }

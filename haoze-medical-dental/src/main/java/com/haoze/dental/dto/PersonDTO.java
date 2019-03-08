@@ -33,7 +33,7 @@ public class PersonDTO extends BaseEntity {
 
     private String nation;
 
-    private double mobile;
+    private String mobile;
 
     private String address;
 
@@ -42,6 +42,10 @@ public class PersonDTO extends BaseEntity {
     private String schoolId;
 
     private String areaId;
+
+    private String gradeId;
+
+    private String gradeName;
 
     private String areaName;
 
@@ -54,6 +58,10 @@ public class PersonDTO extends BaseEntity {
     private String wbCode;
 
     private String organizationId;
+
+    private String startTime;
+
+    private String endTime;
 
 
     public String getTpId() {
@@ -128,11 +136,11 @@ public class PersonDTO extends BaseEntity {
     }
 
 
-    public double getMobile() {
+    public String getMobile() {
         return mobile;
     }
 
-    public void setMobile(double mobile) {
+    public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 
@@ -242,5 +250,37 @@ public class PersonDTO extends BaseEntity {
 
     public void setBirthTime(Date birthTime) {
         this.birthTime = birthTime;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getGradeName() {
+        return gradeName;
+    }
+
+    public void setGradeName(String gradeName) {
+        this.gradeName = gradeName;
+    }
+
+    public String getGradeId() {
+        return gradeId;
+    }
+
+    public void setGradeId(String gradeId) {
+        this.gradeId = gradeId;
     }
 }
