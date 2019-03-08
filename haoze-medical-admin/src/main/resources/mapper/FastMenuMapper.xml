@@ -51,11 +51,13 @@
         tfm.GMT_CREATE createTime,
         tfm.GMT_MODIFY modifyTime,
         tfm.DATA_VERSION dataVersion,
+        tfm.FAST_MENU_TYPE fastMenuType,
+        tfm.FAST_MENU_URL fastMenuUrl,
         tm.MENU_URL menuUrl,
         tm.MODEL_TYPE_FLAG menuType
         from t_fast_menu tfm
         inner join t_menu tm on tfm.TM_ID = tm.TM_ID
-        where tfm.to_id in (select tuo.TU_ID from t_user tu inner join t_user_organization tuo on tu.tu_id = tuo.tu_id where tu.tu_id =#{id})
+        where tfm.to_id in (select tuo.TO_ID from t_user tu inner join t_user_organization tuo on tu.tu_id = tuo.tu_id where tu.tu_id =#{id})
         and tfm.OPEN_STATE = 0
         order by tfm.FAST_MENU_SORT asc,tfm.CLICK_NUM desc
     </select>
