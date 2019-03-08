@@ -110,9 +110,9 @@ public class FastMenuController {
         Condition condition = new Condition(FastMenuEntity.class);
         Example.Criteria criteria = condition.createCriteria();
         if (StringUtil.isNotEmpty(queryString)) {
-            criteria.andLike("fastMenuName", "%" + queryString + "%")
-                    .orLike("fastMenuSort", "%" + queryString + "%")
-                    .orLike("remark", "%" + queryString + "%");
+            criteria.andLike("fastMenuName", "%" + queryString + "%")//快速菜单名
+                    .orLike("fastMenuSort", "%" + queryString + "%")//快捷通道排序
+                    .orLike("remark", "%" + queryString + "%");//备注
         }
         condition.setOrderByClause("FAST_MENU_SORT");
 
