@@ -137,6 +137,7 @@ public class FastMenuController {
             final String msg = bindingResult.getFieldError().getDefaultMessage();
             return ResultGenerator.genFailedResult(msg);
         } else {
+            //标头获取人员ID
             HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
             String tuId = request.getHeader("zuul_id");
             //String tuId = "c4e3ac134f044ebd8641f09ee451254b";
