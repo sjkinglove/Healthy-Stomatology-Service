@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoze.dental.dao.system.ElementValueMapper">
+
+    <resultMap id="PrimaryMap" type="com.haoze.dental.model.system.ElementValueEntity">
+        <id column="PRIMARYDATA_ID" jdbcType="VARCHAR" property="primaryDataId"/>
+        <result column="DATA_VERSION" jdbcType="VARCHAR" property="dataVersion"/>
+        <result column="GMT_CREATE" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="GMT_MODIFY" jdbcType="TIMESTAMP" property="gmtModify"/>
+        <result column="HOSPITAL_ID" jdbcType="VARCHAR" property="hospitalId"/>
+        <result column="PRIMARY_DATA_CODE" jdbcType="VARCHAR" property="primaryDataCode"/>
+        <result column="PRIMARY_DATA_NAME" jdbcType="VARCHAR" property="primaryDataName"/>
+        <result column="RANGE_CODE" jdbcType="VARCHAR" property="rangeCode"/>
+        <result column="IDENTIFICATION_FLAG" jdbcType="VARCHAR" property="identificationFlag"/>
+        <result column="DATA_VIEW_TYPE" jdbcType="VARCHAR" property="dataViewType"/>
+        <result column="PY_CODE" jdbcType="VARCHAR" property="pyCode"/>
+        <result column="WB_CODE" jdbcType="VARCHAR" property="wbCode"/>
+        <result column="STOP_FLAG" jdbcType="VARCHAR" property="stopFlag"/>
+    </resultMap>
+
+    <resultMap id="PrimaryValueMap" type="com.haoze.dental.dto.ElementValueDTO" extends="PrimaryMap">
+        <collection property="valueList" ofType="com.haoze.dental.model.system.PrimaryValueEntity">
+            <result column="DATAVALUE_ID" jdbcType="VARCHAR" property="datavalueId" />
+            <result column="DATAVERSION_ID" jdbcType="VARCHAR" property="dataversionId" />
+            <result column="SERIAL_NUMBER" jdbcType="VARCHAR" property="serialNumber" />
+            <result column="DATA_VALUE" jdbcType="VARCHAR" property="dataValue" />
+            <result column="DATA_VALUE_REMARK" jdbcType="VARCHAR" property="dataValueRemark" />
+            <result column="PARENT_DATAVALUE_ID" jdbcType="VARCHAR" property="parentDatavalueId" />
+        </collection>
+    </resultMap>
+
+    <select id="listDictionary" resultMap="PrimaryMap" parameterType="java.lang.String">
+        SELECT
+        u.*
+        FROM SYS_PRIMARY_DATA u
+        <where>
+            <if test="_parameter != null and _parameter != ''">
+                u.PRIMARY_DATA_CODE like concat(concat('%',#{queryString}),'%')
+                or u.PRIMARY_DATA_NAME like concat(concat('%',#{queryString}),'%')
+                or u.PY_CODE like concat(concat('%',#{queryString}),'%')
+                or u.WB_CODE like concat(concat('%',#{queryString}),'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="listRangeOptions" resultMap="PrimaryMap">
+        SELECT
+        u.PRIMARYDATA_ID,
+        u.PRIMARY_DATA_NAME
+        FROM SYS_PRIMARY_DATA u
+    </select>
+
+    <insert id="saveRange" parameterType="com.haoze.dental.dto.ElementValueDTO">
+        insert into SYS_PRIMARY_DATA
+        (PRIMARYDATA_ID,GMT_CREATE,PRIMARY_DATA_CODE,
+        DATA_VERSION,HOSPITAL_ID,
+        PRIMARY_DATA_NAME,RANGE_CODE,IDENTIFICATION_FLAG,
+        PY_CODE,WB_CODE)
+        values
+        (#{primaryDataId},#{gmtCreate},#{primaryDataCode},
+        #{dataVersion},#{hospitalId},
+        #{primaryDataName},#{primaryDataCode},'1',
+        #{pyCode},#{wbCode})
+    </insert>
+
+    <insert id="saveRangeValue" parameterType="com.haoze.dental.model.system.PrimaryValueEntity">
+        insert into SYS_PRIMARY_DATA_VALUE
+        (DATAVALUE_ID,GMT_CREATE,DATAVERSION_ID,
+        DATA_VERSION,HOSPITAL_ID,PRIMARYDATA_ID,
+        SERIAL_NUMBER,DATA_VALUE,DATA_VALUE_REMARK,
+        PARENT_DATAVALUE_ID,PY_CODE,WB_CODE)
+        values
+        (#{datavalueId,jdbcType=VARCHAR},#{gmtCreate},#{dataversionId,jdbcType=VARCHAR},
+        #{dataVersion,jdbcType=VARCHAR},#{hospitalId,jdbcType=VARCHAR},#{primaryDataId,jdbcType=VARCHAR},
+        #{serialNumber},#{dataValue,jdbcType=VARCHAR},#{dataValueRemark,jdbcType=VARCHAR},
+        #{parentDatavalueId,jdbcType=VARCHAR},#{pyCode,jdbcType=VARCHAR},#{wbCode,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateRangeValue" parameterType="com.haoze.dental.model.system.PrimaryValueEntity">
+        update SYS_PRIMARY_DATA_VALUE
+        set
+        GMT_MODIFY = #{gmtModify},
+        DATA_VERSION = #{dataVersion},
+        HOSPITAL_ID = #{hospitalId},
+        PRIMARYDATA_ID = #{primaryDataId,jdbcType=VARCHAR},
+        DATAVERSION_ID = #{dataversionId,jdbcType=VARCHAR},
+        SERIAL_NUMBER = #{serialNumber},
+        DATA_VALUE = #{dataValue,jdbcType=VARCHAR},
+        DATA_VALUE_REMARK = #{dataValueRemark,jdbcType=VARCHAR},
+        PARENT_DATAVALUE_ID = #{parentDatavalueId,jdbcType=VARCHAR},
+        PY_CODE = #{pyCode,jdbcType=VARCHAR},
+        WB_CODE = #{wbCode,jdbcType=VARCHAR}
+        where DATAVALUE_ID = #{datavalueId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateRange" parameterType="com.haoze.dental.dto.ElementValueDTO">
+        update SYS_PRIMARY_DATA
+        set
+        GMT_MODIFY = #{gmtModify},
+        DATA_VERSION = #{dataVersion},
+        HOSPITAL_ID = #{hospitalId},
+        PRIMARY_DATA_CODE = #{primaryDataCode,jdbcType=VARCHAR},
+        PRIMARY_DATA_NAME = #{primaryDataName},
+        RANGE_CODE = #{rangeCode,jdbcType=VARCHAR},
+        IDENTIFICATION_FLAG = #{identificationFlag,jdbcType=VARCHAR},
+        PY_CODE = #{pyCode,jdbcType=VARCHAR},
+        WB_CODE = #{wbCode,jdbcType=VARCHAR}
+        where PRIMARYDATA_ID = #{primaryDataId,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deleteRange" parameterType="java.lang.String">
+        delete SYS_PRIMARY_DATA
+        where PRIMARYDATA_ID = #{rangeId,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteRangeValue" parameterType="java.lang.String">
+        delete SYS_PRIMARY_DATA_VALUE
+        where PRIMARYDATA_ID = #{rangeId,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="stopRange" parameterType="java.lang.String">
+        update SYS_PRIMARY_DATA
+        set STOP_FLAG = '1'
+        where PRIMARYDATA_ID = #{rangeId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="startRange" parameterType="java.lang.String">
+        update SYS_PRIMARY_DATA
+        set STOP_FLAG = '0'
+        where PRIMARYDATA_ID = #{rangeId,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

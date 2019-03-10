@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoze.dental.dao.system.ElementCatalogMapper">
+
+    <resultMap id="UserWithRoleMap" type="com.haoze.dental.model.system.ElementCatalogEntity">
+        <id column="DICTIONARY_ID" jdbcType="VARCHAR" property="dictionaryId"/>
+        <result column="DATA_VERSION" jdbcType="VARCHAR" property="dataVersion"/>
+        <result column="GMT_CREATE" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="GMT_MODIFY" jdbcType="TIMESTAMP" property="gmtModify"/>
+        <result column="HOSPITAL_ID" jdbcType="VARCHAR" property="hospitalId"/>
+        <result column="DICTIONARY_CODE" jdbcType="VARCHAR" property="dictionaryCode"/>
+        <result column="DICTIONARY_NAME" jdbcType="VARCHAR" property="dictionaryName"/>
+        <result column="SORT_NO" jdbcType="VARCHAR" property="sortNo"/>
+        <result column="PARENT_ID" jdbcType="VARCHAR" property="parentId"/>
+        <result column="ELEMENT_ID" jdbcType="VARCHAR" property="elementId"/>
+        <result column="DICTIONARY_TYPE" jdbcType="VARCHAR" property="dictionaryType"/>
+    </resultMap>
+
+    <select id="listDictionary" resultMap="UserWithRoleMap" parameterType="java.lang.String">
+        SELECT
+        u.*
+        FROM SYS_DATA_ELEMENT_DICTIONARY u
+        <where>
+            <if test="_parameter != null and _parameter != ''">
+                DICTIONARY_CODE like concat(concat('%',#{queryString}),'%')
+                or DICTIONARY_NAME like concat(concat('%',#{queryString}),'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="listOptions" resultMap="UserWithRoleMap">
+        SELECT
+        u.*
+        FROM SYS_DATA_ELEMENT_DICTIONARY u
+        where  stop_flag = '0'
+    </select>
+
+    <insert id="saveRange" parameterType="com.haoze.dental.model.system.ElementCatalogEntity">
+        insert into SYS_DATA_ELEMENT_DICTIONARY
+        (DICTIONARY_ID,DATA_VERSION,GMT_CREATE,GMT_MODIFY,
+        HOSPITAL_ID,DICTIONARY_CODE,
+        DICTIONARY_NAME,SORT_NO,PARENT_ID,
+        ELEMENT_ID,DICTIONARY_TYPE,STOP_FLAG
+        )
+        values
+        (
+        #{dictionaryId,jdbcType=VARCHAR},#{dataVersion,jdbcType=VARCHAR},#{gmtCreate},#{gmtCreate},
+        #{hospitalId,jdbcType=VARCHAR},#{dictionaryCode,jdbcType=VARCHAR},
+        #{dictionaryName,jdbcType=VARCHAR},#{sortNo,jdbcType=VARCHAR},#{parentId,jdbcType=VARCHAR},
+        #{elementId,jdbcType=VARCHAR},#{dictionaryType,jdbcType=VARCHAR},#{stopFlag,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="updateRange" parameterType="com.haoze.dental.model.system.ElementCatalogEntity">
+      update SYS_DATA_ELEMENT_DICTIONARY
+        set
+        GMT_MODIFY = #{gmtModify},
+        DICTIONARY_NAME = #{dictionaryName,jdbcType=VARCHAR},
+        SORT_NO = #{sortNo,jdbcType=VARCHAR}
+        where DICTIONARY_ID = #{dictionaryId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateRangeValue" parameterType="com.haoze.dental.model.system.ElementCatalogEntity">
+      update SYS_DATA_ELEMENT_DICTIONARY
+        set
+        GMT_MODIFY = #{gmtModify},
+        DICTIONARY_NAME = #{dictionaryName,jdbcType=VARCHAR},
+        SORT_NO = #{sortNo},
+        STOP_FLAG = #{stopFlag,jdbcType=VARCHAR}
+        where ELEMENT_ID = #{elementId,jdbcType=VARCHAR}
+        and PARENT_ID = #{parentId,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deleteRange" parameterType="java.lang.String">
+        delete SYS_DATA_ELEMENT_DICTIONARY
+        where DICTIONARY_ID = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteRangeValue" parameterType="java.lang.String">
+        delete SYS_DATA_ELEMENT_DICTIONARY
+        where ELEMENT_ID = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="stopRange" parameterType="java.lang.String">
+        update SYS_DATA_ELEMENT_DICTIONARY
+        set STOP_FLAG = '1'
+        where DICTIONARY_ID = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="stopRangeValue" parameterType="java.lang.String">
+        update SYS_DATA_ELEMENT_DICTIONARY
+        set STOP_FLAG = '1'
+        where ELEMENT_ID = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="startRange" parameterType="java.lang.String">
+        update SYS_DATA_ELEMENT_DICTIONARY
+        set STOP_FLAG = '0'
+        where DICTIONARY_ID = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="startRangeValue" parameterType="java.lang.String">
+        update SYS_DATA_ELEMENT_DICTIONARY
+        set STOP_FLAG = '0'
+        where ELEMENT_ID = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="addDirectory" parameterType="com.haoze.dental.model.system.IdsEntity">
+        update SYS_DATA_ELEMENT_DICTIONARY
+        set PARENT_ID = #{parentId,jdbcType=VARCHAR}
+        where DICTIONARY_ID = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="getCount" resultType="int" parameterType="java.lang.String">
+        select count(*) from SYS_DATA_ELEMENT_DICTIONARY
+        where PARENT_ID = #{parentId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="listTree" resultMap="UserWithRoleMap">
+        SELECT
+        u.DICTIONARY_ID,
+        u.DICTIONARY_NAME,
+        u.PARENT_ID,
+        u.SORT_NO,
+        u.DICTIONARY_TYPE
+        FROM SYS_DATA_ELEMENT_DICTIONARY u
+    </select>
+</mapper>

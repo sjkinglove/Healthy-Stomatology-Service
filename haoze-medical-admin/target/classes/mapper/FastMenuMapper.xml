@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoze.admin.mapper.FastMenuMapper">
+
+
+    <insert id="insertFastMenu" parameterType="com.haoze.admin.model.FastMenuEntity">
+        insert into t_fast_menu (TFM_ID, DATA_VERSION, GMT_CREATE, GMT_MODIFY, TR_ID, TM_ID,FAST_MENU_NAME,FAST_MENU_SORT,FAST_MENU_URL,FAST_MENU_TYPE,REMARK,OPEN_STATE,CLICK_NUM,TO_ID)
+        values (#{tfmId,jdbcType=VARCHAR}, #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{modifyTime,jdbcType=TIMESTAMP},#{trId,jdbcType=VARCHAR}, #{tmId,jdbcType=VARCHAR}, #{fastMenuName,jdbcType=VARCHAR}, #{fastMenuSort,jdbcType=VARCHAR},
+        #{fastMenuUrl,jdbcType=VARCHAR},#{fastMenuType,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{openState,jdbcType=VARCHAR},#{clickNum,jdbcType=VARCHAR},#{toId,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateFastMenu" parameterType="com.haoze.admin.model.FastMenuEntity">
+        update t_fast_menu set GMT_MODIFY=#{modifyTime},FAST_MENU_SORT=#{fastMenuSort},FAST_MENU_NAME=#{fastMenuName},TM_ID=#{tmId},FAST_MENU_TYPE=#{fastMenuType},
+        FAST_MENU_URL=#{fastMenuUrl},REMARK=#{remark},OPEN_STATE=#{openState},CLICK_NUM=#{clickNum}
+        where TFM_ID = #{tfmId}
+    </update>
+
+    <update id="updateSortNoForEnlarge" parameterType="java.util.Map">
+        update t_fast_menu set FAST_MENU_SORT=FAST_MENU_SORT+1
+        <where>
+            <if test="targetSortNo != null and targetSortNo != ''">and FAST_MENU_SORT &gt;= #{targetSortNo}</if>
+            <if test="currentSortNo != null and currentSortNo != ''">and FAST_MENU_SORT &lt; #{currentSortNo}</if>
+        </where>
+    </update>
+
+    <update id="updateSortNoForReduce" parameterType="java.util.Map">
+        update t_fast_menu set FAST_MENU_SORT=FAST_MENU_SORT-1
+        <where>
+            <if test="currentSortNo != null and currentSortNo != ''">and FAST_MENU_SORT &gt; #{currentSortNo}</if>
+            <if test="targetSortNo != null and targetSortNo != ''">and FAST_MENU_SORT &lt;= #{targetSortNo}</if>
+        </where>
+    </update>
+
+    <select id="getFastMenuSortById" parameterType="String" resultType="String">
+        select FAST_MENU_SORT from t_fast_menu where TFM_ID=#{id,jdbcType=VARCHAR}
+    </select>
+
+
+    <select id="countMenuRoleByMenuId" parameterType="String" resultType="int">
+        select count(1) from t_role_menu where TM_ID=#{menuId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="list" parameterType="String" resultType="com.haoze.admin.dto.system.FastMenuDTO">
+        select
+        tfm.FAST_MENU_NAME fastMenuName,
+        tfm.TFM_ID tfmId,
+        tfm.CLICK_NUM clickNum,
+        tfm.FAST_MENU_SORT fastMenuSort,
+        tfm.REMARK remark,
+        tfm.GMT_CREATE createTime,
+        tfm.GMT_MODIFY modifyTime,
+        tfm.DATA_VERSION dataVersion,
+        tfm.FAST_MENU_TYPE fastMenuType,
+        tfm.FAST_MENU_URL fastMenuUrl,
+        tm.MENU_URL menuUrl,
+        tm.MODEL_TYPE_FLAG menuType
+        from t_fast_menu tfm
+        inner join t_menu tm on tfm.TM_ID = tm.TM_ID
+        where tfm.to_id in (select tuo.TO_ID from t_user tu inner join t_user_organization tuo on tu.tu_id = tuo.tu_id where tu.tu_id =#{id})
+        and tfm.OPEN_STATE = 0
+        order by tfm.FAST_MENU_SORT asc,tfm.CLICK_NUM desc
+    </select>
+
+    <update id="updateStopFlagById" parameterType="String">
+        update t_fast_menu  set OPEN_STATE = #{openState,jdbcType=VARCHAR} where TFM_ID = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateReSort" parameterType="String">
+        update t_fast_menu t1,(SELECT @rowno:=@rowno+1 as rowno,r.tfm_id,r.fast_menu_sort from t_fast_menu r,(select @rowno:=0) t order by r.fast_menu_sort) t2
+        set t1.fast_menu_sort = t2.rowno
+        where t1.tfm_id = t2.tfm_id;
+    </update>
+</mapper>

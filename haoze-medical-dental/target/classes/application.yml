@@ -1,0 +1,41 @@
+eureka:
+  instance:
+    status-page-url: http://localhost:${server.port}/swagger-ui.html
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8101/eureka/
+#security:
+#  basic:
+#    enabled: false
+server:
+  port: 8107
+spring:
+  profiles:
+    active: dev
+  cloud:
+    refresh:
+      refreshable: none
+  application:
+    name: api-dental
+  datasource:
+    url: jdbc:mysql://172.30.2.92:3306/medical?serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+mybatis:
+
+  mapper-locations: classpath:**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    com:
+      haoze:
+        dental: debug
+ribbon:
+  eureka:
+    enabled: true
+
+
+

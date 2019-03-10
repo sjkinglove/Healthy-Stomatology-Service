@@ -1,0 +1,4 @@
+com\haoze\filter\AccessFilter.class
+com\haoze\service\AdminService.class
+com\haoze\CloudGatewayApplication.class
+com\haoze\service\JwtService.class

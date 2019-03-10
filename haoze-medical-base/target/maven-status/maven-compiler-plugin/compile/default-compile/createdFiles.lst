@@ -1,0 +1,10 @@
+com\haoze\base\CloudBaseApplication.class
+com\haoze\base\core\jwt\RSAUtil.class
+com\haoze\base\core\ProjectConstant.class
+com\haoze\base\mapper\auth\AuthMapper.class
+com\haoze\base\core\jwt\JwtUtil.class
+com\haoze\base\controller\auth\AuthController.class
+com\haoze\base\service\auth\impl\AuthServiceImpl.class
+com\haoze\base\controller\jwt\TokenController.class
+com\haoze\base\core\jwt\JWTSetting.class
+com\haoze\base\service\auth\AuthService.class

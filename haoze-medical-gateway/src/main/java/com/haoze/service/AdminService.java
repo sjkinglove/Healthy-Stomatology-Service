@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Headers("Content-Type:application/json")
 @FeignClient(name = "api-admin")
 public interface AdminService {
-
     @GetMapping("/system/user/info/{loginName}")
     TUser getInfo(@PathVariable("loginName") String account);
 }

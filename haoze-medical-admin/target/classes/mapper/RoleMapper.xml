@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoze.admin.mapper.RoleMapper">
+
+    <update id="updateStopFlagById" parameterType="String">
+        update t_role  set STOP_FLAG = #{stopFlag,jdbcType=VARCHAR} where TR_ID = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="countRoleMenuByRoleId" parameterType="String" resultType="int">
+        select count(1) from t_user_role where TR_ID = #{roleId,jdbcType=VARCHAR}
+    </select>
+</mapper>
